@@ -1,32 +1,97 @@
-# Prerequisites
-*.d
+# Archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db
 
-# Compiled Object files
-*.slo
-*.lo
+# Archivos de compilación
 *.o
 *.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
+*.lo
 *.la
+*.al
+*.libs
+*.ncb
+*.opt
+*.plg
+*.ilk
+*.dll
+*.dylib
+*.so
 *.a
 *.lib
-
-# Executables
+*.pdb
 *.exe
-*.out
 *.app
+*.out
+
+# Archivos de directorios temporales de compilación
+*.idb
+*.aps
+*.rej
+*.suo
+*.user
+*.log
+*.tlog
+*.tmp
+*.pch
+*.class
+*.moc
+*.autosave
+*.swp
+*~ 
+
+# Directorios generados
+build*/
+bin/
+debug/
+release/
+x64/
+x86/
+
+# Archivos generados por Qt Creator
+*.pro.user
+*.qbs.user
+*.pro.user.*
+*.qbs.user.*
+*.qmake.stash
+*.qmake.cache
+
+# Archivos de proyectos qmake
+Makefile
+Makefile.*
+*.d
+
+# Archivos de proyectos CMake
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+
+# Archivos de configuraciones específicas
+.idea/
+.vscode/
+
+# Archivos de dependencias de Python u otros lenguajes (si aplica)
+*.pyc
+*.pyo
+__pycache__/
+
+# Archivos relacionados con la gestión de versiones de Qt Creator
+*.qmlproject.user
+
+# Archivos de paquetes o distribuciones
+*.tar.gz
+*.zip
+*.7z
+*.rar
+*.rpm
+*.deb
+*.dmg
+
+# Archivos generados de pruebas
+tests/*.log
+tests/*.out
+tests/*.err
+
+# Archivos de configuración del entorno
+.env
+.env.*
