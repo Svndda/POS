@@ -11,6 +11,10 @@ qt_add_executable(POS_Application
   mainwindow.cpp
   mainwindow.h
   mainwindow.ui
+  login.h login.cpp login.ui
+  dashboard.h dashboard.cpp dashboard.ui
+
+
 
 )
 
