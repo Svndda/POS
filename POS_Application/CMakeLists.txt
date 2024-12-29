@@ -7,15 +7,15 @@ qt_standard_project_setup()
 
 qt_add_executable(POS_Application
   WIN32 MACOSX_BUNDLE
-  main.cpp
-  mainwindow.cpp
-  mainwindow.h
-  mainwindow.ui
-  login.h login.cpp login.ui
-  dashboard.h dashboard.cpp dashboard.ui
+  src/main.cpp
+  src/mainwindow.cpp
+  src/mainwindow.h
+  src/mainwindow.ui
+  src/login.h src/login.cpp src/login.ui
+  src/dashboard.h src/dashboard.cpp src/dashboard.ui
 
-
-
+  src/dish.h src/dish.cpp
+  src/supplyitem.h
 )
 
 qt_add_translations(

@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
   this->pageStack->addWidget(dashboardPage);
 
   this->setCentralWidget(pageStack);
-  this->pageStack->setCurrentIndex(0);
+  this->pageStack->setCurrentIndex(1);
 }
 
 MainWindow::~MainWindow()
