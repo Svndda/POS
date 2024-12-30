@@ -13,7 +13,6 @@ Login::Login(QWidget *parent) :
   connect(this->ui->sendCredentials_button, &QPushButton::clicked, this, []() {
     qDebug() << "Botón clicado!";
   });
-  //connect(this->ui->sendCredentials_button, &QPushButton::clicked, this, &Login::on_sendCredentials_button_clicked);
 }
 
 Login::~Login()
@@ -32,7 +31,8 @@ void Login::on_sendCredentials_button_clicked() {
   qDebug() << "Contrasena: " << password;
 
   if (email.isEmpty() || password.isEmpty()) {
-    QMessageBox::warning(this, "Error", "Porfavor, rellena todos los campos solicitados.");
+    QMessageBox::warning(this, "Error",
+        "Porfavor, rellena todos los campos solicitados.");
   } else {
     QRegularExpressionMatch emailMatch = emailRegex.match(email);
     QRegularExpressionMatch passwordMatch = passwordRegex.match(password);
@@ -41,10 +41,12 @@ void Login::on_sendCredentials_button_clicked() {
       if (passwordMatch.hasMatch()) {
         QMessageBox::information(this, "Exito", "Iniciando sesion.");
       } else {
-        QMessageBox::warning(this, "Error", "Porfavor, introduzca una contraseña de al menos, 8 carácteres..");
+        QMessageBox::warning(this, "Error",
+            "Porfavor, introduzca una contraseña de al menos, 8 carácteres..");
       }
     } else {
-      QMessageBox::warning(this, "Error", "Porfavor, introduzca un correo válido.");
+      QMessageBox::warning(this, "Error",
+          "Porfavor, introduzca un correo válido.");
     }
   }
 }

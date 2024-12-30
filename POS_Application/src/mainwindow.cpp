@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "login.h"
 #include "dashboard.h"
+#include "../inventory.h"
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)
@@ -14,13 +15,15 @@ MainWindow::MainWindow(QWidget *parent)
   Login* loginPage = new Login(this);
   // Create the login dashboard page.
   Dashboard* dashboardPage = new Dashboard(this);
+  Inventory* inventoryPage = new Inventory(this);
 
   // Agregar las páginas al stack
   this->pageStack->addWidget(loginPage);
   this->pageStack->addWidget(dashboardPage);
+  this->pageStack->addWidget(inventoryPage);
 
   this->setCentralWidget(pageStack);
-  this->pageStack->setCurrentIndex(1);
+  this->pageStack->setCurrentIndex(2);
 }
 
 MainWindow::~MainWindow()
