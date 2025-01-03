@@ -1,0 +1,11 @@
+Bebidas Calientes:
+Café	1000
+Café con leche	1300
+
+Bebidas Naturales:
+Tamarindo	800
+Horchata	800
+
+Bebidas Frías:
+Batido en agua	1800
+Batido en leche	2300

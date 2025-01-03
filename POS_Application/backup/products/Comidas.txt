@@ -1,0 +1,8 @@
+Almuerzos:
+Casado de Pollo	Arroz	Frijoles	Filet de Pollo	Ensalada	Picadillo	3500
+Casado de Chuleta	Arroz	Frijoles	Chuleta de Cerdo	Ensalada	Picadillo	3500
+Casado de Pescado	Arroz	Frijoles	Filet de Pescado	Ensalada	Picadillo	3500
+Casado de Higado	Arroz	Frijoles	Higado	Ensalada	Picadillo	3500
+Casado de Carne en Salsa	Arroz	Frijoles	Carne en Salsa	Ensalada	Picadillo	3500
+Desayunos:
+Pinto con Huevo	Pinto	Huevo	Natilla	Fresco	2500
