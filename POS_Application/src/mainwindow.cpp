@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "login.h"
 #include "dashboard.h"
-#include "../inventory.h"
+#include "inventory.h"
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent)

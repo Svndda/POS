@@ -140,8 +140,7 @@ color: rgb(0, 0, 0)</string>
           <bool>false</bool>
          </property>
          <property name="styleSheet">
-          <string notr="true">
-color: rgb(0, 0, 0)</string>
+          <string notr="true">color: rgb(0, 0, 0)</string>
          </property>
          <property name="text">
           <string>mostrar contraseña</string>
