@@ -16,7 +16,7 @@ qt_add_executable(POS_Application
 
   src/dish.h src/dish.cpp
   src/supplyitem.h
-  inventory.h inventory.cpp inventory.ui
+  src/inventory.h src/inventory.cpp src/inventory.ui
 )
 
 qt_add_translations(
