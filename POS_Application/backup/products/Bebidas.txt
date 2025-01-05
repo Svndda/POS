@@ -1,11 +1,26 @@
 Bebidas Calientes:
-Café	1000
-Café con leche	1300
+Cafe Negro -
+Café ; 0	1000
+
+Cafe con leche -
+Cafe ; 0	Leche ; 35	Azucar ; 80	1300
 
 Bebidas Naturales:
-Tamarindo	800
-Horchata	800
+Tamarindo -
+Tamarindo ; 0	800
 
-Bebidas Frías:
-Batido en agua	1800
-Batido en leche	2300
+Horchata -
+Horchata ; 0	800
+
+Bebidas Frias:
+Batido de Fresa(Agua) -
+Fresa ; 75	Azucar ; 80	1800
+
+Batido de Arandanos(Agua) -
+Arandanos ; 75	Azucar ; 80	1800
+
+Batido de Fresa(Leche) -
+Fresa ; 75	Leche ; 200	Azúcar ; 80	2300
+
+Batido de Arandanos(Leche) -
+Arandanos ; 75	Leche ; 200	Azúcar ; 80	2300
