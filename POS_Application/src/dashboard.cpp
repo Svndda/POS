@@ -3,7 +3,7 @@
 #include "dashboard.h"
 #include "ui_dashboard.h"
 #include "product.h"
-#include "filehandler.h"
+#include "backupcontroller.h"
 
 Dashboard::Dashboard(QWidget *parent) :
   QWidget(parent),
@@ -18,29 +18,8 @@ Dashboard::Dashboard(QWidget *parent) :
   Product food(dishName, ingredients, 3500);
   std::cout << "plato creado: " << food << std::endl;
   
-  try {
-    // Obtener instancia del Singleton
-    std::vector<std::string> backupFiles;
-    backupFiles.push_back("C:\\Users\\aaron\\Dev\\Repositories\\POS\\POS_Application\\backup\\products\\Bebidas.txt");
-    FileHandler& fileHandler = FileHandler::getInstance(backupFiles);
-    // Cargar los productos del archivo
-    auto categorias = fileHandler.readProductsBackup(backupFiles[0]);
-    // Mostrar los productos organizados
-    std::cout << "Productos disponibles en el restaurante:" << std::endl;
-    for (const auto& [categoria, productos] : categorias) {
-      std::cout << categoria << ":" << std::endl;
-      for (const auto& producto : productos) {
-        std::cout << "  - " << producto.getName() << ": $" << producto.getPrice() << std::endl;
-        std::cout << "    Ingredientes:" << std::endl;
-        for (const auto& ingrediente : producto.getIngredients()) {
-          std::cout << "      " << ingrediente.getName()
-                    << " (Cantidad: " << ingrediente.getQuantity() << ")" << std::endl;
-        }
-      }
-    }
-  } catch (const std::exception& e) {
-    std::cerr << "Error: " << e.what() << std::endl;
-  }
+  BackUpController backupMemory;
+  backupMemory.start();
 }
 
 Dashboard::~Dashboard()

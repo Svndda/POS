@@ -88,6 +88,7 @@ std::map<std::string, std::vector<Product>> FileHandler::readProductsBackup(
   }
   
   file.close();
+  // Returns all the registered products of the given backup.
   return registeredProducts;
 }
 

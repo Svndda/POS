@@ -18,6 +18,7 @@ qt_add_executable(POS_Application
   src/supplyitem.h
   src/inventory.h src/inventory.cpp src/inventory.ui
   src/filehandler.h src/filehandler.cpp
+  src/backupcontroller.h src/backupcontroller.cpp
 )
 
 qt_add_translations(
