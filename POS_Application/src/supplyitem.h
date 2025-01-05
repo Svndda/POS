@@ -8,8 +8,8 @@ class SupplyItem {
 
 // Class Attributes.
 private:
-  std::string name;
-  uint64_t quantity;
+  std::string name = "";
+  uint64_t quantity = -1;
 
 // Class Constructor.
 public:
