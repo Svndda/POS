@@ -13,8 +13,18 @@ private:
   std::map<std::string, std::vector<Product>> Drinks;
   std::vector<SupplyItem> itemsOnInventory;
 public:
-  BackUpController();
+  static BackUpController& getInstance();
   void start();
+  inline std::map<std::string, std::vector<Product>> getRegisteredDrinks() {
+    return this->Drinks;
+  }
+  
+  inline std::map<std::string, std::vector<Product>> getRegisteredDishes() {
+    return this->Dishes;
+  }
+
+private:
+  BackUpController();
 };
 
 #endif // BACKUPCONTROLLER_H
