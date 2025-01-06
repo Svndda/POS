@@ -9,13 +9,23 @@
 #include "filehandler.h"
 #include "supplyitem.h"
 
-FileHandler::FileHandler(const std::vector<std::string>& backupsVector) {}
+FileHandler::FileHandler(const std::vector<std::string>& backupsVector) :
+    filenames(backupsVector) {
+}
 
 FileHandler& FileHandler::getInstance(const std::vector<std::string>&
       backupsVector) {
   // Creates an static instance of the class to avoid duplication.
   static FileHandler instance(backupsVector);
   return instance;
+}
+
+std::map<std::string, std::vector<Product>> FileHandler::readDrinksBackup() {
+  return this->readProductsBackup(this->filenames[0]);
+}
+
+std::map<std::string, std::vector<Product>> FileHandler::readDishesBackup() {
+  return this->readProductsBackup(this->filenames[1]);
 }
 
 std::map<std::string, std::vector<Product>> FileHandler::readProductsBackup(
@@ -91,4 +101,53 @@ std::map<std::string, std::vector<Product>> FileHandler::readProductsBackup(
   // Returns all the registered products of the given backup.
   return registeredProducts;
 }
+
+void FileHandler::writeDrinksBackUp(
+    const std::map<std::string, std::vector<Product>>& registeredDrinks) {
+  this->writeProductsBackup(this->filenames[0], registeredDrinks);
+}
+
+void FileHandler::writeDishesBackUp(
+    const std::map<std::string, std::vector<Product>>& registeredDishes) {
+  this->writeProductsBackup(this->filenames[1], registeredDishes);
+}
+
+void FileHandler::writeProductsBackup(
+    const std::string& filename,
+    const std::map<std::string, std::vector<Product>>& registeredProducts) {
+  
+  // Open the file in write mode and erase the content.
+  std::ofstream file(filename);
+  if (!file) {
+    throw std::runtime_error("No se pudo abrir el archivo para escritura: " + filename);
+  }
+  
+  // Transverse the map through all the product categories.
+  for (const auto& [category, products] : registeredProducts) {
+    // Writes out the actual category for the next products.
+    file << category << ":" << std::endl;
+    
+    // Transverse and write out all the products in the actual category.
+    for (const auto& product : products) {
+      // Writes out the product's name, followed of thr product name identifier.
+      // '-'.
+      file << product.getName() << " -" << std::endl;
+      
+      // Writes out the products ingredients and their quantity.
+      for (const auto& ingredient : product.getIngredients()) {
+        file << ingredient.getName() << " ; "
+            << ingredient.getQuantity() << "\t";
+      }
+      
+      // Writes out the product's price as the last character of the line.
+      file << product.getPrice() << std::endl;
+    }
+    
+    // Writes out a blank line between categories.
+    file << std::endl;
+  }
+  
+  file.close();
+}
+
 
