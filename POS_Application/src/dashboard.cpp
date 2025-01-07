@@ -15,10 +15,10 @@ Dashboard::Dashboard(QWidget *parent) :
   ingredients.push_back(SupplyItem(std::string("carne"), 300));
   ingredients.push_back(SupplyItem(std::string("ensalada"), 300));
   std::string dishName("Casado");
-  Product food(dishName, ingredients, 3500);
+  Product food(2, dishName, ingredients, 3500);
   std::cout << "plato creado: " << food << std::endl;
   
-  BackUpController backupMemory;
+  BackUpController backupMemory = BackUpController::getInstance();
   backupMemory.start();
 }
 
