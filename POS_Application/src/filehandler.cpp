@@ -92,7 +92,7 @@ std::map<std::string, std::vector<Product>> FileHandler::readProductsBackup(
       }
       
       // Creates a new product for the corresponding category.
-      registeredProducts[productCategory].emplace_back(productName,
+      registeredProducts[productCategory].emplace_back(1, productName,
           productIngredients, productPrice);
     }
   }
