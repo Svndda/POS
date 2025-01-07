@@ -27,6 +27,20 @@ private:
   std::map<std::string, std::vector<Product>> registeredDrinks;
   // Object private data structures that contains the POS registered dishes.
   std::map<std::string, std::vector<Product>> registeredDishes;
+  void updateProductsInformation(
+      std::vector<std::pair<std::string, Product>> visibleProducts);
+  void updateProductsID(
+      std::vector<std::pair<std::string, Product>> visibleProducts,
+      size_t index);
+  void updateProductsName(
+      std::vector<std::pair<std::string, Product>> visibleProducts,
+      size_t index);
+  void updateProductsCategories(
+      std::vector<std::pair<std::string, Product>> visibleProducts,
+      size_t index);
+  void updateProductsPrices(
+      std::vector<std::pair<std::string, Product>> visibleProducts,
+      size_t index);
 };
 
 #endif // INVENTORY_H
