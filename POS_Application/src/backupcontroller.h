@@ -9,6 +9,7 @@
 
 class BackUpController {
 private:
+  FileHandler& fileHandler;
   std::map<std::string, std::vector<Product>> Dishes;
   std::map<std::string, std::vector<Product>> Drinks;
   std::vector<SupplyItem> itemsOnInventory;
@@ -24,7 +25,7 @@ public:
   }
 
 private:
-  BackUpController();
+  BackUpController(FileHandler& fileHandler);
 };
 
 #endif // BACKUPCONTROLLER_H
