@@ -391,6 +391,130 @@ QPushButton:checked {
           </item>
          </layout>
         </item>
+        <item row="3" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>15</number>
+          </property>
+          <property name="topMargin">
+           <number>15</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="pageProductsNumber_label">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Mostrando productos 1 hasta 10 de 200 productos</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="previousProductPage_button">
+            <property name="font">
+             <font>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+  background-color: rgb(53, 54, 59);      /* Color de fondo normal */
+  color: white;                  /* Color del texto normal */
+  border: 1px solid rgb(38, 39, 44);     /* Borde */
+  border-radius: 5px;            /* Bordes redondeados */
+  padding: 5px 10px;             /* Relleno */
+}
+
+QPushButton:hover {
+  background-color: rgb(68, 70, 76);     /* Fondo al pasar el mouse */
+  color: #f0f0f0;                /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: rgb(39, 39, 43);     /* Fondo al presionar */
+  color: #d0d0d0;                /* Color del texto al presionar */
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}</string>
+            </property>
+            <property name="text">
+             <string>Página anterior</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="nextProductPage_button">
+            <property name="font">
+             <font>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+  background-color: rgb(53, 54, 59);      /* Color de fondo normal */
+  color: white;                  /* Color del texto normal */
+  border: 1px solid rgb(38, 39, 44);     /* Borde */
+  border-radius: 5px;            /* Bordes redondeados */
+  padding: 5px 10px;             /* Relleno */
+}
+
+QPushButton:hover {
+  background-color: rgb(68, 70, 76);     /* Fondo al pasar el mouse */
+  color: #f0f0f0;                /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: rgb(39, 39, 43);     /* Fondo al presionar */
+  color: #d0d0d0;                /* Color del texto al presionar */
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}</string>
+            </property>
+            <property name="text">
+             <string>Página siguiente</string>
+            </property>
+            <property name="autoDefault">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
         <item row="2" column="0">
          <layout class="QHBoxLayout" name="producInformationHorizontalLayout">
           <property name="spacing">
@@ -413,7 +537,7 @@ QPushButton:checked {
             <item>
              <widget class="QLabel" name="productCodeTitle_label">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -425,7 +549,8 @@ QPushButton:checked {
               </property>
               <property name="styleSheet">
                <string notr="true">background-color: rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 10px</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
@@ -447,7 +572,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_0">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -478,7 +603,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_1">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -506,7 +631,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_2">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -534,7 +659,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_3">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -562,7 +687,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_4">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -590,7 +715,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_5">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -618,7 +743,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_6">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -646,7 +771,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_7">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -674,7 +799,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productCode_label_8">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1312,6 +1437,349 @@ color:rgb(255, 255, 255);</string>
            </layout>
           </item>
           <item>
+           <layout class="QVBoxLayout" name="ingredientsVerticalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="producIngredientsTitle_label">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="layoutDirection">
+               <enum>Qt::LayoutDirection::LeftToRight</enum>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(38, 39, 44);
+color:rgb(255, 255, 255);</string>
+              </property>
+              <property name="text">
+               <string>Ingredientes</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_0">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color:rgb(53, 54, 59);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>nnn</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_1">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(38, 39, 44);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color:rgb(53, 54, 59);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(38, 39, 44);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_4">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color:rgb(53, 54, 59);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_5">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(38, 39, 44);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color:rgb(53, 54, 59);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_7">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: rgb(38, 39, 44);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="productIngredients_label_8">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <family>Segoe UI Variable</family>
+                <pointsize>12</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+                <underline>false</underline>
+                <strikeout>false</strikeout>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color:rgb(53, 54, 59);
+color:rgb(255, 255, 255);
+padding-left: 5px;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextEditable</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <layout class="QVBoxLayout" name="priceVerticalLayout">
             <property name="spacing">
              <number>0</number>
@@ -1319,7 +1787,7 @@ color:rgb(255, 255, 255);</string>
             <item>
              <widget class="QLabel" name="productPriceTitle_label">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -1365,7 +1833,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1393,7 +1862,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1421,7 +1891,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1449,7 +1920,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1477,7 +1949,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1505,7 +1978,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1533,7 +2007,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1567,7 +2042,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1595,7 +2071,8 @@ color:rgb(255, 255, 255);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+color:rgb(255, 255, 255);
+padding: 5px;</string>
               </property>
               <property name="text">
                <string>3500</string>
@@ -1705,42 +2182,6 @@ color:rgb(255, 255, 255);</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_41">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
                  <item>
                   <widget class="QPushButton" name="pushButton_42">
                    <property name="sizePolicy">
@@ -1902,42 +2343,6 @@ color:rgb(255, 255, 255);</string>
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="pushButton_37">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="pushButton_38">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -2097,42 +2502,6 @@ color:rgb(255, 255, 255);</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_33">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
                  <item>
                   <widget class="QPushButton" name="pushButton_34">
                    <property name="sizePolicy">
@@ -2294,42 +2663,6 @@ color:rgb(255, 255, 255);</string>
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="pushButton_29">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="pushButton_30">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -2489,42 +2822,6 @@ color:rgb(255, 255, 255);</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_25">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
                  <item>
                   <widget class="QPushButton" name="pushButton_26">
                    <property name="sizePolicy">
@@ -2686,42 +2983,6 @@ color:rgb(255, 255, 255);</string>
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="pushButton_21">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="pushButton_22">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -2881,42 +3142,6 @@ color:rgb(255, 255, 255);</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <widget class="QPushButton" name="pushButton_17">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
                  <item>
                   <widget class="QPushButton" name="pushButton_18">
                    <property name="sizePolicy">
@@ -3078,42 +3303,6 @@ color:rgb(255, 255, 255);</string>
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="pushButton_13">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="pushButton_14">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -3274,42 +3463,6 @@ color:rgb(255, 255, 255);</string>
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="pushButton_11">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>60</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">background-color: rgb(18, 18, 23);
-padding: 5px;
-color:rgb(255, 255, 255);</string>
-                   </property>
-                   <property name="icon">
-                    <iconset theme="QIcon::ThemeIcon::EditFind"/>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>24</width>
-                     <height>24</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
                   <widget class="QPushButton" name="pushButton_10">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -3435,130 +3588,6 @@ color:rgb(255, 255, 255);</string>
           </item>
          </layout>
         </item>
-        <item row="3" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <property name="spacing">
-           <number>15</number>
-          </property>
-          <property name="topMargin">
-           <number>15</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="pageProductsNumberlabel">
-            <property name="font">
-             <font>
-              <pointsize>15</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>Mostrando productos 1 hasta 10 de 200 productos</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="previusProductPage_pushButton">
-            <property name="font">
-             <font>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-  background-color: rgb(53, 54, 59);      /* Color de fondo normal */
-  color: white;                  /* Color del texto normal */
-  border: 1px solid rgb(38, 39, 44);     /* Borde */
-  border-radius: 5px;            /* Bordes redondeados */
-  padding: 5px 10px;             /* Relleno */
-}
-
-QPushButton:hover {
-  background-color: rgb(68, 70, 76);     /* Fondo al pasar el mouse */
-  color: #f0f0f0;                /* Color del texto al pasar el mouse */
-}
-
-QPushButton:pressed {
-  background-color: rgb(39, 39, 43);     /* Fondo al presionar */
-  color: #d0d0d0;                /* Color del texto al presionar */
-}
-
-QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
-  color: #7f8c8d;                /* Color del texto deshabilitado */
-}
-
-QPushButton:checked {
-  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
-  color: #ecf0f1;        
-}</string>
-            </property>
-            <property name="text">
-             <string>Página anterior</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="nextProductPage_pushButton">
-            <property name="font">
-             <font>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-  background-color: rgb(53, 54, 59);      /* Color de fondo normal */
-  color: white;                  /* Color del texto normal */
-  border: 1px solid rgb(38, 39, 44);     /* Borde */
-  border-radius: 5px;            /* Bordes redondeados */
-  padding: 5px 10px;             /* Relleno */
-}
-
-QPushButton:hover {
-  background-color: rgb(68, 70, 76);     /* Fondo al pasar el mouse */
-  color: #f0f0f0;                /* Color del texto al pasar el mouse */
-}
-
-QPushButton:pressed {
-  background-color: rgb(39, 39, 43);     /* Fondo al presionar */
-  color: #d0d0d0;                /* Color del texto al presionar */
-}
-
-QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
-  color: #7f8c8d;                /* Color del texto deshabilitado */
-}
-
-QPushButton:checked {
-  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
-  color: #ecf0f1;        
-}</string>
-            </property>
-            <property name="text">
-             <string>Página siguiente</string>
-            </property>
-            <property name="autoDefault">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
        </layout>
       </item>
      </layout>
@@ -3640,10 +3669,33 @@ QPushButton:checked {
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: transparent;
-border: none;
-color:rgb(255, 255, 255);
-text-align: center;
+          <string notr="true">QPushButton {
+  background-color: transparent;      /* Color de fondo normal */
+  color: rgb(255, 255, 255);                /* Color del texto normal */
+  text-align: center;
+ border: none
+}
+
+QPushButton:hover {
+  background-color: transparent;     /* Fondo al pasar el mouse */
+  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: transparent;     /* Fondo al presionar */
+  color: rgb(0, 153, 73);               /* Color del texto al presionar */
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}
+
 </string>
          </property>
          <property name="text">
@@ -3740,10 +3792,32 @@ text-align: center;
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: transparent;
-border: none;
-color:rgb(255, 255, 255);
-text-align: center;
+          <string notr="true">QPushButton {
+  background-color: transparent;      /* Color de fondo normal */
+  color: rgb(0, 153, 73);               /* Color del texto normal */
+  text-align: center;
+ border: none
+}
+
+QPushButton:hover {
+  background-color: transparent;     /* Fondo al pasar el mouse */
+  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: transparent;     /* Fondo al presionar */
+  color: rgb(0, 153, 73);               /* Color del texto al presionar */
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}
 </string>
          </property>
          <property name="text">
@@ -3824,10 +3898,32 @@ text-align: center;
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: transparent;
-border: none;
-color:rgb(255, 255, 255);
-text-align: center;
+          <string notr="true">QPushButton {
+  background-color: transparent;      /* Color de fondo normal */
+  color: rgb(255, 255, 255);                /* Color del texto normal */
+  text-align: center;
+ border: none
+}
+
+QPushButton:hover {
+  background-color: transparent;     /* Fondo al pasar el mouse */
+  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: transparent;     /* Fondo al presionar */
+  color: rgb(0, 153, 73);               /* Color del texto al presionar */
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}
 </string>
          </property>
          <property name="text">
@@ -3918,10 +4014,32 @@ text-align: center;
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: transparent;
-border: none;
-color:rgb(255, 255, 255);
-text-align: center;
+          <string notr="true">QPushButton {
+  background-color: transparent;      /* Color de fondo normal */
+  color: rgb(255, 255, 255);                /* Color del texto normal */
+  text-align: center;
+ border: none
+}
+
+QPushButton:hover {
+  background-color: transparent;     /* Fondo al pasar el mouse */
+  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: transparent;     /* Fondo al presionar */
+  color: rgb(0, 153, 73);               /* Color del texto al presionar */
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}
 </string>
          </property>
          <property name="text">
@@ -4012,10 +4130,32 @@ text-align: center;
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: transparent;
-border: none;
-color:rgb(255, 255, 255);
-text-align: center;
+          <string notr="true">QPushButton {
+  background-color: transparent;      /* Color de fondo normal */
+  color: rgb(255, 255, 255);                /* Color del texto normal */
+  text-align: center;
+ border: none
+}
+
+QPushButton:hover {
+  background-color: transparent;     /* Fondo al pasar el mouse */
+  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: transparent;     /* Fondo al presionar */
+  color: rgb(0, 153, 73);               /* Color del texto al presionar */
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}
 </string>
          </property>
          <property name="text">
