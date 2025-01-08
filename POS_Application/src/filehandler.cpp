@@ -1,3 +1,4 @@
+#include <QString>
 #include <algorithm>
 #include <map>
 #include <fstream>
@@ -124,8 +125,10 @@ void FileHandler::writeProductsBackup(
   
   // Transverse the map through all the product categories.
   for (const auto& [category, products] : registeredProducts) {
+    QString productCategtory(category.data());
+    productCategtory = productCategtory.trimmed();
     // Writes out the actual category for the next products.
-    file << category << ":" << std::endl;
+    file << productCategtory.toStdString() << ":" << std::endl;
     
     // Transverse and write out all the products in the actual category.
     for (const auto& product : products) {
@@ -135,7 +138,9 @@ void FileHandler::writeProductsBackup(
       
       // Writes out the products ingredients and their quantity.
       for (const auto& ingredient : product.getIngredients()) {
-        file << ingredient.getName() << " ; "
+        QString ingredientName(ingredient.getName().data());
+        ingredientName = ingredientName.trimmed();
+        file << ingredientName.toStdString() << " ; "
             << ingredient.getQuantity() << "\t";
       }
       
