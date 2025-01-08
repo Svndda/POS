@@ -30,6 +30,7 @@ void BackUpController::start() {
   // program execution.
   this->Drinks = this->fileHandler.readDrinksBackup();
   this->Dishes = this->fileHandler.readDishesBackup();
+  // Writes out the registers of the dishes and drinks back to the backup files.
   this->fileHandler.writeDishesBackUp(this->Dishes);
   this->fileHandler.writeDrinksBackUp(this->Drinks);
 }
