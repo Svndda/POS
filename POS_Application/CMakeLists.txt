@@ -8,17 +8,15 @@ qt_standard_project_setup()
 qt_add_executable(POS_Application
   WIN32 MACOSX_BUNDLE
   src/main.cpp
-  src/mainwindow.cpp
-  src/mainwindow.h
+  src/appcontroller.cpp src/appcontroller.h
   src/mainwindow.ui
-  src/login.h src/login.cpp src/login.ui
-  src/dashboard.h src/dashboard.cpp src/dashboard.ui
-
+  src/loginpage.h src/loginpage.cpp src/loginpage.ui
+  src/inventorypage.h src/inventorypage.cpp src/inventorypage.ui
+  
+  src/backupmodule.h src/backupmodule.cpp
+  src/appmodel.h src/appmodel.cpp
   src/product.h src/product.cpp
   src/supplyitem.h
-  src/inventory.h src/inventory.cpp src/inventory.ui
-  src/filehandler.h src/filehandler.cpp
-  src/backupcontroller.h src/backupcontroller.cpp
 )
 
 qt_add_translations(
