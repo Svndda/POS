@@ -7,29 +7,29 @@
 #include <sstream>
 #include <vector>
 #include <cstdint>
-#include "filehandler.h"
+#include "backupmodule.h"
 #include "supplyitem.h"
 
-FileHandler::FileHandler(const std::vector<std::string>& backupsVector) :
+BackupModule::BackupModule(const std::vector<std::string>& backupsVector) :
     filenames(backupsVector) {
 }
 
-FileHandler& FileHandler::getInstance(const std::vector<std::string>&
+BackupModule& BackupModule::getInstance(const std::vector<std::string>&
       backupsVector) {
   // Creates an static instance of the class to avoid duplication.
-  static FileHandler instance(backupsVector);
+  static BackupModule instance(backupsVector);
   return instance;
 }
 
-std::map<std::string, std::vector<Product>> FileHandler::readDrinksBackup() {
+std::map<std::string, std::vector<Product>> BackupModule::readDrinksBackup() {
   return this->readProductsBackup(this->filenames[0]);
 }
 
-std::map<std::string, std::vector<Product>> FileHandler::readDishesBackup() {
+std::map<std::string, std::vector<Product>> BackupModule::readDishesBackup() {
   return this->readProductsBackup(this->filenames[1]);
 }
 
-std::map<std::string, std::vector<Product>> FileHandler::readProductsBackup(
+std::map<std::string, std::vector<Product>> BackupModule::readProductsBackup(
     const std::string& filename) {
   
   std::ifstream file(filename);
@@ -103,17 +103,17 @@ std::map<std::string, std::vector<Product>> FileHandler::readProductsBackup(
   return registeredProducts;
 }
 
-void FileHandler::writeDrinksBackUp(
+void BackupModule::writeDrinksBackUp(
     const std::map<std::string, std::vector<Product>>& registeredDrinks) {
   this->writeProductsBackup(this->filenames[0], registeredDrinks);
 }
 
-void FileHandler::writeDishesBackUp(
+void BackupModule::writeDishesBackUp(
     const std::map<std::string, std::vector<Product>>& registeredDishes) {
   this->writeProductsBackup(this->filenames[1], registeredDishes);
 }
 
-void FileHandler::writeProductsBackup(
+void BackupModule::writeProductsBackup(
     const std::string& filename,
     const std::map<std::string, std::vector<Product>>& registeredProducts) {
   
