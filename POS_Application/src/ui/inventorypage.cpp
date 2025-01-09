@@ -4,7 +4,7 @@
 #include <utility>
 #include "inventorypage.h"
 #include "ui_inventorypage.h"
-#include "appmodel.h"
+#include "posmodel.h"
 #include "product.h"
 
 QLabel* cloneLabel(QLabel* original) {
@@ -38,7 +38,7 @@ QString InventoryPage::formatProductIngredients(
   return formattedProductIngredients;
 }
 
-InventoryPage::InventoryPage(QWidget *parent, AppModel& model)
+InventoryPage::InventoryPage(QWidget *parent, POS_Model& model)
     : QWidget(parent)
     , ui(new Ui::InventoryPage)
     , appModel(model)

@@ -1,5 +1,5 @@
-#ifndef APPMODEL_H
-#define APPMODEL_H
+#ifndef POSMODEL_H
+#define POSMODEL_H
 
 #include <vector>
 #include <map>
@@ -7,7 +7,7 @@
 #include "backupmodule.h"
 #include "product.h"
 
-class AppModel {
+class POS_Model {
 private:
   BackupModule& backupModule;
   std::map<std::string, std::vector<Product>> Dishes;
@@ -17,11 +17,11 @@ private:
   
   // Private class function.
 private:
-  AppModel(BackupModule& module);
+  POS_Model(BackupModule& module);
   
   // Public class function.
 public:
-  static AppModel& getInstance();
+  static POS_Model& getInstance();
   
   void start();
   

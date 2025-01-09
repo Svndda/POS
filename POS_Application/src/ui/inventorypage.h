@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "appmodel.h"
+#include "posmodel.h"
 #include "product.h"
 #include "supplyitem.h"
 
@@ -18,14 +18,14 @@ class InventoryPage : public QWidget {
 
 public:
   explicit InventoryPage(QWidget *parent = nullptr,
-      AppModel& model = AppModel::getInstance());
+      POS_Model& model = POS_Model::getInstance());
   ~InventoryPage();
   
   // Private class attributes.
 private:
   Ui::InventoryPage *ui;
   // Reference to the application model.
-  AppModel& appModel;
+  POS_Model& appModel;
   // Object private data structures that contains the POS registered products
   //  combined.
   std::vector<std::pair<std::string, Product>> registeredProducts;

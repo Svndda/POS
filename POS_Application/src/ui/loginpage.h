@@ -2,7 +2,7 @@
 #define LOGIN_H
 
 #include <QWidget>
-#include "appmodel.h"
+#include "posmodel.h"
 
 namespace Ui {
 class LoginPage;
@@ -13,13 +13,13 @@ class LoginPage : public QWidget {
 
 public:
   explicit LoginPage(QWidget *parent = nullptr,
-      AppModel& model = AppModel::getInstance());
+      POS_Model& model = POS_Model::getInstance());
   ~LoginPage();
 
 private:
   Ui::LoginPage *ui;
   // Reference to the application model.
-  AppModel& appModel;
+  POS_Model& appModel;
 
 private slots:
   void on_sendCredentials_button_clicked();

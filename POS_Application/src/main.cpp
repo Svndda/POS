@@ -1,4 +1,4 @@
-#include "appcontroller.h"
+#include "controller/appcontroller.h"
 
 #include <QApplication>
 #include <QLocale>

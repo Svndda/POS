@@ -2,11 +2,11 @@
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
-#include "loginpage.h"
+#include "loginpage.h".
 #include "ui_loginpage.h"
 
 LoginPage::LoginPage(QWidget *parent,
-  AppModel& model) :
+  POS_Model& model) :
   QWidget(parent)
     , appModel(model)
     , ui(new Ui::LoginPage) {

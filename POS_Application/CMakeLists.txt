@@ -8,15 +8,16 @@ qt_standard_project_setup()
 qt_add_executable(POS_Application
   WIN32 MACOSX_BUNDLE
   src/main.cpp
-  src/appcontroller.cpp src/appcontroller.h
-  src/mainwindow.ui
-  src/loginpage.h src/loginpage.cpp src/loginpage.ui
-  src/inventorypage.h src/inventorypage.cpp src/inventorypage.ui
+  src/controller/appcontroller.cpp src/controller/appcontroller.h
+  src/controller/mainwindow.ui
   
-  src/backupmodule.h src/backupmodule.cpp
-  src/appmodel.h src/appmodel.cpp
-  src/product.h src/product.cpp
-  src/supplyitem.h
+  src/ui/loginpage.h src/ui/loginpage.cpp src/ui/loginpage.ui
+  src/ui/inventorypage.h src/ui/inventorypage.cpp src/ui/inventorypage.ui
+  
+  src/model/backupmodule.h src/model/backupmodule.cpp
+  src/model/posmodel.h src/model/posmodel.cpp
+  src/model/product.h src/model/product.cpp
+  src/model/supplyitem.h
 )
 
 qt_add_translations(
@@ -28,6 +29,15 @@ target_link_libraries(POS_Application
     PRIVATE
         Qt::Core
         Qt::Widgets
+)
+
+# Adds the target directories.
+target_include_directories(POS_Application
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/controller
+        ${CMAKE_SOURCE_DIR}/src/ui
+        ${CMAKE_SOURCE_DIR}/src/model
 )
 
 include(GNUInstallDirs)

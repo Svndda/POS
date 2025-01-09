@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QStackedWidget>
-#include "appmodel.h"
+#include "posmodel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,7 +21,7 @@ public:
 private:
   Ui::MainWindow* ui = nullptr;
   QStackedWidget* pageStack = nullptr;
-  AppModel& model = AppModel::getInstance();
+  POS_Model& model = POS_Model::getInstance();
 
 private:
   void on_btnSubmit_clicked();

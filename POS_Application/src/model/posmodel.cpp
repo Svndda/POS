@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "appmodel.h"
+#include "posmodel.h"
 #include "backupmodule.h"
 
 #define DRINKS_BACKUP_FILE "C:\\Users\\aaron\\Dev\\Repositories" \
@@ -11,21 +11,21 @@
 
 #define PRIME_BACKUP_FILE ""
 
-AppModel::AppModel(BackupModule& module)
+POS_Model::POS_Model(BackupModule& module)
     : backupModule(module) {
 }
 
-AppModel& AppModel::getInstance() {
+POS_Model& POS_Model::getInstance() {
   // Loads the data contained in the backup program files.
   std::vector<std::string> backUpFiles = {
       DRINKS_BACKUP_FILE,
       DISHES_BACKUP_FILE,
       ""};
-  static AppModel instance(BackupModule::getInstance(backUpFiles));
+  static POS_Model instance(BackupModule::getInstance(backUpFiles));
   return instance;
 }
 
-void AppModel::start() {
+void POS_Model::start() {
   // Reads and store the backup to the program memory to use them in the
   // program execution.
   this->Drinks = this->backupModule.readDrinksBackup();
@@ -35,7 +35,7 @@ void AppModel::start() {
   this->started = true;
 }
 
-void AppModel::shutdown() {
+void POS_Model::shutdown() {
   // Writes out the registers of the dishes and drinks back to the backup files.
   this->backupModule.writeDishesBackUp(this->Dishes);
   this->backupModule.writeDrinksBackUp(this->Drinks);

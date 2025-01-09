@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include "loginpage.h"
 #include "inventorypage.h"
-#include "appmodel.h"
+#include "posmodel.h"
 
 // Esta deberia de ser la clase controladora de la aplicacion.
 
@@ -10,12 +10,12 @@ AppController::AppController(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
   , pageStack(new QStackedWidget(this))
-    , model(AppModel::getInstance()) {
+    , model(POS_Model::getInstance()) {
   
   ui->setupUi(this);
   
   // Obtain a reference to the model instance.
-  AppModel& model = AppModel::getInstance();
+  POS_Model& model = POS_Model::getInstance();
   // Start, tell the model to prepare his information.
   model.start();
   
