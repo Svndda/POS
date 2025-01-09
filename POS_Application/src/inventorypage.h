@@ -1,11 +1,11 @@
-#ifndef INVENTORY_H
-#define INVENTORY_H
+#ifndef INVENTORYPAGE_H
+#define INVENTORYPAGE_H
 
 #include <QWidget>
 #include <map>
 #include <vector>
 #include <string>
-#include "backupcontroller.h"
+#include "appmodel.h"
 #include "product.h"
 #include "supplyitem.h"
 
@@ -13,21 +13,19 @@ namespace Ui {
 class InventoryPage;
 }
 
-class Inventory : public QWidget
-{
+class InventoryPage : public QWidget {
   Q_OBJECT
 
 public:
-  explicit Inventory(QWidget *parent = nullptr);
-  ~Inventory();
+  explicit InventoryPage(QWidget *parent = nullptr,
+      AppModel& model = AppModel::getInstance());
+  ~InventoryPage();
   
   // Private class attributes.
 private:
   Ui::InventoryPage *ui;
-  // Object private data structures that contains the POS registered drinks.
-  std::map<std::string, std::vector<Product>> registeredDrinks;
-  // Object private data structures that contains the POS registered dishes.
-  std::map<std::string, std::vector<Product>> registeredDishes;
+  // Reference to the application model.
+  AppModel& appModel;
   // Object private data structures that contains the POS registered products
   //  combined.
   std::vector<std::pair<std::string, Product>> registeredProducts;
@@ -49,4 +47,4 @@ private slots:
   void on_previousProductPage_button_clicked();
 };
 
-#endif // INVENTORY_H
+#endif // INVENTORYPAGE_H

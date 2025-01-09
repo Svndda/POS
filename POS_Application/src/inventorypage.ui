@@ -114,12 +114,34 @@
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background: transparent;
-border: none;
-color: rgb(255, 255, 255);
-text-align: center;
-padding-left: 20px;
-padding-right: 20px;
+           <string notr="true">QPushButton {
+  background: transparent;
+  border: none;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+QPushButton:hover {
+  background-color: transparent;     /* Fondo al pasar el mouse */
+  color: rgb(255, 255, 255);           /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: transparent;     /* Fondo al presionar */
+  color: rgb(255, 255, 255);           /* Color del texto al presionar */
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}
 </string>
           </property>
           <property name="text">
@@ -170,12 +192,36 @@ padding-right: 20px;
           <enum>Qt::LayoutDirection::LeftToRight</enum>
          </property>
          <property name="styleSheet">
-          <string notr="true">background: transparent;
-border: none;
-color: rgb(255, 255, 255);
-text-align: center;
-padding-left: 20px;
-padding-right: 20px;</string>
+          <string notr="true">QPushButton {
+  background: transparent;
+  border: none;
+  color: rgb(150, 150, 150);
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+QPushButton:hover {
+  background-color: transparent;     /* Fondo al pasar el mouse */
+  color: rgb(255, 255, 255);             /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: transparent;     /* Fondo al presionar */
+                /* Color del texto al presionar */
+	color: rgb(52, 52, 52);
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}
+</string>
          </property>
          <property name="text">
           <string>Categorías</string>
@@ -3622,7 +3668,7 @@ color:rgb(255, 255, 255);</string>
         <string notr="true">color:rgb(255, 255, 255);</string>
        </property>
        <property name="text">
-        <string>Negocio</string>
+        <string>Macana's Place</string>
        </property>
       </widget>
      </item>

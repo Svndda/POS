@@ -2,9 +2,9 @@
 #include <vector>
 #include <map>
 #include <utility>
-#include "inventory.h"
-#include "ui_inventory.h"
-#include "backupcontroller.h"
+#include "inventorypage.h"
+#include "ui_inventorypage.h"
+#include "appmodel.h"
 #include "product.h"
 
 QLabel* cloneLabel(QLabel* original) {
@@ -24,7 +24,7 @@ QLabel* cloneLabel(QLabel* original) {
   return newLabel;
 }
 
-QString Inventory::formatProductIngredients(
+QString InventoryPage::formatProductIngredients(
     const std::vector<SupplyItem>& ingredients) {
   QString formattedProductIngredients = "";
   
@@ -38,33 +38,29 @@ QString Inventory::formatProductIngredients(
   return formattedProductIngredients;
 }
 
-Inventory::Inventory(QWidget *parent)
+InventoryPage::InventoryPage(QWidget *parent, AppModel& model)
     : QWidget(parent)
     , ui(new Ui::InventoryPage)
-    , registeredDrinks(std::map<std::string, std::vector<Product>>())
-    , registeredDishes(std::map<std::string, std::vector<Product>>())
+    , appModel(model)
     , registeredProducts(std::vector<std::pair<std::string, Product>>())
     , productPageIndex(0) {
-  ui->setupUi(this);
-  // Obtain the instance of the backupController.
-  BackUpController backupControllerInstance = BackUpController::getInstance();
-  // Start the backupController.
-  backupControllerInstance.start();
-  
+  ui->setupUi(this); 
   
   // Gets the registered products.
-  this->registeredDrinks = backupControllerInstance.getRegisteredDrinks();
-  this->registeredDishes = backupControllerInstance.getRegisteredDishes();
+  std::map<std::string, std::vector<Product>> registeredDrinks
+      = this->appModel.getRegisteredDrinks();
+  std::map<std::string, std::vector<Product>> registeredDishes
+      = this->appModel.getRegisteredDishes();
   
   // Creates a vector for the products to be displayed in screen.
   std::vector<std::pair<std::string, Product>> mergedProducts;
   
-  this->registerProductType(mergedProducts, this->registeredDrinks);
-  this->registerProductType(mergedProducts, this->registeredDishes);
+  this->registerProductType(mergedProducts, registeredDrinks);
+  this->registerProductType(mergedProducts, registeredDishes);
   this->registeredProducts = mergedProducts;
-  std::cout << "Registered Dishes's Category: " << this->registeredDishes.size()
+  std::cout << "Registered Dishes's Category: " << registeredDishes.size()
       << std::endl;
-  std::cout << "Registered Drink's Category: " << this->registeredDrinks.size()
+  std::cout << "Registered Drink's Category: " << registeredDrinks.size()
             << std::endl;
   
   // Updates for the first time the diaply to show the first index page.
@@ -79,7 +75,7 @@ Inventory::Inventory(QWidget *parent)
       &QPushButton::clicked, this, []() {});
 }
     
-void Inventory::on_nextProductPage_button_clicked() {
+void InventoryPage::on_nextProductPage_button_clicked() {
   // Calculates the indexes of the first and last product to be fopr the
   // nect page displayed.
   size_t productPageIt = (this->productPageIndex + 1) * 9;
@@ -96,7 +92,7 @@ void Inventory::on_nextProductPage_button_clicked() {
   qDebug() << "Boton de avance: " << this->productPageIndex;
 }
 
-void Inventory::on_previousProductPage_button_clicked() {
+void InventoryPage::on_previousProductPage_button_clicked() {
   // Checks that the actual page is not the first one.
   if (this->productPageIndex > 0) {
     // Decrements the page index.
@@ -108,7 +104,7 @@ void Inventory::on_previousProductPage_button_clicked() {
   std::cout << "Boton de retroceso: " << this->productPageIndex << std::endl;
 }
 
-void Inventory::registerProductType(
+void InventoryPage::registerProductType(
     std::vector<std::pair<std::string, Product>>& registeredProducts
     , const std::map<std::string, std::vector<Product>>& productTypeRegister) {
   // Transverse all the product type categories and their products.
@@ -121,7 +117,7 @@ void Inventory::registerProductType(
   }
 }
 
-void Inventory::updateProductsInformation(
+void InventoryPage::updateProductsInformation(
     std::vector<std::pair<std::string, Product>> visibleProducts) {
   // Calculates an offset to calculate the indexes of the products to display on
   // the screen.
@@ -132,7 +128,7 @@ void Inventory::updateProductsInformation(
   size_t labelIt = 0;
   // Tranverse the different rows of products information.
   for (size_t index = offset; index < finalOffset; index++) {
-    // PlaceHolder labels text.
+    // Place holder labels text.
     QString productID("------");
     QString productName("------");
     QString productCategory("------");
@@ -185,7 +181,7 @@ void Inventory::updateProductsInformation(
   this->ui->pageProductsNumber_label->setText(pageLabelText);
 }
 
-void Inventory::updateProductLabel(size_t labelIt,
+void InventoryPage::updateProductLabel(size_t labelIt,
     const QString& labelSuffix, const QString& value) {
   
   // Generates the label name based on the suffix and label index.
@@ -204,6 +200,6 @@ void Inventory::updateProductLabel(size_t labelIt,
 }
 
 
-Inventory::~Inventory() {
+InventoryPage::~InventoryPage() {
   delete ui;
 }

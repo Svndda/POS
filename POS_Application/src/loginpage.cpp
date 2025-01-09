@@ -2,25 +2,26 @@
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
-#include "login.h"
-#include "ui_login.h"
+#include "loginpage.h"
+#include "ui_loginpage.h"
 
-Login::Login(QWidget *parent) :
-  QWidget(parent),
-  ui(new Ui::LoginPage)
-{
+LoginPage::LoginPage(QWidget *parent,
+  AppModel& model) :
+  QWidget(parent)
+    , appModel(model)
+    , ui(new Ui::LoginPage) {
   ui->setupUi(this);
   connect(this->ui->sendCredentials_button, &QPushButton::clicked, this, []() {
     qDebug() << "Botón clicado!";
   });
 }
 
-Login::~Login()
+LoginPage::~LoginPage()
 {
   delete ui;
 }
 
-void Login::on_sendCredentials_button_clicked() {
+void LoginPage::on_sendCredentials_button_clicked() {
   QRegularExpression emailRegex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
   QRegularExpression passwordRegex("^[A-Za-z0-9]{8,}$");
 
