@@ -1,5 +1,5 @@
-#ifndef DISH_H
-#define DISH_H
+#ifndef PRODUCT_H
+#define PRODUCT_H
 
 #include <vector>
 #include <iostream>
@@ -9,15 +9,18 @@
 class Product {
   // Class Attributes.
 private:
-  uint64_t id;
-  std::string name;
+  uint64_t id = 0;
+  std::string name = "";
   std::vector<SupplyItem> ingredients;
-  double price;
+  double price = 0;
 
   // Class constructor.
 public:
-  Product(uint64_t myID, const std::string &myName,
-          const std::vector<SupplyItem> myIngredients, double myPrice)
+  Product(uint64_t myID = 0
+          , const std::string &myName = ""
+          , const std::vector<SupplyItem> myIngredients
+              = std::vector<SupplyItem>()
+          , double myPrice = 0)
       : id(myID)
       , name(myName)
       , ingredients(myIngredients)
@@ -52,7 +55,29 @@ public:
 // Class Operators.
 public:
   friend std::ostream& operator<<(std::ostream& os, const Product& product);
-
+  
+  Product &operator=(const Product &other) {
+    if (this == &other) {
+      // Evitar autoasignación
+      return *this;
+    }
+    
+    // Copiar los valores de los atributos
+    this->id = other.id;
+    this->name = other.name;
+    this->ingredients = other.ingredients;
+    this->price = other.price;
+    
+    return *this; // Devolver la referencia al objeto actual
+  }
+  
+  bool operator==(const Product &other) const {
+    return this->id == other.id &&
+           this->name == other.name &&
+           this->ingredients == other.ingredients &&
+           this->price == other.price;
+  }
+  
 };
 
-#endif // DISH_H
+#endif // PRODUCT_H
