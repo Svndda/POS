@@ -9,14 +9,18 @@ class SupplyItem {
 // Class Attributes.
 private:
   std::string name = "";
-  uint64_t quantity = -1;
+  uint64_t quantity = 0;
 
 // Class Constructor.
 public:
-  SupplyItem(const std::string& myName, uint64_t myQuantity)
+  SupplyItem(const std::string& myName = "", uint64_t myQuantity = 0)
     : name(myName),
       quantity(myQuantity) {
   };
+  
+  bool operator==(const SupplyItem& other) const {
+    return this->name == other.name && this->quantity == other.quantity;
+  }
 
 // Class Getters.
 public:
