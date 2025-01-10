@@ -51,13 +51,13 @@ std::map<std::string, std::vector<Product>> BackupModule::readProductsBackup(
       productCategory = line.substr(0, line.size() - 1);
       // Initialize the category vector.
       registeredProducts[productCategory] = {};
-    }
     // identify the product's name.
-    else if (line.back() == '-') {
-      productName = line.substr(0, line.size() - 1);
-    }
+    } else if (line.back() == '-') {
+      std::cout << line << " producto" << std::endl;
+      QString name(line.substr(0, line.size() - 1).data());
+      productName = name.trimmed().toStdString();
     // Reads the product ingredients and price.
-    else {
+    } else {
       std::istringstream stream(line);
       std::vector<SupplyItem> productIngredients;
       std::string productInfo;
@@ -73,12 +73,15 @@ std::map<std::string, std::vector<Product>> BackupModule::readProductsBackup(
         size_t separatorPos = productInfo.find(';');
         if (separatorPos != std::string::npos) {
           // Separates the ingredient name and quantity.
-          std::string ingredientName = productInfo.substr(0, separatorPos);
+          QString ingredientName(productInfo.substr(0, separatorPos).data());
+          ingredientName = ingredientName.trimmed();
+          
           std::string quantityStr = productInfo.substr(separatorPos + 1);
           try {
             // Extracts the ingredient quantity and creates an supplyItem.
             uint64_t ingredientQuantity = std::stoull(quantityStr);
-            productIngredients.emplace_back(ingredientName, ingredientQuantity);
+            productIngredients.emplace_back(ingredientName.toStdString()
+                , ingredientQuantity);
           } catch (const std::exception&) {
             throw std::runtime_error("Error al analizar: " + productInfo);
           }
