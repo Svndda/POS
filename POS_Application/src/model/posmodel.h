@@ -27,6 +27,13 @@ public:
   
   void shutdown();
   
+  std::vector<std::pair<std::string, Product>> registeredProducts();
+  
+  void updateProductRegisters(const std::string productCategory,
+                              const Product& product);
+  
+  // CLass getters.
+public:
   inline bool isStarted() {
     return this->started;  
   }
@@ -38,6 +45,14 @@ public:
   inline std::map<std::string, std::vector<Product>> getRegisteredDishes() {
     return this->Dishes;
   }
+  
+private:
+  void extractProducts(
+      std::vector<std::pair<std::string, Product>>& registeredProducts
+      , const std::map<std::string, std::vector<Product>>& productTypeRegister);
+  bool insertOnRegister(const std::string productCategory
+      , const Product& product
+      , std::map<std::string, std::vector<Product>>& productTypeRegister);
 };
 
 #endif // APPMODEL_H
