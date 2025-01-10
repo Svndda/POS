@@ -18,6 +18,7 @@ qt_add_executable(POS_Application
   src/model/posmodel.h src/model/posmodel.cpp
   src/model/product.h src/model/product.cpp
   src/model/supplyitem.h
+  src/ui/productformdialog.h src/ui/productformdialog.cpp src/ui/productformdialog.ui
 )
 
 qt_add_translations(
