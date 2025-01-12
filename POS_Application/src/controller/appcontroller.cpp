@@ -12,6 +12,7 @@ AppController::AppController(QWidget *parent)
   , pageStack(new QStackedWidget(this))
     , model(POS_Model::getInstance()) {
   
+  // Define the controller ui as the mainWindow.
   ui->setupUi(this);
   
   // Obtain a reference to the model instance.

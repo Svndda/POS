@@ -23,7 +23,5 @@ private:
   QStackedWidget* pageStack = nullptr;
   POS_Model& model = POS_Model::getInstance();
 
-private:
-  void on_btnSubmit_clicked();
 };
 #endif // APPCONTROLLER_H
