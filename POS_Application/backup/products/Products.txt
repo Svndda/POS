@@ -1,0 +1,32 @@
+Almuerzos:
+Patacones -
+patacones ; 2	100
+Casado con Pollo -
+Arroz ; 200	Filet ; 0	ensalada ; 1	frijoles ; 50	3500
+Arrozx -
+arroz ; 1	102
+Casado de Res -
+Arroz ; 1	Bistek ; 1	Ensalada ; 1	Picadillo ; 1	3500
+Arroz con Camarones -
+Arroz ; 1	Camarones ; 1	Ensalada ; 1	Picadillo ; 10	6000
+Salchipapas -
+papas ; 10	salchicha ; 2	1800
+
+Bebidas Calientes:
+Café -
+Cafe ; 100	agua ; 100	800
+Cafe con leche -
+Cafe ; 0	Leche ; 35	Azucar ; 70	1300
+
+Bebidas Frias:
+Batido de Arandanos(Leche) -
+Arandanos ; 75	Leche ; 200	Azúcar ; 80	2300
+Fresca -
+Fresca ; 1	1000
+
+Bebidas Naturales:
+Horchata -
+Horchata ; 0	1000
+
+Desayunos:
+
