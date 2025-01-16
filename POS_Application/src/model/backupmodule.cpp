@@ -1,5 +1,4 @@
 #include <QString>
-#include <algorithm>
 #include <map>
 #include <fstream>
 #include <iostream>
@@ -10,34 +9,31 @@
 #include "backupmodule.h"
 #include "supplyitem.h"
 
-BackupModule::BackupModule(const std::vector<std::string>& backupsVector) :
-    filenames(backupsVector) {
+
+BackupModule::BackupModule() {
 }
 
-BackupModule& BackupModule::getInstance(const std::vector<std::string>&
-      backupsVector) {
+BackupModule& BackupModule::getInstance() {
   // Creates an static instance of the class to avoid duplication.
-  static BackupModule instance(backupsVector);
+  static BackupModule instance;
   return instance;
 }
 
-std::map<std::string, std::vector<Product>> BackupModule::readDrinksBackup() {
-  return this->readProductsBackup(this->filenames[0]);
+std::map<std::string, std::vector<Product>> BackupModule::getProductsBackup() {
+  std::map<std::string, std::vector<Product>> registeredProducts;
+  this->readProductsBackup(this->PRODUCTS_BACKUP_FILE, registeredProducts);
+  return registeredProducts;
 }
 
-std::map<std::string, std::vector<Product>> BackupModule::readDishesBackup() {
-  return this->readProductsBackup(this->filenames[1]);
-}
-
-std::map<std::string, std::vector<Product>> BackupModule::readProductsBackup(
-    const std::string& filename) {
+void BackupModule::readProductsBackup(
+    const std::string& filename
+    , std::map<std::string, std::vector<Product>>& registeredProducts) {
   
   std::ifstream file(filename);
   if (!file) {
     throw std::runtime_error("No se pudo abrir el archivo: " + filename);
   }
   
-  std::map<std::string, std::vector<Product>> registeredProducts;
   std::string line;
   std::string productCategory;
   std::string productName;
@@ -61,7 +57,6 @@ std::map<std::string, std::vector<Product>> BackupModule::readProductsBackup(
       std::istringstream stream(line);
       std::vector<SupplyItem> productIngredients;
       std::string productInfo;
-      
       uint64_t productPrice = 0;
       
       while (std::getline(stream, productInfo, '\t')) {
@@ -72,7 +67,7 @@ std::map<std::string, std::vector<Product>> BackupModule::readProductsBackup(
         // Finds the ingredient's separator.
         size_t separatorPos = productInfo.find(';');
         if (separatorPos != std::string::npos) {
-          // Separates the ingredient name and quantity.
+          // Separates the ingredient's name and quantity.
           QString ingredientName(productInfo.substr(0, separatorPos).data());
           ingredientName = ingredientName.trimmed();
           
@@ -88,7 +83,7 @@ std::map<std::string, std::vector<Product>> BackupModule::readProductsBackup(
         } else {
           // If theres no spacer, then its the product's price.
           try {
-            productPrice = std::stoull(productInfo);
+            productPrice = std::stod(productInfo);
           } catch (const std::exception&) {
             throw std::runtime_error("Error al convertir el precio: " + productInfo);
           }
@@ -100,20 +95,12 @@ std::map<std::string, std::vector<Product>> BackupModule::readProductsBackup(
           productIngredients, productPrice);
     }
   }
-  
   file.close();
-  // Returns all the registered products of the given backup.
-  return registeredProducts;
 }
 
-void BackupModule::writeDrinksBackUp(
-    const std::map<std::string, std::vector<Product>>& registeredDrinks) {
-  this->writeProductsBackup(this->filenames[0], registeredDrinks);
-}
-
-void BackupModule::writeDishesBackUp(
-    const std::map<std::string, std::vector<Product>>& registeredDishes) {
-  this->writeProductsBackup(this->filenames[1], registeredDishes);
+void BackupModule::writeRegistersBackUp(
+    const std::map<std::string, std::vector<Product>>& products) {
+  this->writeProductsBackup(this->PRODUCTS_BACKUP_FILE, products);
 }
 
 void BackupModule::writeProductsBackup(
@@ -157,5 +144,3 @@ void BackupModule::writeProductsBackup(
   
   file.close();
 }
-
-
