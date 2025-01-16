@@ -9,7 +9,6 @@ qt_add_executable(POS_Application
   WIN32 MACOSX_BUNDLE
   src/main.cpp
   src/controller/appcontroller.cpp src/controller/appcontroller.h
-  src/controller/mainwindow.ui
   
   src/ui/loginpage.h src/ui/loginpage.cpp src/ui/loginpage.ui
   src/ui/inventorypage.h src/ui/inventorypage.cpp src/ui/inventorypage.ui
@@ -18,7 +17,11 @@ qt_add_executable(POS_Application
   src/model/posmodel.h src/model/posmodel.cpp
   src/model/product.h src/model/product.cpp
   src/model/supplyitem.h
+  src/common/util.cpp src/common/util.h
+  
   src/ui/productformdialog.h src/ui/productformdialog.cpp src/ui/productformdialog.ui
+  src/controller/mainwindow.ui
+  src/ui/categoriespage.h src/ui/categoriespage.cpp src/ui/categoriespage.ui
 )
 
 qt_add_translations(
@@ -39,6 +42,7 @@ target_include_directories(POS_Application
         ${CMAKE_SOURCE_DIR}/src/controller
         ${CMAKE_SOURCE_DIR}/src/ui
         ${CMAKE_SOURCE_DIR}/src/model
+        ${CMAKE_SOURCE_DIR}/src/common
 )
 
 include(GNUInstallDirs)
