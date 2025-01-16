@@ -22,6 +22,9 @@ private:
   Ui::MainWindow* ui = nullptr;
   QStackedWidget* pageStack = nullptr;
   POS_Model& model = POS_Model::getInstance();
+  
+private slots:
+  void inventoryCategorySelected();
 
 };
 #endif // APPCONTROLLER_H
