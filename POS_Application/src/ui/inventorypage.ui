@@ -39,6 +39,9 @@ color: rgb(255, 255, 255);</string>
    <property name="leftMargin">
     <number>0</number>
    </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
    <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">

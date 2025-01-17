@@ -66,7 +66,7 @@ void InventoryPage::connectSlots() {
 }
 
 void InventoryPage::on_categories_button_clicked() {
-  emit this->registeredCategoriesSelected();
+  emit this->categories_button_signal();
 }
 
 void InventoryPage::on_nextProductPage_button_clicked() {

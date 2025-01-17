@@ -42,7 +42,7 @@ private:
   void editProductInformation(size_t index);
   
 signals:
-  void registeredCategoriesSelected();
+  void categories_button_signal();
   
 private slots:
   void on_nextProductPage_button_clicked();
