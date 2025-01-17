@@ -24,7 +24,7 @@ private:
   POS_Model& model = POS_Model::getInstance();
   
 private slots:
-  void inventoryCategorySelected();
-
+  void inventory_categoriesDisplay();
+  void inventory_productsDisplay();
 };
 #endif // APPCONTROLLER_H

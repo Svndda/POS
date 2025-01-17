@@ -38,13 +38,22 @@ AppController::AppController(QWidget *parent)
   this->pageStack->setCurrentIndex(1);
   
   connect(inventoryPage
-          , &InventoryPage::registeredCategoriesSelected
+          , &InventoryPage::categories_button_signal
           , this
-          , &AppController::inventoryCategorySelected);
+          , &AppController::inventory_categoriesDisplay);
+  
+  connect(categoriesPage
+          , &CategoriesPage::products_button_signal
+          , this
+          , &AppController::inventory_productsDisplay);
 }
 
-void AppController::inventoryCategorySelected() {
+void AppController::inventory_categoriesDisplay() {
   this->pageStack->setCurrentIndex(2);
+}
+
+void AppController::inventory_productsDisplay() {
+  this->pageStack->setCurrentIndex(1);
 }
 
 AppController::~AppController() {
