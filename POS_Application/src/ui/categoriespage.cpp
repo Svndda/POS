@@ -1,5 +1,6 @@
 #include "categoriespage.h"
 #include "ui_categoriespage.h"
+#include "categoryformdialog.h"
 
 #include "util.h"
 
@@ -29,6 +30,12 @@ CategoriesPage::CategoriesPage(QWidget *parent, POS_Model model)
   
   this->refreshCategoriesDisplay(this->appModel.getCategoriesForPage(
       this->categoryPageIndex));
+  
+  connect(this->ui->products_button, &QPushButton::clicked
+          , this, &CategoriesPage::on_products_button_clicked);
+  
+  connect(this->ui->addCategory_button, &QPushButton::clicked
+          , this, &CategoriesPage::addCategory_button_clicked);
 }
 
 void CategoriesPage::refreshCategoriesDisplay(
@@ -53,8 +60,8 @@ void CategoriesPage::refreshCategoriesDisplay(
     // Updates the product text contained in the categoryName of the matching
     // label.
     Util::updatePrefixedLabel(this, "categoryName", labelIt, category);
-    // Updates the label containing the number of products registered in the
-    // category.
+    // Updates the label containing the number of categories registered in the
+    // system.
     Util::updatePrefixedLabel(this, "categorySize", labelIt, numberOfProducts);  
     // Increse the label iterator.
     ++labelIt;
@@ -63,16 +70,32 @@ void CategoriesPage::refreshCategoriesDisplay(
   size_t offset = this->categoryPageIndex * 9;
   // Generates the page label text tha indicates the indexes of the products
   // displayed in the actual page.
-  QString pageLabelText = QString("Mostrando productos %1 hasta %2 de %3"
-      " productos").arg(offset + 1).arg(offset + 9).arg(
-      this->appModel.getNumberOfProducts());
+  QString pageLabelText = QString("Mostrando categorias %1 hasta %2 de %3"
+      " categorías").arg(offset + 1).arg(offset + 9).arg(
+      this->appModel.getNumberOfCategories());
   this->ui->pageProductsNumber_label->setText(pageLabelText);
+}
+
+void CategoriesPage::on_products_button_clicked() {
+  emit this->products_button_signal();
+}
+
+void CategoriesPage::addCategory_button_clicked() {
+  CategoryFormDialog dialog(this);
+  
+  if (dialog.exec() == QDialog::Accepted) {
+    qDebug() << "Se acepto el dialogo y se agrego un nuevo producto";
+    this->refreshCategoriesDisplay(
+        this->appModel.getCategoriesForPage(this->categoryPageIndex));
+  } else {
+    qDebug() << "Se cancelo la creacion de un producto";
+  }
 }
 
 void CategoriesPage::on_deleteProduct_button_clicked() {
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   if (button) {
-    size_t index = button->property("index").toUInt(); // Recuperar índice
+    size_t index = button->property("index").toUInt();
     qDebug() << "Button clicked, index:" << index;
   }
 }
