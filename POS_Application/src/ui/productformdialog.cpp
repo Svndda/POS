@@ -21,7 +21,6 @@ ProductFormDialog::ProductFormDialog(QWidget *parent
     productCategories.push_back(category.first.data());
   }
   
-  
   for (const auto& category : productCategories) {
     this->ui->productCategory_comboBox->addItem(category);
   }

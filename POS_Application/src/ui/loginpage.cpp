@@ -2,7 +2,7 @@
 #include <QRegularExpression>
 #include <QRegularExpressionValidator>
 
-#include "loginpage.h".
+#include "loginpage.h"
 #include "ui_loginpage.h"
 
 LoginPage::LoginPage(QWidget *parent,
