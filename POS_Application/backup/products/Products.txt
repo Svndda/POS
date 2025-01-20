@@ -11,6 +11,8 @@ Arroz con Camarones -
 Arroz ; 1	Camarones ; 1	Ensalada ; 1	Picadillo ; 10	6000
 Salchipapas -
 papas ; 10	salchicha ; 2	1800
+Casado con Higado -
+Arroz ; 1	Higado ; 1	Picadillo ; 1	2300
 
 Bebidas Calientes:
 Café -
@@ -29,4 +31,6 @@ Horchata -
 Horchata ; 0	1000
 
 Desayunos:
+Pinto con Salchichon -
+Pinto ; 1	Salchichon ; 3	Natilla ; 1	2500
 

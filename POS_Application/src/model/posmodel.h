@@ -9,6 +9,9 @@
 #include "product.h"
 
 class POS_Model {
+  // Copy and assignation constructors disabled.
+  POS_Model(const POS_Model&) = delete;
+  POS_Model operator=(const POS_Model) = delete;
 public:
   // Macros representing different types of register operations.
   static const size_t UPDATE; ///< Represents an update operation.
@@ -65,10 +68,17 @@ public: ///< Class functions.
   
   void addProduct(const std::string& category, const Product& product);
   
+  void addCategory(const std::string newCategory);
+  
   void removeProduct(const std::string& category, const Product& product);
   
-  void editProduct(const std::string& oldCategory, const Product& oldProduct,
-      const std::string& newCategory, const Product& newProduct);
+  void removeCategory(const std::string category);
+  
+  void editProduct(const std::string& oldCategory, const Product& oldProduct
+      , const std::string& newCategory, const Product& newProduct);
+  
+  void editCategory(const std::string oldCategory
+      , const std::string newCategory);
     
   QString formatProductIngredients(
       const std::vector<SupplyItem>& ingredients);
@@ -109,9 +119,9 @@ private: ///< Class functions.
    * @return True if the product was inserted successfully, false if the product 
    *         already exists in the category.
    */
-  bool insertOnRegister(const std::string productCategory
-                        , const Product& product
-                        , std::map<std::string, std::vector<Product>>& productTypeRegister);
+  bool insertProduct(const std::string productCategory
+      , const Product& product
+      , std::map<std::string, std::vector<Product>>& productTypeRegister);
   
   /**
    * @brief Removes a product from the specified product register.
@@ -127,8 +137,8 @@ private: ///< Class functions.
    *         was not found in the category.
    */
   bool eraseOnRegister(const std::string productCategory
-                       , const Product& product
-                       , std::map<std::string, std::vector<Product>>& productTypeRegister);
+      , const Product& product
+      , std::map<std::string, std::vector<Product>>& productTypeRegister);
   
 public: ///< Class getters.
   inline bool isStarted() {
@@ -143,6 +153,8 @@ public: ///< Class getters.
     return this->productsVector.size();
   }
   
+  std::vector<std::string> getRegisteredCategories();
+  
   size_t getNumberOfCategories() {
     return this->products.size();
   }
@@ -153,6 +165,7 @@ public: ///< Class getters.
   
   std::vector<std::pair<std::string, Product>> getProductsForPage(
       size_t pageIndex);
+  
 };
 
 #endif // APPMODEL_H

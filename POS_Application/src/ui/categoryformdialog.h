@@ -14,19 +14,23 @@ class CategoryFormDialog : public QDialog {
   Q_OBJECT
   
 private:
-  Ui::CategoryFormDialog *ui;
+  Ui::CategoryFormDialog* ui;
   std::vector<std::string> existingCategories;
-  QString newCategory;
+  std::string newCategory;
 
 public:
-  explicit CategoryFormDialog(QWidget *parent = nullptr
-      , std::vector<std::string> existingCategories
-      = std::vector<std::string>());
+  explicit CategoryFormDialog(QWidget* parent
+      , std::vector<std::string> categories
+      , std::string category);
   ~CategoryFormDialog();
   
 public:
   std::string getNewCategory();
-
+  
+private slots:
+  void on_acceptCategory_button_clicked();
+  void on_cancelCategory_button_clicked();
+  
 };
 
 #endif // CATEGORYFORMDIALOG_H

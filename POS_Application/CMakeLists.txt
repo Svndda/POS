@@ -22,6 +22,7 @@ qt_add_executable(POS_Application
   src/ui/productformdialog.h src/ui/productformdialog.cpp src/ui/productformdialog.ui
   src/controller/mainwindow.ui
   src/ui/categoriespage.h src/ui/categoriespage.cpp src/ui/categoriespage.ui
+  src/ui/categoryformdialog.h src/ui/categoryformdialog.cpp src/ui/categoryformdialog.ui
 )
 
 qt_add_translations(

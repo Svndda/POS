@@ -13,12 +13,12 @@ class CategoriesPage : public QWidget {
   
 private:
   Ui::CategoriesPage *ui;
-  POS_Model appModel;
+  POS_Model& appModel;
   size_t categoryPageIndex = 0;
   
 public:
   explicit CategoriesPage(QWidget *parent = nullptr
-      , POS_Model appModel = POS_Model::getInstance());
+      , POS_Model& appModel = POS_Model::getInstance());
   ~CategoriesPage();
     
 private:

@@ -14,10 +14,16 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(38, 39, 44);
-color: rgb(255, 255, 255);</string>
+   <string notr="true">background-color: rgb(218, 213, 207);
+color: rgb(0, 0, 0);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
    <item row="1" column="1">
     <widget class="QWidget" name="registersWidget" native="true">
      <property name="sizePolicy">
@@ -36,7 +42,8 @@ color: rgb(255, 255, 255);</string>
       <bool>false</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(19, 18, 24);</string>
+      <string notr="true">background-color: white;
+</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <property name="leftMargin">
@@ -88,7 +95,7 @@ color: rgb(255, 255, 255);</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
+             <string notr="true">color: rgb(0, 0, 0);</string>
             </property>
             <property name="text">
              <string>Mostrando productos 1 hasta 10 de 200 productos</string>
@@ -117,21 +124,22 @@ color: rgb(255, 255, 255);</string>
             </property>
             <property name="styleSheet">
              <string notr="true">QPushButton {
-  background-color: rgb(53, 54, 59);      /* Color de fondo normal */
-  color: white;                  /* Color del texto normal */
+  background-color: rgb(237, 233, 230);
+  color: black;                  /* Color del texto normal */
   border: 1px solid rgb(38, 39, 44);     /* Borde */
   border-radius: 5px;            /* Bordes redondeados */
   padding: 5px 10px;             /* Relleno */
 }
 
 QPushButton:hover {
-  background-color: rgb(68, 70, 76);     /* Fondo al pasar el mouse */
-  color: #f0f0f0;                /* Color del texto al pasar el mouse */
+       /* Fondo al pasar el mouse */
+  background-color: rgb(218, 213, 207);
+  color: black;                /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
   background-color: rgb(39, 39, 43);     /* Fondo al presionar */
-  color: #d0d0d0;                /* Color del texto al presionar */
+  color: black;                /* Color del texto al presionar */
 }
 
 QPushButton:disabled {
@@ -158,21 +166,22 @@ QPushButton:checked {
             </property>
             <property name="styleSheet">
              <string notr="true">QPushButton {
-  background-color: rgb(53, 54, 59);      /* Color de fondo normal */
-  color: white;                  /* Color del texto normal */
+  background-color: rgb(237, 233, 230);
+  color: black;                  /* Color del texto normal */
   border: 1px solid rgb(38, 39, 44);     /* Borde */
   border-radius: 5px;            /* Bordes redondeados */
   padding: 5px 10px;             /* Relleno */
 }
 
 QPushButton:hover {
-  background-color: rgb(68, 70, 76);     /* Fondo al pasar el mouse */
-  color: #f0f0f0;                /* Color del texto al pasar el mouse */
+       /* Fondo al pasar el mouse */
+  background-color: rgb(218, 213, 207);
+  color: black;                /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
   background-color: rgb(39, 39, 43);     /* Fondo al presionar */
-  color: #d0d0d0;                /* Color del texto al presionar */
+  color: black;                /* Color del texto al presionar */
 }
 
 QPushButton:disabled {
@@ -228,8 +237,8 @@ QPushButton:checked {
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
@@ -266,8 +275,8 @@ color:rgb(255, 255, 255);</string>
                <enum>Qt::LayoutDirection::LeftToRight</enum>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
@@ -301,8 +310,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
@@ -336,8 +345,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <property name="text">
                <string>Hamburguesa</string>
@@ -365,8 +374,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);</string>
               </property>
               <property name="text">
                <string>Hamburguesa</string>
@@ -394,8 +403,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <property name="text">
                <string>Hamburguesa</string>
@@ -423,8 +432,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);</string>
               </property>
               <property name="text">
                <string>Hamburguesa</string>
@@ -452,8 +461,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <property name="text">
                <string>Hamburguesa</string>
@@ -481,8 +490,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);</string>
               </property>
               <property name="text">
                <string>Hamburguesa</string>
@@ -510,8 +519,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <property name="text">
                <string>Hamburguesa</string>
@@ -545,8 +554,9 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
+padding: 5px;</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
@@ -579,8 +589,8 @@ color:rgb(255, 255, 255);</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -608,8 +618,8 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -637,8 +647,8 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -666,8 +676,8 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -695,8 +705,8 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -724,8 +734,8 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -753,8 +763,8 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -788,8 +798,8 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);
-color:rgb(255, 255, 255);
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -817,8 +827,8 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);
-color:rgb(255, 255, 255);
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);
 padding: 5px;</string>
               </property>
               <property name="text">
@@ -868,8 +878,9 @@ padding: 5px;</string>
                </font>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(38, 39, 44);
-color:rgb(255, 255, 255);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
+</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
@@ -897,7 +908,8 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_8">
                <property name="leftMargin">
@@ -1027,7 +1039,9 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
+</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_6">
                <property name="leftMargin">
@@ -1154,7 +1168,8 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_11">
                <property name="leftMargin">
@@ -1281,7 +1296,9 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
+</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_10">
                <property name="leftMargin">
@@ -1408,7 +1425,8 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_12">
                <property name="leftMargin">
@@ -1535,7 +1553,9 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
+</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_9">
                <property name="leftMargin">
@@ -1662,7 +1682,8 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(53, 54, 59);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_7">
                <property name="leftMargin">
@@ -1789,7 +1810,9 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(38, 39, 44);</string>
+               <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(226, 223, 219);
+</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_5">
                <property name="leftMargin">
@@ -1916,7 +1939,8 @@ color:rgb(255, 255, 255);</string>
                </sizepolicy>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgb(53, 54, 59);</string>
+               <string notr="true">color:rgb(0, 0, 0);
+background-color: rgb(237, 233, 230);</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
                <property name="leftMargin">
@@ -2067,7 +2091,7 @@ color:rgb(255, 255, 255);</string>
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">color:rgb(255, 255, 255);</string>
+             <string notr="true">color: rgb(18, 18, 23);</string>
             </property>
             <property name="text">
              <string>Categorías</string>
@@ -2075,7 +2099,7 @@ color:rgb(255, 255, 255);</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="addProduct_button">
+           <widget class="QPushButton" name="addCategory_button">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -2100,17 +2124,17 @@ color:rgb(255, 255, 255);</string>
 	border-radius: 20px;
 	padding: 5px;
 	background-color: rgb(0, 153, 73);
-	color: rgb(255, 255, 255);
+	color: white;
 }
 
 QPushButton:hover {
   background-color: rgb(0, 181, 84);     /* Fondo al pasar el mouse */
-  color: #f0f0f0;                /* Color del texto al pasar el mouse */
+  color: white;                /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
   background-color: rgb(0, 125, 58);     /* Fondo al presionar */
-  color: #d0d0d0;                /* Color del texto al presionar */
+  color: white;                /* Color del texto al presionar */
 }
 
 QPushButton:disabled {
@@ -2169,11 +2193,11 @@ QPushButton:checked {
             </property>
             <property name="styleSheet">
              <string notr="true">QLineEdit {
-  border: 2px solid rgb(53, 54, 59);
+  border: 2px solid  rgb(237, 233, 230);
   border-radius: 15px;
 
-  color: rgb(255, 255, 255);
-  background-color: rgb(53, 54, 59);
+  color: rgb(0, 0, 0);
+  background-color: rgb(237, 233, 230);
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -2220,7 +2244,7 @@ QPushButton:checked {
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">color:rgb(255, 255, 255);</string>
+        <string notr="true">color: rgb(0, 0, 0);</string>
        </property>
        <property name="text">
         <string>Macana's Place</string>
@@ -2272,7 +2296,8 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-  color: rgb(255, 255, 255);                /* Color del texto normal */
+               /* Color del texto normal */
+	color: rgb(0, 0, 0);
   text-align: center;
  border: none
 }
@@ -2501,7 +2526,8 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-  color: rgb(255, 255, 255);                /* Color del texto normal */
+              /* Color del texto normal */
+	color: rgb(0, 0, 0);
   text-align: center;
  border: none
 }
@@ -2617,7 +2643,7 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-  color: rgb(255, 255, 255);                /* Color del texto normal */
+  color: rgb(0, 0, 0);                /* Color del texto normal */
   text-align: center;
  border: none
 }
@@ -2733,7 +2759,7 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-  color: rgb(255, 255, 255);                /* Color del texto normal */
+  color: rgb(0, 0, 0);                /* Color del texto normal */
   text-align: center;
  border: none
 }
@@ -2880,7 +2906,7 @@ QPushButton:checked {
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_45">
+         <widget class="QPushButton" name="products_button">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -2898,7 +2924,7 @@ QPushButton:checked {
            <string notr="true">QPushButton {
   background: transparent;
   border: none;
-  color: rgb(150, 150, 150);
+ color: rgb(0, 0, 0);
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
@@ -2986,7 +3012,7 @@ QPushButton:checked {
           <string notr="true">QPushButton {
   background: transparent;
   border: none;
-  color: rgb(255, 255, 255);
+ color: rgb(0, 153, 73);
   text-align: center;
   padding-left: 20px;
   padding-right: 20px;
@@ -2994,12 +3020,13 @@ QPushButton:checked {
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(255, 255, 255);           /* Color del texto al pasar el mouse */
+  color: rgb(0, 153, 73);
 }
 
 QPushButton:pressed {
   background-color: transparent;     /* Fondo al presionar */
-  color: rgb(255, 255, 255);           /* Color del texto al presionar */
+  color: rgb(0, 153, 73);
+          /* Color del texto al presionar */
 }
 
 QPushButton:disabled {

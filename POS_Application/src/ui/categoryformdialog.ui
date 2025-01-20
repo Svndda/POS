@@ -35,8 +35,8 @@
    <string>Dialog</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(53, 54, 59);
-color: rgb(255, 255, 255);</string>
+   <string notr="true">color: black;
+background-color: rgb(218, 213, 207);</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -49,7 +49,7 @@ color: rgb(255, 255, 255);</string>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255);</string>
+      <string notr="true">color: black;</string>
      </property>
      <property name="text">
       <string>Definir nueva categoría de productos.</string>
@@ -61,7 +61,7 @@ color: rgb(255, 255, 255);</string>
      <item>
       <widget class="QLabel" name="producCategory_label">
        <property name="styleSheet">
-        <string notr="true">color: rgb(255, 255, 255);</string>
+        <string notr="true">color: black;</string>
        </property>
        <property name="text">
         <string>Nombre de categoría: </string>
@@ -90,16 +90,17 @@ color: rgb(255, 255, 255);</string>
        </property>
        <property name="styleSheet">
         <string notr="true">QLineEdit {
-  border: 2px solid rgb(53, 54, 59);
+  border: 2px solid  rgb(237, 233, 230);
   border-radius: 15px;
 
-  color: rgb(255, 255, 255);
-  background-color: rgb(38, 39, 44);
+  color: black;
+  background-color: rgb(237, 233, 230);
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
-}</string>
+}
+</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
@@ -137,7 +138,7 @@ color: rgb(255, 255, 255);</string>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="acceptProduct_button">
+      <widget class="QPushButton" name="acceptCategory_button">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -187,7 +188,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="cancelProduct_button">
+      <widget class="QPushButton" name="cancelCategory_button">
        <property name="minimumSize">
         <size>
          <width>80</width>

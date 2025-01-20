@@ -45,9 +45,16 @@ Product& POS_Model::findProduct(const std::string& productName) {
 
 void POS_Model::addProduct(const std::string& category
     , const Product& product) {
-  if (insertOnRegister(category, product, this->products)) {
+  if (this->insertProduct(category, product, this->products)) {
     qDebug() << "Producto anadido correctamente";
     backupModule.writeRegistersBackUp(this->products);
+  }
+}
+
+void POS_Model::addCategory(const std::string newCategory) {
+  auto result = this->products.try_emplace(newCategory, std::vector<Product>());
+  if (result.second) {
+    qDebug() << "nueva categoria insertada correctamente";
   }
 }
 
@@ -59,13 +66,48 @@ void POS_Model::removeProduct(const std::string& category
   }
 }
 
+void POS_Model::removeCategory(const std::string category) {
+  size_t removed = this->products.erase(category);
+  if (removed) {
+    this->productsVector.clear();
+    this->extractProducts(this->productsVector, this->products);
+    qDebug() << "Categoria eliminada";
+  }
+}
+
 void POS_Model::editProduct(const std::string& oldCategory
     , const Product& oldProduct, const std::string& newCategory
     , const Product& newProduct) {
   if (eraseOnRegister(oldCategory, oldProduct, this->products)) {
-    insertOnRegister(newCategory, newProduct, this->products);
+    this->insertProduct(newCategory, newProduct, this->products);
     backupModule.writeRegistersBackUp(this->products);
   }
+}
+
+void POS_Model::editCategory(const std::string oldCategory
+    , const std::string newCategory) {
+  auto categoryIt = this->products.find(oldCategory);
+  if (categoryIt != this->products.end()) {
+    std::vector<Product> categoryProducts = categoryIt->second;
+    this->products.erase(categoryIt);
+    qDebug() << "Categoria eliminada: " << this->products.size();
+    this->products.emplace(newCategory, categoryProducts);
+    qDebug() << "Mapa actualizado: " << this->products.size();
+    this->productsVector.clear();
+    this->extractProducts(this->productsVector, this->products); 
+  }
+}
+
+std::vector<std::pair<std::string, Product>> POS_Model::getProductsForPage(
+    size_t pageIndex) {
+  size_t startIdx = pageIndex * 9;
+  size_t endIdx = std::min(startIdx + 9, this->productsVector.size());
+  
+  std::vector<std::pair<std::string, Product>> pageProducts;
+  for (size_t i = startIdx; i < endIdx; ++i) {
+    pageProducts.push_back(this->productsVector[i]);
+  }
+  return pageProducts;
 }
 
 std::vector<std::string> POS_Model::getCategoriesForPage(size_t pageIndex) {
@@ -100,19 +142,15 @@ size_t POS_Model::getSizeOfCategory(std::string category) {
   return no_value;
 }
 
-std::vector<std::pair<std::string, Product>> POS_Model::getProductsForPage(
-    size_t pageIndex) {
-  size_t startIdx = pageIndex * 9;
-  size_t endIdx = std::min(startIdx + 9, this->productsVector.size());
-  
-  std::vector<std::pair<std::string, Product>> pageProducts;
-  for (size_t i = startIdx; i < endIdx; ++i) {
-    pageProducts.push_back(this->productsVector[i]);
+std::vector<std::string> POS_Model::getRegisteredCategories() {
+  std::vector<std::string> categories;
+  for (const auto& element : this->products) {
+    categories.emplace_back(element.first);
   }
-  return pageProducts;
+  return categories;
 }
 
-bool POS_Model::insertOnRegister(const std::string productCategory
+bool POS_Model::insertProduct(const std::string productCategory
     , const Product& product
     , std::map<std::string, std::vector<Product>>& productTypeRegister) {
   // Transverse all the registered product categories.
@@ -124,7 +162,7 @@ bool POS_Model::insertOnRegister(const std::string productCategory
         // check if there's a registered product in the category.
         if (registeredProduct == product) {
           qDebug() << "Ya existe un elemento igual: "
-              << registeredProduct.getName() << "," << product.getName();
+                   << registeredProduct.getName() << "," << product.getName();
           return false;
         }
       }
@@ -132,7 +170,7 @@ bool POS_Model::insertOnRegister(const std::string productCategory
                << category.first;
       // Adds the created product into the vector of registered products.
       category.second.emplace_back(product);
-      this->productsVector.clear();      
+      this->productsVector.clear();     
       this->extractProducts(this->productsVector, this->products);      
       return true;
     }
@@ -178,6 +216,7 @@ void POS_Model::extractProducts(
     }
   }
 }
+
 
 QString POS_Model::formatProductIngredients(
     const std::vector<SupplyItem>& ingredients) {

@@ -26,7 +26,8 @@
    <string>Svnpos</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(38, 39, 44);</string>
+   <string notr="true">background-color: rgb(218, 213, 207);
+color:black;</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
  </widget>
