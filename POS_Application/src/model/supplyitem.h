@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include <ostream>
 
 /**
  * @class SupplyItem
@@ -46,6 +47,8 @@ public:
   bool operator==(const SupplyItem& other) const {
     return this->name == other.name && this->quantity == other.quantity;
   }
+  
+  friend std::ostream& operator<<(std::ostream& os, const SupplyItem& supply);
 
 // Class Getters.
 public:
@@ -81,4 +84,5 @@ public:
     this->quantity = newQuantity;
   }
 };
+
 #endif // SUPPLYITEM_H

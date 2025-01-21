@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CategoriesPage</class>
- <widget class="QWidget" name="CategoriesPage">
+ <class>Categories</class>
+ <widget class="QWidget" name="Categories">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,7 +21,16 @@ color: rgb(0, 0, 0);</string>
    <property name="leftMargin">
     <number>0</number>
    </property>
+   <property name="topMargin">
+    <number>10</number>
+   </property>
    <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
     <number>0</number>
    </property>
    <item row="1" column="1">
@@ -76,7 +85,7 @@ color: rgb(0, 0, 0);</string>
          <number>20</number>
         </property>
         <property name="bottomMargin">
-         <number>15</number>
+         <number>20</number>
         </property>
         <item row="4" column="1">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -2220,6 +2229,9 @@ QPushButton:checked {
    </item>
    <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <property name="sizeConstraint">
       <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
      </property>
@@ -2237,6 +2249,12 @@ QPushButton:checked {
      </property>
      <item>
       <widget class="QLabel" name="programName_label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <pointsize>15</pointsize>
@@ -2269,7 +2287,7 @@ QPushButton:checked {
        <item>
         <widget class="QPushButton" name="pushButton_4">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -2277,7 +2295,7 @@ QPushButton:checked {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>10</height>
+           <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -2340,31 +2358,18 @@ QPushButton:checked {
        </item>
        <item>
         <widget class="QWidget" name="widget_5" native="true">
-         <widget class="QWidget" name="widget_13" native="true">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>140</width>
-            <height>5</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>140</width>
-            <height>5</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(38, 39, 44)</string>
-          </property>
-         </widget>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>5</height>
+          </size>
+         </property>
         </widget>
        </item>
       </layout>
@@ -2393,7 +2398,7 @@ QPushButton:checked {
        <item>
         <widget class="QPushButton" name="pushButton_3">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -2401,7 +2406,7 @@ QPushButton:checked {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>10</height>
+           <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -2463,14 +2468,14 @@ QPushButton:checked {
        <item>
         <widget class="QWidget" name="widget_6" native="true">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize">
           <size>
-           <width>140</width>
+           <width>0</width>
            <height>5</height>
           </size>
          </property>
@@ -2499,7 +2504,7 @@ QPushButton:checked {
        <item>
         <widget class="QPushButton" name="pushButton_5">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -2507,7 +2512,7 @@ QPushButton:checked {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>10</height>
+           <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -2569,31 +2574,18 @@ QPushButton:checked {
        </item>
        <item>
         <widget class="QWidget" name="widget_7" native="true">
-         <widget class="QWidget" name="widget_10" native="true">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>140</width>
-            <height>5</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>140</width>
-            <height>5</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(38, 39, 44)</string>
-          </property>
-         </widget>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>5</height>
+          </size>
+         </property>
         </widget>
        </item>
       </layout>
@@ -2616,7 +2608,7 @@ QPushButton:checked {
        <item>
         <widget class="QPushButton" name="pushButton_7">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -2624,7 +2616,7 @@ QPushButton:checked {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>10</height>
+           <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -2685,31 +2677,18 @@ QPushButton:checked {
        </item>
        <item>
         <widget class="QWidget" name="widget_8" native="true">
-         <widget class="QWidget" name="widget_11" native="true">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>140</width>
-            <height>5</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>140</width>
-            <height>5</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(38, 39, 44)</string>
-          </property>
-         </widget>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>5</height>
+          </size>
+         </property>
         </widget>
        </item>
       </layout>
@@ -2732,7 +2711,7 @@ QPushButton:checked {
        <item>
         <widget class="QPushButton" name="pushButton_6">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+          <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -2740,7 +2719,7 @@ QPushButton:checked {
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>10</height>
+           <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -2801,31 +2780,18 @@ QPushButton:checked {
        </item>
        <item>
         <widget class="QWidget" name="widget_9" native="true">
-         <widget class="QWidget" name="widget_12" native="true">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>140</width>
-            <height>5</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>140</width>
-            <height>5</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(38, 39, 44)</string>
-          </property>
-         </widget>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>5</height>
+          </size>
+         </property>
         </widget>
        </item>
       </layout>
@@ -2877,20 +2843,20 @@ QPushButton:checked {
         <item>
          <widget class="QWidget" name="widget_3" native="true">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="minimumSize">
            <size>
-            <width>20</width>
+            <width>10</width>
             <height>40</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>20</width>
+            <width>10</width>
             <height>40</height>
            </size>
           </property>
@@ -2908,7 +2874,7 @@ QPushButton:checked {
         <item>
          <widget class="QPushButton" name="products_button">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -2968,20 +2934,20 @@ QPushButton:checked {
        <item>
         <widget class="QWidget" name="widget_4" native="true">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize">
           <size>
-           <width>20</width>
+           <width>10</width>
            <height>40</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>20</width>
+           <width>10</width>
            <height>40</height>
           </size>
          </property>
@@ -2991,9 +2957,9 @@ QPushButton:checked {
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="categories_button">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -3042,6 +3008,84 @@ QPushButton:checked {
          </property>
          <property name="text">
           <string>Categorías</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_15">
+       <item>
+        <widget class="QWidget" name="widget" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>10</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>15</width>
+           <height>40</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="supplies_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI Variable</family>
+           <pointsize>15</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+  background: transparent;
+  border: none;
+ color: rgb(0, 0, 0);
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+QPushButton:hover {
+  background-color: transparent;     /* Fondo al pasar el mouse */
+  color: rgb(255, 255, 255);             /* Color del texto al pasar el mouse */
+}
+
+QPushButton:pressed {
+  background-color: transparent;     /* Fondo al presionar */
+                /* Color del texto al presionar */
+	color: rgb(52, 52, 52);
+}
+
+QPushButton:disabled {
+  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  color: #7f8c8d;                /* Color del texto deshabilitado */
+}
+
+QPushButton:checked {
+  background-color: #27ae60;     /* Fondo cuando está checkable y activado */
+  color: #ecf0f1;        
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Materia Prima</string>
          </property>
         </widget>
        </item>

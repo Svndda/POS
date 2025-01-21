@@ -25,6 +25,8 @@ Batido de Arandanos(Leche) -
 Arandanos ; 75	Leche ; 200	Azúcar ; 80	2300
 Fresca -
 Fresca ; 1	1000
+Coca cola -
+Cocacola ; 1	2000
 
 Bebidas Naturales:
 Horchata -

@@ -16,8 +16,9 @@
 class BackupModule {
 private:
   const std::string PRODUCTS_BACKUP_FILE = "C:\\Users\\aaron\\Dev\\Repositories" \
-      "\\POS\\POS_Application\\backup\\products\\Products.txt"; ///< Represents an update operation.
-
+      "\\POS\\POS_Application\\backup\\products\\Products.txt";
+  const std::string SUPPLIES_BACKUP_FILE = "C:\\Users\\aaron\\Dev\\Repositories" \
+      "\\POS\\POS_Application\\backup\\inventory\\primeMaterial.txt";
 public:
   /**
    * @brief Gets the singleton instance of the BackupModule class.
@@ -39,8 +40,11 @@ public:
    */
   std::map<std::string, std::vector<Product>> getProductsBackup();
   
+  std::vector<SupplyItem> getSuppliesBackup();
+  
   void writeRegistersBackUp(
-      const std::map<std::string, std::vector<Product>>& products);
+      const std::map<std::string, std::vector<Product>>& products
+      , const std::vector<SupplyItem>& supplies);
 private:
   BackupModule();
   
@@ -57,6 +61,8 @@ private:
       const std::string& filename
       , std::map<std::string, std::vector<Product>>& registeredProducts);
   
+  void readSupplyItemsBackup(std::vector<SupplyItem>& supplies);
+  
   /**
    * @brief Writes the backup data for drinks to a file.
    * 
@@ -67,6 +73,8 @@ private:
   void writeProductsBackup(
       const std::string& filename,
       const std::map<std::string, std::vector<Product>>& registeredProducts);
+  
+  void writeSuppliesBackup(const std::vector<SupplyItem>& supplies);
   // Copy and assignation constructors disabled.
   BackupModule(const BackupModule&) = delete;
   BackupModule& operator=(const BackupModule&) = delete;

@@ -22,7 +22,7 @@ private:
   BackupModule& backupModule; ///< Reference to the BackupModule instance used for data persistence.
   std::map<std::string, std::vector<Product>> products; ///< Map of dish categories to their respective products.
   std::vector<std::pair<std::string, Product>> productsVector;
-  std::vector<SupplyItem> itemsOnInventory; ///< Inventory of supply items.
+  std::vector<SupplyItem> supplies; ///< Inventory of supply items.
   bool started = false; ///< Flag indicating whether the POS model has started.
   
 public: ///< Class functions.

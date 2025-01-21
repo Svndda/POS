@@ -1,5 +1,5 @@
-Papas de freir	700
-Papas	3000
-Arroz	4000
-Camarones	300
-Filet de pollo	400
+Papas 0
+Papas 3000
+Arroz 4000
+Camarones 300
+Filet 0

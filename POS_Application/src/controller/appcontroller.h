@@ -26,5 +26,6 @@ private:
 private slots:
   void inventory_categoriesDisplay();
   void inventory_productsDisplay();
+  void inventory_primeDisplay();
 };
 #endif // APPCONTROLLER_H

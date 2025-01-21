@@ -11,7 +11,6 @@ qt_add_executable(POS_Application
   src/controller/appcontroller.cpp src/controller/appcontroller.h
   
   src/ui/loginpage.h src/ui/loginpage.cpp src/ui/loginpage.ui
-  src/ui/inventorypage.h src/ui/inventorypage.cpp src/ui/inventorypage.ui
   
   src/model/backupmodule.h src/model/backupmodule.cpp
   src/model/posmodel.h src/model/posmodel.cpp
@@ -19,10 +18,21 @@ qt_add_executable(POS_Application
   src/model/supplyitem.h
   src/common/util.cpp src/common/util.h
   
-  src/ui/productformdialog.h src/ui/productformdialog.cpp src/ui/productformdialog.ui
+  src/ui/inventory/products.h src/ui/inventory/products.cpp
+  src/ui/inventory/products.ui
+  
+  src/ui/inventory/productformdialog.h src/ui/inventory/productformdialog.cpp
+  src/ui/inventory/productformdialog.ui
   src/controller/mainwindow.ui
-  src/ui/categoriespage.h src/ui/categoriespage.cpp src/ui/categoriespage.ui
-  src/ui/categoryformdialog.h src/ui/categoryformdialog.cpp src/ui/categoryformdialog.ui
+  src/ui/inventory/categories.h src/ui/inventory/categories.cpp
+  src/ui/inventory/categories.ui
+  src/ui/inventory/categoryformdialog.h src/ui/inventory/categoryformdialog.cpp
+  src/ui/inventory/categoryformdialog.ui
+  src/ui/inventory/supplies.h src/ui/inventory/supplies.cpp
+  src/ui/inventory/supplies.ui
+  src/model/supplyitem.cpp
+  src/ui/inventory/inventory.h
+  
 )
 
 qt_add_translations(
@@ -42,6 +52,7 @@ target_include_directories(POS_Application
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_SOURCE_DIR}/src/controller
         ${CMAKE_SOURCE_DIR}/src/ui
+        ${CMAKE_SOURCE_DIR}/src/ui/inventory
         ${CMAKE_SOURCE_DIR}/src/model
         ${CMAKE_SOURCE_DIR}/src/common
 )

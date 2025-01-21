@@ -25,6 +25,12 @@ std::map<std::string, std::vector<Product>> BackupModule::getProductsBackup() {
   return registeredProducts;
 }
 
+std::vector<SupplyItem> BackupModule::getSuppliesBackup() {
+  std::vector<SupplyItem> registeredSupplies;
+  this->readSupplyItemsBackup(registeredSupplies);
+  return registeredSupplies;
+}
+
 void BackupModule::readProductsBackup(
     const std::string& filename
     , std::map<std::string, std::vector<Product>>& registeredProducts) {
@@ -98,9 +104,32 @@ void BackupModule::readProductsBackup(
   file.close();
 }
 
+void BackupModule::readSupplyItemsBackup(std::vector<SupplyItem>& supplies) {
+  std::ifstream file(this->SUPPLIES_BACKUP_FILE);
+  if(!file) {
+    throw std::runtime_error("No se pudo abrir el archivo para escritura: "
+        + this->SUPPLIES_BACKUP_FILE);
+  }
+  
+  std::string line;
+  std::string name;;
+  uint64_t quantity;
+  
+  size_t index = 0;
+  while(std::getline(file, line)) {
+    std::istringstream stream(line);
+    stream >> name >> quantity;
+    supplies.emplace_back(name, quantity);
+    std::cout << supplies[index] << std::endl;
+    ++index;
+  }
+}
+
 void BackupModule::writeRegistersBackUp(
-    const std::map<std::string, std::vector<Product>>& products) {
+    const std::map<std::string, std::vector<Product>>& products
+    , const std::vector<SupplyItem>& supplies) {
   this->writeProductsBackup(this->PRODUCTS_BACKUP_FILE, products);
+  this->writeSuppliesBackup(supplies);
 }
 
 void BackupModule::writeProductsBackup(
@@ -140,6 +169,20 @@ void BackupModule::writeProductsBackup(
     
     // Writes out a blank line between categories.
     file << std::endl;
+  }
+  
+  file.close();
+}
+
+void BackupModule::writeSuppliesBackup(const std::vector<SupplyItem>& supplies) {
+  std::ofstream file(this->SUPPLIES_BACKUP_FILE);
+  if (!file) {
+    throw std::runtime_error("No se pudo abrir el archivo para escritura: "
+        + this->SUPPLIES_BACKUP_FILE);
+  }
+  
+  for (const auto& supply : supplies) {
+    file << supply << "\n";
   }
   
   file.close();

@@ -26,6 +26,7 @@ void POS_Model::start() {
   this->products = this->backupModule.getProductsBackup();
   this->productsVector.clear();
   this->extractProducts(this->productsVector, this->products);
+  this->supplies = this->backupModule.getSuppliesBackup();
   // Changes the started value to true.
   this->started = true;
 }
@@ -47,7 +48,7 @@ void POS_Model::addProduct(const std::string& category
     , const Product& product) {
   if (this->insertProduct(category, product, this->products)) {
     qDebug() << "Producto anadido correctamente";
-    backupModule.writeRegistersBackUp(this->products);
+    backupModule.writeRegistersBackUp(this->products, this->supplies);
   }
 }
 
@@ -62,7 +63,7 @@ void POS_Model::removeProduct(const std::string& category
     , const Product& product) {
   if (eraseOnRegister(category, product, this->products)) {
     qDebug() << "producto elimnado correctamente";
-    backupModule.writeRegistersBackUp(this->products);
+    backupModule.writeRegistersBackUp(this->products, this->supplies);
   }
 }
 
@@ -80,7 +81,7 @@ void POS_Model::editProduct(const std::string& oldCategory
     , const Product& newProduct) {
   if (eraseOnRegister(oldCategory, oldProduct, this->products)) {
     this->insertProduct(newCategory, newProduct, this->products);
-    backupModule.writeRegistersBackUp(this->products);
+    backupModule.writeRegistersBackUp(this->products, this->supplies);
   }
 }
 
@@ -217,7 +218,6 @@ void POS_Model::extractProducts(
   }
 }
 
-
 QString POS_Model::formatProductIngredients(
     const std::vector<SupplyItem>& ingredients) {
   QString formattedProductIngredients = "";
@@ -234,7 +234,7 @@ QString POS_Model::formatProductIngredients(
 
 void POS_Model::shutdown() {
   // Writes out the registers of the dishes and drinks back to the backup files.
-  this->backupModule.writeRegistersBackUp(this->products);
+  this->backupModule.writeRegistersBackUp(this->products, this->supplies);
   // Clears the vector memory.
   this->products.clear();
   this->started = false;
