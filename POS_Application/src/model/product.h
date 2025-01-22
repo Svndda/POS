@@ -37,10 +37,10 @@ public:
    * @param myPrice The price of the product (default is 0).
    */
   Product(uint64_t myID = 0
-          , const std::string &myName = ""
-          , const std::vector<SupplyItem> myIngredients
-              = std::vector<SupplyItem>()
-          , double myPrice = 0)
+      , const std::string &myName = ""
+      , const std::vector<SupplyItem> myIngredients
+          = std::vector<SupplyItem>()
+      , double myPrice = 0)
       : id(myID)
       , name(myName)
       , ingredients(myIngredients)

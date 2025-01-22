@@ -26,7 +26,8 @@ Products::~Products() {
 
 void Products::refreshDisplay(const size_t items) {
   this->refreshProductDisplay(
-      this->model.getProductsForPage(this->currentPageIndex)
+      this->model.getProductsForPage(this->currentPageIndex
+      , this->itemsPerPage)
       , this->itemsPerPage);
 }
 
@@ -35,19 +36,19 @@ void Products::setupConnections() {
   connect(this->ui->nextProductPage_button
           , &QPushButton::clicked
           , this
-          , []{});
+          , &Products::on_nextPage_button_clicked);
   
   // Connect the slot function to the previous page button.
   connect(this->ui->previousProductPage_button
           , &QPushButton::clicked
           , this
-          , []{});
+          , &Products::on_previousPage_button_clicked);
   
   // Connect the slot function to the previous page button.
   connect(this->ui->addProduct_button
           , &QPushButton::clicked
           , this
-          , []{});
+          , &Products::addProduct_button_clicked);
   
   QString deleteButtonName("");
   QString editButtonName("");
@@ -59,11 +60,11 @@ void Products::setupConnections() {
     connect(deleteButton
             , &QPushButton::clicked
             , this
-            , &Products::on_deleteProduct_button_clicked);
+            , &Products::on_delete_button_clicked);
     connect(editButton
             , &QPushButton::clicked
             , this
-            , &Products::on_editProduct_button_clicked);
+            , &Products::on_edit_button_clicked);
   }
   
   connect(this->ui->categories_button
@@ -72,7 +73,7 @@ void Products::setupConnections() {
           , &Products::on_categories_button_clicked);
 }
 
-void Products::on_addProduct_button_clicked() {
+void Products::addProduct_button_clicked() {
   ProductFormDialog dialog(this
                            , this->model.getRegisteredProducts()
                            , Product()
@@ -84,14 +85,15 @@ void Products::on_addProduct_button_clicked() {
     std::string category = dialog.getProductCategory().toStdString();
     this->model.addProduct(category, product);
     this->refreshProductDisplay(
-        this->model.getProductsForPage(this->currentPageIndex)
+        this->model.getProductsForPage(this->currentPageIndex
+        , this->itemsPerPage)
         , this->itemsPerPage);
   } else {
     qDebug() << "Se cancelo la creacion de un producto";
   }
 }
 
-void Products::on_nextProductPage_button_clicked() {
+void Products::on_nextPage_button_clicked() {
   size_t productPageIt = (this->currentPageIndex + 1) * 9;
   size_t productPageIt2 = productPageIt + 9;
   if (this->model.getNumberOfProducts() >= productPageIt
@@ -100,13 +102,14 @@ void Products::on_nextProductPage_button_clicked() {
     // Updates the product information in the display to show the next product
     // page.
     this->refreshProductDisplay(
-        this->model.getProductsForPage(this->currentPageIndex)
+        this->model.getProductsForPage(this->currentPageIndex
+        , this->itemsPerPage)
         , this->itemsPerPage);
   }
   qDebug() << "Boton de avance: " << this->currentPageIndex;
 }
 
-void Products::on_previousProductPage_button_clicked() {
+void Products::on_previousPage_button_clicked() {
   // Checks that the actual page is not the first one.
   if (this->currentPageIndex > 0) {
     // Decrements the page index.
@@ -114,13 +117,14 @@ void Products::on_previousProductPage_button_clicked() {
     // Updates the product information in the display to show the previous
     // product page.
     this->refreshProductDisplay(
-        this->model.getProductsForPage(this->currentPageIndex)
+        this->model.getProductsForPage(this->currentPageIndex
+        , this->itemsPerPage)
         , this->itemsPerPage);
   }
   std::cout << "Boton de retroceso: " << this->currentPageIndex << std::endl;
 }
 
-void Products::on_deleteProduct_button_clicked() {
+void Products::on_delete_button_clicked() {
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   if (button) {
     size_t index = button->property("index").toUInt(); // Recuperar índice
@@ -129,7 +133,7 @@ void Products::on_deleteProduct_button_clicked() {
   }
 }
 
-void Products::on_editProduct_button_clicked() {
+void Products::on_edit_button_clicked() {
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   if (button) {
     size_t index = button->property("index").toUInt();
@@ -207,7 +211,9 @@ void Products::refreshProductDisplay(
   // Generates the page label text tha indicates the indexes of the products
   // displayed in the actual page.
   QString pageLabelText = QString("Mostrando productos %1 hasta %2 de %3"
-                                  " productos").arg(offset + 1).arg(offset + 9).arg(this->model.getNumberOfProducts());
+      " productos").arg(offset + 1).arg(std::min(offset + 9,
+      this->model.getNumberOfProducts())).arg(
+      this->model.getNumberOfProducts());
   this->ui->pageProductsNumber_label->setText(pageLabelText);
 }
 
@@ -225,9 +231,11 @@ void Products::deleteRegisteredProduct(size_t index) {
   const QString productCategory = label->text();
   
   this->model.removeProduct(productCategory.toStdString()
-                            , this->model.findProduct(productName.toStdString()));
+      , this->model.findProduct(productName.toStdString()));
+  
   this->refreshProductDisplay(
-      this->model.getProductsForPage(this->currentPageIndex)
+      this->model.getProductsForPage(this->currentPageIndex
+      , this->itemsPerPage)
       , this->itemsPerPage);
 }
 
@@ -259,10 +267,11 @@ void Products::editProductInformation(size_t index) {
       if (!(productToEdit == dialog.getProduct())) {
         // Remove the current product using the iterator
         this->model.editProduct(productCategory.toStdString(), productToEdit
-                                , dialog.getProductCategory().toStdString(), dialog.getProduct());
+            , dialog.getProductCategory().toStdString(), dialog.getProduct());
         
         this->refreshProductDisplay(
-            this->model.getProductsForPage(this->currentPageIndex)
+            this->model.getProductsForPage(this->currentPageIndex
+            , this->itemsPerPage)
             , this->itemsPerPage);
       }
     }

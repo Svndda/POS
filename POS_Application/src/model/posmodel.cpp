@@ -48,14 +48,22 @@ void POS_Model::addProduct(const std::string& category
     , const Product& product) {
   if (this->insertProduct(category, product, this->products)) {
     qDebug() << "Producto anadido correctamente";
-    backupModule.writeRegistersBackUp(this->products, this->supplies);
+    backupModule.updateProductsBackup(this->products);
   }
 }
 
 void POS_Model::addCategory(const std::string newCategory) {
   auto result = this->products.try_emplace(newCategory, std::vector<Product>());
   if (result.second) {
-    qDebug() << "nueva categoria insertada correctamente";
+    backupModule.updateProductsBackup(this->products);
+  }
+}
+
+void POS_Model::addSupply(const SupplyItem newSupply) {
+  auto it = std::find(this->supplies.begin(), this->supplies.end(), newSupply);
+  if (it == this->supplies.end()) {
+    this->supplies.emplace_back(newSupply);
+    this->backupModule.updateSuppliesBackup(this->supplies);
   }
 }
 
@@ -63,7 +71,7 @@ void POS_Model::removeProduct(const std::string& category
     , const Product& product) {
   if (eraseOnRegister(category, product, this->products)) {
     qDebug() << "producto elimnado correctamente";
-    backupModule.writeRegistersBackUp(this->products, this->supplies);
+    backupModule.updateProductsBackup(this->products);
   }
 }
 
@@ -76,12 +84,20 @@ void POS_Model::removeCategory(const std::string category) {
   }
 }
 
+void POS_Model::removeSupply(const SupplyItem &supply) {
+  auto it = std::find(this->supplies.begin(), this->supplies.end(), supply);
+  if (it != this->supplies.end()) {
+    this->supplies.erase(it);
+    this->backupModule.updateSuppliesBackup(this->supplies);    
+  }
+}
+
 void POS_Model::editProduct(const std::string& oldCategory
     , const Product& oldProduct, const std::string& newCategory
     , const Product& newProduct) {
   if (eraseOnRegister(oldCategory, oldProduct, this->products)) {
     this->insertProduct(newCategory, newProduct, this->products);
-    backupModule.writeRegistersBackUp(this->products, this->supplies);
+    backupModule.updateProductsBackup(this->products);
   }
 }
 
@@ -99,10 +115,19 @@ void POS_Model::editCategory(const std::string oldCategory
   }
 }
 
+void POS_Model::editSupply(const SupplyItem& oldSupply
+    , const SupplyItem& newSupply) {
+  auto it = std::find(this->supplies.begin(), this->supplies.end(), oldSupply);
+  if (it != this->supplies.end()) {
+    *it = newSupply;
+    this->backupModule.updateSuppliesBackup(this->supplies);    
+  }
+}
+
 std::vector<std::pair<std::string, Product>> POS_Model::getProductsForPage(
-    size_t pageIndex) {
-  size_t startIdx = pageIndex * 9;
-  size_t endIdx = std::min(startIdx + 9, this->productsVector.size());
+    const size_t pageIndex, const size_t itemsPerPage) {
+  size_t startIdx = pageIndex * itemsPerPage;
+  size_t endIdx = std::min(startIdx + itemsPerPage, this->productsVector.size());
   
   std::vector<std::pair<std::string, Product>> pageProducts;
   for (size_t i = startIdx; i < endIdx; ++i) {
@@ -111,10 +136,11 @@ std::vector<std::pair<std::string, Product>> POS_Model::getProductsForPage(
   return pageProducts;
 }
 
-std::vector<std::string> POS_Model::getCategoriesForPage(size_t pageIndex) {
+std::vector<std::string> POS_Model::getCategoriesForPage(const size_t pageIndex
+    , const size_t itemsPerPage) {
   std::vector<std::string> registeredCategories;
-  size_t startIdx = pageIndex * 9;
-  size_t endIdx = startIdx + 9;
+  size_t startIdx = pageIndex * itemsPerPage;
+  size_t endIdx = startIdx + itemsPerPage;
   
   endIdx = std::min(endIdx, this->products.size());
   
@@ -131,6 +157,22 @@ std::vector<std::string> POS_Model::getCategoriesForPage(size_t pageIndex) {
   }
   
   return registeredCategories;
+}
+
+std::vector<SupplyItem> POS_Model::getSuppliesForPage(const size_t pageIndex
+    , const size_t itemsPerPage) {
+  size_t startIdx = pageIndex * itemsPerPage;
+  size_t endIdx = startIdx + itemsPerPage;
+  
+  endIdx = std::min(endIdx, this->supplies.size());
+  
+  size_t currentIdx = 0;
+  std::vector<SupplyItem> pageSupplies;
+  for (size_t index = startIdx; index < endIdx; ++index) {
+    pageSupplies.emplace_back(this->supplies[index]);
+  }
+  
+  return pageSupplies;
 }
 
 size_t POS_Model::getSizeOfCategory(std::string category) {
@@ -234,7 +276,8 @@ QString POS_Model::formatProductIngredients(
 
 void POS_Model::shutdown() {
   // Writes out the registers of the dishes and drinks back to the backup files.
-  this->backupModule.writeRegistersBackUp(this->products, this->supplies);
+  this->backupModule.updateProductsBackup(this->products);
+  this->backupModule.updateSuppliesBackup(this->supplies);
   // Clears the vector memory.
   this->products.clear();
   this->started = false;

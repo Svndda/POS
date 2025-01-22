@@ -32,8 +32,7 @@ public:
    * @param myQuantity The quantity of the supply item (default is 0).
    */
   SupplyItem(const std::string& myName = "", uint64_t myQuantity = 0)
-    : name(myName),
-      quantity(myQuantity) {
+    : name(myName), quantity(myQuantity) {
   };
   
   /**
@@ -45,7 +44,19 @@ public:
    * @return True if the supply items are equal, false otherwise.
    */
   bool operator==(const SupplyItem& other) const {
-    return this->name == other.name && this->quantity == other.quantity;
+    return this->name == other.name;
+  }
+  
+  SupplyItem &operator=(const SupplyItem &other) {
+    if (this == &other) {
+      // Evitar autoasignación
+      return *this;
+    }
+    
+    this->name = other.name;
+    this->quantity = other.quantity;
+    
+    return *this; // Devolver la referencia al objeto actual
   }
   
   friend std::ostream& operator<<(std::ostream& os, const SupplyItem& supply);

@@ -1,5 +1,4 @@
 Papas 0
 Papas 3000
 Arroz 4000
-Camarones 300
-Filet 0
+Camarones 40

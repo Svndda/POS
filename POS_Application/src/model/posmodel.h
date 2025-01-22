@@ -70,15 +70,21 @@ public: ///< Class functions.
   
   void addCategory(const std::string newCategory);
   
+  void addSupply(const SupplyItem newSupply);
+  
   void removeProduct(const std::string& category, const Product& product);
   
   void removeCategory(const std::string category);
+  
+  void removeSupply(const SupplyItem& newSupply);
   
   void editProduct(const std::string& oldCategory, const Product& oldProduct
       , const std::string& newCategory, const Product& newProduct);
   
   void editCategory(const std::string oldCategory
       , const std::string newCategory);
+  
+  void editSupply(const SupplyItem& oldSupply, const SupplyItem& newSupply);
     
   QString formatProductIngredients(
       const std::vector<SupplyItem>& ingredients);
@@ -149,22 +155,34 @@ public: ///< Class getters.
     return this->products;
   }
   
+  std::vector<std::string> getRegisteredCategories();
+  
+  std::vector<SupplyItem>& getRegisteredSupplies() {
+    return this->supplies;
+  }
+  
   size_t getNumberOfProducts() {
     return this->productsVector.size();
   }
-  
-  std::vector<std::string> getRegisteredCategories();
   
   size_t getNumberOfCategories() {
     return this->products.size();
   }
   
-  std::vector<std::string> getCategoriesForPage(size_t pageIndex);
+  size_t getNumberOfSupplies() {
+    return this->supplies.size();
+  }
+  
+  std::vector<std::string> getCategoriesForPage(const size_t pageIndex
+      , const size_t itemsPerPage);
   
   size_t getSizeOfCategory(std::string category);
   
   std::vector<std::pair<std::string, Product>> getProductsForPage(
-      size_t pageIndex);
+      const size_t pageIndex , const size_t itemsPerPage);
+  
+  std::vector<SupplyItem> getSuppliesForPage(const size_t pageIndex
+      , const size_t itemsPerPage);
   
 };
 

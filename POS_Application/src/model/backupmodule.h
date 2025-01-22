@@ -42,9 +42,10 @@ public:
   
   std::vector<SupplyItem> getSuppliesBackup();
   
-  void writeRegistersBackUp(
-      const std::map<std::string, std::vector<Product>>& products
-      , const std::vector<SupplyItem>& supplies);
+  void updateProductsBackup(
+      const std::map<std::string, std::vector<Product>>& products);
+  
+  void updateSuppliesBackup(const std::vector<SupplyItem>& supplies);
 private:
   BackupModule();
   

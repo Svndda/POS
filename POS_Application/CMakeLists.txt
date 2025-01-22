@@ -32,6 +32,7 @@ qt_add_executable(POS_Application
   src/ui/inventory/supplies.ui
   src/model/supplyitem.cpp
   src/ui/inventory/inventory.h
+  src/ui/inventory/supplyformdialog.h src/ui/inventory/supplyformdialog.cpp src/ui/inventory/supplyformdialog.ui
   
 )
 

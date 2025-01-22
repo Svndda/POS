@@ -307,7 +307,7 @@ QPushButton:checked {
 </string>
          </property>
          <property name="text">
-          <string>Materia Prima</string>
+          <string>Suministros</string>
          </property>
         </widget>
        </item>
@@ -580,7 +580,7 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-  background-color: rgb(39, 39, 43);     /* Fondo al presionar */
+  background-color: white;     /* Fondo al presionar */
   color: black;                /* Color del texto al presionar */
 }
 
@@ -622,7 +622,7 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-  background-color: rgb(39, 39, 43);     /* Fondo al presionar */
+  background-color: white;     /* Fondo al presionar */
   color: black;                /* Color del texto al presionar */
 }
 
@@ -3522,7 +3522,7 @@ color:rgb(255, 255, 255);</string>
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-              /* Color del texto normal */
+               /* Color del texto normal */
 	color: rgb(0, 0, 0);
   text-align: center;
  border: none
@@ -3530,7 +3530,7 @@ color:rgb(255, 255, 255);</string>
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
@@ -3547,6 +3547,7 @@ QPushButton:checked {
   background-color: #27ae60;     /* Fondo cuando está checkable y activado */
   color: #ecf0f1;        
 }
+
 </string>
          </property>
          <property name="text">
@@ -3738,7 +3739,7 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-              /* Color del texto normal */
+               /* Color del texto normal */
 	color: rgb(0, 0, 0);
   text-align: center;
  border: none
@@ -3746,7 +3747,7 @@ QPushButton:checked {
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
@@ -3763,6 +3764,7 @@ QPushButton:checked {
   background-color: #27ae60;     /* Fondo cuando está checkable y activado */
   color: #ecf0f1;        
 }
+
 </string>
          </property>
          <property name="text">
@@ -3842,7 +3844,7 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-              /* Color del texto normal */
+               /* Color del texto normal */
 	color: rgb(0, 0, 0);
   text-align: center;
  border: none
@@ -3850,7 +3852,7 @@ QPushButton:checked {
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
@@ -3867,6 +3869,7 @@ QPushButton:checked {
   background-color: #27ae60;     /* Fondo cuando está checkable y activado */
   color: #ecf0f1;        
 }
+
 </string>
          </property>
          <property name="text">
@@ -3946,7 +3949,7 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-              /* Color del texto normal */
+               /* Color del texto normal */
 	color: rgb(0, 0, 0);
   text-align: center;
  border: none
@@ -3954,7 +3957,7 @@ QPushButton:checked {
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
@@ -3971,6 +3974,7 @@ QPushButton:checked {
   background-color: #27ae60;     /* Fondo cuando está checkable y activado */
   color: #ecf0f1;        
 }
+
 </string>
          </property>
          <property name="text">

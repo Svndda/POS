@@ -125,10 +125,13 @@ void BackupModule::readSupplyItemsBackup(std::vector<SupplyItem>& supplies) {
   }
 }
 
-void BackupModule::writeRegistersBackUp(
-    const std::map<std::string, std::vector<Product>>& products
-    , const std::vector<SupplyItem>& supplies) {
+void BackupModule::updateProductsBackup(
+    const std::map<std::string, std::vector<Product>>& products) {
   this->writeProductsBackup(this->PRODUCTS_BACKUP_FILE, products);
+}
+
+void BackupModule::updateSuppliesBackup(
+    const std::vector<SupplyItem>& supplies) {
   this->writeSuppliesBackup(supplies);
 }
 

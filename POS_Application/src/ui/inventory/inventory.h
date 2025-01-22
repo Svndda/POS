@@ -36,10 +36,10 @@ signals:
   void supplies_button_signal();
   
 protected slots:
-  virtual void on_nextProductPage_button_clicked() {};
-  virtual void on_previousProductPage_button_clicked() {};
-  virtual void on_deleteProduct_button_clicked() {};
-  virtual void on_editProduct_button_clicked() {};
+  virtual void on_nextPage_button_clicked() {};
+  virtual void on_previousPage_button_clicked() {};
+  virtual void on_delete_button_clicked() {};
+  virtual void on_edit_button_clicked() {};
   virtual void on_categories_button_clicked() {};
   virtual void on_supplies_button_clicked() {};
   virtual void on_products_button_clicked() {};

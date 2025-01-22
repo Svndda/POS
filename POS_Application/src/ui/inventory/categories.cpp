@@ -10,7 +10,6 @@ Categories::Categories(QWidget *parent, POS_Model& model)
   ui->setupUi(this);
   
   this->setupConnections();
-  
   // Updates the view for first time with the correponding categories.
   this->refreshDisplay(this->itemsPerPage);
 }
@@ -31,16 +30,16 @@ void Categories::setupConnections() {
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connects the buttons with their functions.
     connect(deleteButton , &QPushButton::clicked
-            , this, &Categories::on_deleteProduct_button_clicked);
+            , this, &Categories::on_delete_button_clicked);
     connect(editButton , &QPushButton::clicked
-            , this, &Categories::on_editProduct_button_clicked);
+            , this, &Categories::on_edit_button_clicked);
   }
   // Connects the funtions that handles the next and previous page of registered
   // categories.
   connect(this->ui->nextProductPage_button, &QPushButton::clicked
-          , this, &Categories::on_nextProductPage_button_clicked);
+          , this, &Categories::on_nextPage_button_clicked);
   connect(this->ui->previousProductPage_button, &QPushButton::clicked
-          , this, &Categories::on_previousProductPage_button_clicked);
+          , this, &Categories::on_previousPage_button_clicked);
   // Connects the function that handles the button to change to the products
   // page.
   connect(this->ui->products_button, &QPushButton::clicked
@@ -49,12 +48,13 @@ void Categories::setupConnections() {
           , this, &Categories::on_supplies_button_clicked);
   // Connects the function that handles the add category button.
   connect(this->ui->addCategory_button, &QPushButton::clicked
-          , this, &Categories::on_addCategory_button_clicked);
+          , this, &Categories::addCategory_button_clicked);
 }
 
 void Categories::refreshDisplay(const size_t pageItems) {
   this->refreshCategoriesDisplay(
-      this->model.getCategoriesForPage(this->currentPageIndex), pageItems);
+      this->model.getCategoriesForPage(this->currentPageIndex, pageItems)
+      , pageItems);
 }
 
 void Categories::refreshCategoriesDisplay(
@@ -91,7 +91,8 @@ void Categories::refreshCategoriesDisplay(
   // Generates the page label text tha indicates the indexes of the products
   // displayed in the actual page.
   QString pageLabelText = QString("Mostrando categorias %1 hasta %2 de %3"
-      " categorías").arg(offset + 1).arg(offset + 9).arg(
+      " categorías").arg(offset + 1).arg(std::min(offset + 9,
+      this->model.getNumberOfCategories())).arg(
       this->model.getNumberOfCategories());
   this->ui->pageProductsNumber_label->setText(pageLabelText);
 }
@@ -112,7 +113,7 @@ void Categories::on_categories_button_clicked() {
   
 }
 
-void Categories::on_addCategory_button_clicked() {
+void Categories::addCategory_button_clicked() {
   CategoryFormDialog dialog(this, this->model.getRegisteredCategories()
       , std::string());
   
@@ -120,36 +121,36 @@ void Categories::on_addCategory_button_clicked() {
     qDebug() << "Se acepto el dialogo y se agrego una nueva categoría";
     this->model.addCategory(dialog.getNewCategory());
     this->refreshCategoriesDisplay(
-        this->model.getCategoriesForPage(this->currentPageIndex)
+        this->model.getCategoriesForPage(this->currentPageIndex, this->itemsPerPage)
         , this->itemsPerPage);
   } else {
     qDebug() << "Se cancelo la creacion de una categoria";
   }
 }
 
-void Categories::on_deleteProduct_button_clicked() {
+void Categories::on_delete_button_clicked() {
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   if (button) {
     size_t buttonIndex = button->property("index").toUInt();
     qDebug() << "Button clicked, index:" << buttonIndex;
     // Gets the categories vector for the actual page.
     auto categoriesForPage = this->model.getCategoriesForPage(
-        this->currentPageIndex);
+        this->currentPageIndex, this->itemsPerPage);
     // Checks that that the button index is lower than the categories for this
     // page to avoid an empty row.
     if (buttonIndex < categoriesForPage.size()) {
       // Gets the row category.
-      std::string category = this->model.getCategoriesForPage(
-          this->currentPageIndex)[buttonIndex];
+      std::string category = categoriesForPage[buttonIndex];
       this->model.removeCategory(category);
       this->refreshCategoriesDisplay(
-          this->model.getCategoriesForPage(this->currentPageIndex)
+          this->model.getCategoriesForPage(this->currentPageIndex
+          , this->itemsPerPage)
           , this->currentPageIndex);
     }
   }
 }
 
-void Categories::on_editProduct_button_clicked() {
+void Categories::on_edit_button_clicked() {
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   // Checks if the pointer is valid.
   if (button) {
@@ -157,13 +158,13 @@ void Categories::on_editProduct_button_clicked() {
     size_t buttonIndex = button->property("index").toUInt();
     // Gets the categories vector for the actual page.
     auto categoriesForPage = this->model.getCategoriesForPage(
-        this->currentPageIndex);
+        this->currentPageIndex, this->itemsPerPage);
     // Checks that that the button index is lower than the categories for this
     // page to avoid an empty row.
     if (buttonIndex < categoriesForPage.size()) {
       // Gets the row category.
       std::string oldCategory = this->model.getCategoriesForPage(
-          this->currentPageIndex)[buttonIndex];
+          this->currentPageIndex, this->itemsPerPage)[buttonIndex];
       qDebug() << "Button clicked, index:" << buttonIndex << " " << oldCategory;
       // Creates a dialog to manage the existing category editing.
       CategoryFormDialog dialog(this, this->model.getRegisteredCategories()
@@ -175,7 +176,8 @@ void Categories::on_editProduct_button_clicked() {
         this->model.editCategory(oldCategory, newCategory);
         // Updates the display with the new category.
         this->refreshCategoriesDisplay(
-            this->model.getCategoriesForPage(this->currentPageIndex)
+            this->model.getCategoriesForPage(this->currentPageIndex
+            , this->itemsPerPage)
             , this->itemsPerPage);
       } else {
         qDebug() << "Se cancelo la edicion de una categoria";
@@ -184,7 +186,7 @@ void Categories::on_editProduct_button_clicked() {
   }
 }
 
-void Categories::on_nextProductPage_button_clicked() {
+void Categories::on_nextPage_button_clicked() {
   size_t productPageIt = (this->currentPageIndex + 1) * 9;
   size_t productPageIt2 = productPageIt + 9;
   if (this->model.getNumberOfCategories() >= productPageIt
@@ -193,13 +195,14 @@ void Categories::on_nextProductPage_button_clicked() {
     // Updates the information in the display to show the next categories
     // page.
     this->refreshCategoriesDisplay(
-        this->model.getCategoriesForPage(this->currentPageIndex)
+        this->model.getCategoriesForPage(this->currentPageIndex
+        , this->itemsPerPage)
         , this->itemsPerPage);
   }
   qDebug() << "Boton de avance: " << this->currentPageIndex;
 }
 
-void Categories::on_previousProductPage_button_clicked() {
+void Categories::on_previousPage_button_clicked() {
   // Checks that the actual page is not the first one.
   if (this->currentPageIndex > 0) {
     // Decrements the page index.
@@ -207,7 +210,8 @@ void Categories::on_previousProductPage_button_clicked() {
     // Updates the information in the display to show the previous
     // categories page.
     this->refreshCategoriesDisplay(
-        this->model.getCategoriesForPage(this->currentPageIndex)
+        this->model.getCategoriesForPage(this->currentPageIndex
+        , this->itemsPerPage)
         , this->itemsPerPage);
   }
   std::cout << "Boton de retroceso: " << this->currentPageIndex << std::endl;

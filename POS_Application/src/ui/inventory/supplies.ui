@@ -127,7 +127,7 @@
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
@@ -336,7 +336,7 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-              /* Color del texto normal */
+               /* Color del texto normal */
 	color: rgb(0, 0, 0);
   text-align: center;
  border: none
@@ -344,7 +344,7 @@ QPushButton:checked {
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
@@ -361,6 +361,7 @@ QPushButton:checked {
   background-color: #27ae60;     /* Fondo cuando está checkable y activado */
   color: #ecf0f1;        
 }
+
 </string>
          </property>
          <property name="text">
@@ -440,14 +441,15 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-  color: rgb(0, 0, 0);                /* Color del texto normal */
+               /* Color del texto normal */
+	color: rgb(0, 0, 0);
   text-align: center;
  border: none
 }
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
@@ -464,6 +466,7 @@ QPushButton:checked {
   background-color: #27ae60;     /* Fondo cuando está checkable y activado */
   color: #ecf0f1;        
 }
+
 </string>
          </property>
          <property name="text">
@@ -543,14 +546,15 @@ QPushButton:checked {
          <property name="styleSheet">
           <string notr="true">QPushButton {
   background-color: transparent;      /* Color de fondo normal */
-  color: rgb(0, 0, 0);                /* Color del texto normal */
+               /* Color del texto normal */
+	color: rgb(0, 0, 0);
   text-align: center;
  border: none
 }
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(0, 153, 73);              /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
@@ -567,6 +571,7 @@ QPushButton:checked {
   background-color: #27ae60;     /* Fondo cuando está checkable y activado */
   color: #ecf0f1;        
 }
+
 </string>
          </property>
          <property name="text">
@@ -781,23 +786,21 @@ QPushButton:checked {
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-  background: transparent;
-  border: none;
- color: rgb(0, 0, 0);
+  background-color: transparent;      /* Color de fondo normal */
+               /* Color del texto normal */
+	color: rgb(0, 0, 0);
   text-align: center;
-  padding-left: 20px;
-  padding-right: 20px;
+ border: none
 }
 
 QPushButton:hover {
   background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(255, 255, 255);             /* Color del texto al pasar el mouse */
+  color: white;              /* Color del texto al pasar el mouse */
 }
 
 QPushButton:pressed {
   background-color: transparent;     /* Fondo al presionar */
-                /* Color del texto al presionar */
-	color: rgb(52, 52, 52);
+  color: rgb(0, 153, 73);               /* Color del texto al presionar */
 }
 
 QPushButton:disabled {
@@ -809,6 +812,7 @@ QPushButton:checked {
   background-color: #27ae60;     /* Fondo cuando está checkable y activado */
   color: #ecf0f1;        
 }
+
 </string>
          </property>
          <property name="text">
@@ -896,7 +900,7 @@ QPushButton:checked {
 </string>
          </property>
          <property name="text">
-          <string>Materia Prima</string>
+          <string>Suministros</string>
          </property>
         </widget>
        </item>
@@ -1021,7 +1025,7 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-  background-color: rgb(39, 39, 43);     /* Fondo al presionar */
+  background-color: white;     /* Fondo al presionar */
   color: black;                /* Color del texto al presionar */
 }
 
@@ -1063,7 +1067,7 @@ QPushButton:hover {
 }
 
 QPushButton:pressed {
-  background-color: rgb(39, 39, 43);     /* Fondo al presionar */
+  background-color: white;     /* Fondo al presionar */
   color: black;                /* Color del texto al presionar */
 }
 
@@ -1119,7 +1123,7 @@ QPushButton:checked {
              <string notr="true">color: rgb(18, 18, 23);</string>
             </property>
             <property name="text">
-             <string>Materia Prima</string>
+             <string>Suministros</string>
             </property>
            </widget>
           </item>
@@ -1232,7 +1236,7 @@ QPushButton:checked {
              <bool>false</bool>
             </property>
             <property name="placeholderText">
-             <string>Buscar material</string>
+             <string>Buscar suministro</string>
             </property>
            </widget>
           </item>
@@ -1258,7 +1262,7 @@ QPushButton:checked {
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="categoryNameTitle_label">
+             <widget class="QLabel" name="supplyNameTitle_label">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1292,7 +1296,7 @@ background-color: rgb(226, 223, 219);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_0">
+             <widget class="QLabel" name="supplyName_label_0">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1330,7 +1334,7 @@ background-color: rgb(237, 233, 230);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_1">
+             <widget class="QLabel" name="supplyName_label_1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1365,7 +1369,7 @@ background-color: rgb(226, 223, 219);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_2">
+             <widget class="QLabel" name="supplyName_label_2">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1394,7 +1398,7 @@ background-color: rgb(237, 233, 230);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_3">
+             <widget class="QLabel" name="supplyName_label_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1423,7 +1427,7 @@ background-color: rgb(226, 223, 219);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_4">
+             <widget class="QLabel" name="supplyName_label_4">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1452,7 +1456,7 @@ background-color: rgb(237, 233, 230);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_5">
+             <widget class="QLabel" name="supplyName_label_5">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1481,7 +1485,7 @@ background-color: rgb(226, 223, 219);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_6">
+             <widget class="QLabel" name="supplyName_label_6">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1510,7 +1514,7 @@ background-color: rgb(237, 233, 230);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_7">
+             <widget class="QLabel" name="supplyName_label_7">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1539,7 +1543,7 @@ background-color: rgb(226, 223, 219);</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categoryName_label_8">
+             <widget class="QLabel" name="supplyName_label_8">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1575,7 +1579,7 @@ background-color: rgb(237, 233, 230);</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="categorySizeTitle_label">
+             <widget class="QLabel" name="supplyQuantityTitle_label">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1610,7 +1614,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_0">
+             <widget class="QLabel" name="supplyQuantity_label_0">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1639,7 +1643,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_1">
+             <widget class="QLabel" name="supplyQuantity_label_1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1668,7 +1672,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_2">
+             <widget class="QLabel" name="supplyQuantity_label_2">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1697,7 +1701,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_3">
+             <widget class="QLabel" name="supplyQuantity_label_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1726,7 +1730,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_4">
+             <widget class="QLabel" name="supplyQuantity_label_4">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1755,7 +1759,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_5">
+             <widget class="QLabel" name="supplyQuantity_label_5">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1784,7 +1788,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_6">
+             <widget class="QLabel" name="supplyQuantity_label_6">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1819,7 +1823,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_7">
+             <widget class="QLabel" name="supplyQuantity_label_7">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1848,7 +1852,7 @@ padding: 5px;</string>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="categorySize_label_8">
+             <widget class="QLabel" name="supplyQuantity_label_8">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>

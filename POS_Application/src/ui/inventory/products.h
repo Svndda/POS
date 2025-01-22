@@ -42,13 +42,13 @@ private:
   void editProductInformation(size_t index);
   
 private slots:
-  void on_addProduct_button_clicked();
+  void addProduct_button_clicked();
   
 protected slots:
-  virtual void on_nextProductPage_button_clicked() override;
-  virtual void on_previousProductPage_button_clicked() override;
-  virtual void on_deleteProduct_button_clicked() override;
-  virtual void on_editProduct_button_clicked() override;
+  virtual void on_nextPage_button_clicked() override;
+  virtual void on_previousPage_button_clicked() override;
+  virtual void on_delete_button_clicked() override;
+  virtual void on_edit_button_clicked() override;
   virtual void on_categories_button_clicked() override;
   virtual void on_supplies_button_clicked() override;
   virtual void on_products_button_clicked() override;
