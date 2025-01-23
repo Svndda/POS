@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include <vector>
 #include <limits>
 
@@ -5,10 +6,6 @@
 
 #include "posmodel.h"
 #include "backupmodule.h"
-
-const size_t POS_Model::INSERT = 100;
-const size_t POS_Model::UPDATE = 200;
-const size_t POS_Model::DELETE = 0;
 
 POS_Model::POS_Model(BackupModule& module)
     : backupModule(module) {
@@ -44,64 +41,89 @@ Product& POS_Model::findProduct(const std::string& productName) {
   throw std::runtime_error("Product not found: " + productName);  
 }
 
-void POS_Model::addProduct(const std::string& category
+bool POS_Model::addProduct(const std::string& category
     , const Product& product) {
   if (this->insertProduct(category, product, this->products)) {
     qDebug() << "Producto anadido correctamente";
     backupModule.updateProductsBackup(this->products);
+    return true;
   }
+  return false;
 }
 
-void POS_Model::addCategory(const std::string newCategory) {
+bool POS_Model::addCategory(const std::string newCategory) {
   auto result = this->products.try_emplace(newCategory, std::vector<Product>());
   if (result.second) {
     backupModule.updateProductsBackup(this->products);
+    return true;
   }
+  return false;
 }
 
-void POS_Model::addSupply(const SupplyItem newSupply) {
-  auto it = std::find(this->supplies.begin(), this->supplies.end(), newSupply);
-  if (it == this->supplies.end()) {
-    this->supplies.emplace_back(newSupply);
-    this->backupModule.updateSuppliesBackup(this->supplies);
+bool POS_Model::addSupply(const SupplyItem newSupply) {
+  if (!newSupply.empty()) {
+    auto it = std::find(this->supplies.begin(), this->supplies.end()
+        , newSupply);
+    if (it == this->supplies.end()) {
+      this->supplies.emplace_back(newSupply);
+      this->backupModule.updateSuppliesBackup(this->supplies);
+      qDebug() << "Se añadió el suministro, correctamente.";
+      return true;
+    }
+    qDebug() << "No se añadió el suministro, ya existe uno con este nombre.";
   }
+  qDebug() << "No se añadió el suministro, el recipiente estaba vacio.";
+  return false;
 }
 
-void POS_Model::removeProduct(const std::string& category
+bool POS_Model::removeProduct(const std::string& category
     , const Product& product) {
   if (eraseOnRegister(category, product, this->products)) {
     qDebug() << "producto elimnado correctamente";
     backupModule.updateProductsBackup(this->products);
+    return true;
   }
+  return false;
 }
 
-void POS_Model::removeCategory(const std::string category) {
+bool POS_Model::removeCategory(const std::string category) {
   size_t removed = this->products.erase(category);
   if (removed) {
     this->productsVector.clear();
     this->extractProducts(this->productsVector, this->products);
     qDebug() << "Categoria eliminada";
+    return true;
   }
+  return false;
 }
 
-void POS_Model::removeSupply(const SupplyItem &supply) {
+bool POS_Model::removeSupply(const SupplyItem &supply) {
   auto it = std::find(this->supplies.begin(), this->supplies.end(), supply);
-  if (it != this->supplies.end()) {
-    this->supplies.erase(it);
-    this->backupModule.updateSuppliesBackup(this->supplies);    
+  if (!supply.getName().empty()) {
+    if (it != this->supplies.end()) {
+      this->supplies.erase(it);
+      this->backupModule.updateSuppliesBackup(this->supplies);
+      qDebug() << "Se eliminó el suministro, correctamente.";
+      return true;
+    }
+    qDebug() << "No se eliminó el suministro, no existe uno con este nombre.";
   }
+  qDebug() << "No se eliminó el suministro, el recipiente estaba vacio.";
+  return false;
 }
 
-void POS_Model::editProduct(const std::string& oldCategory
+bool POS_Model::editProduct(const std::string& oldCategory
     , const Product& oldProduct, const std::string& newCategory
     , const Product& newProduct) {
   if (eraseOnRegister(oldCategory, oldProduct, this->products)) {
     this->insertProduct(newCategory, newProduct, this->products);
     backupModule.updateProductsBackup(this->products);
+    return true;
   }
+  return false;
 }
 
-void POS_Model::editCategory(const std::string oldCategory
+bool POS_Model::editCategory(const std::string oldCategory
     , const std::string newCategory) {
   auto categoryIt = this->products.find(oldCategory);
   if (categoryIt != this->products.end()) {
@@ -111,17 +133,30 @@ void POS_Model::editCategory(const std::string oldCategory
     this->products.emplace(newCategory, categoryProducts);
     qDebug() << "Mapa actualizado: " << this->products.size();
     this->productsVector.clear();
-    this->extractProducts(this->productsVector, this->products); 
+    this->extractProducts(this->productsVector, this->products);
+    return true;
   }
+  return false;
 }
 
-void POS_Model::editSupply(const SupplyItem& oldSupply
+bool POS_Model::editSupply(const SupplyItem& oldSupply
     , const SupplyItem& newSupply) {
-  auto it = std::find(this->supplies.begin(), this->supplies.end(), oldSupply);
-  if (it != this->supplies.end()) {
-    *it = newSupply;
-    this->backupModule.updateSuppliesBackup(this->supplies);    
+  if (!newSupply.getName().empty()) {
+    auto it = std::find(this->supplies.begin(), this->supplies.end()
+        , oldSupply);
+    if (it != this->supplies.end()) {
+      if (oldSupply.getQuantity() != newSupply.getQuantity()
+          || oldSupply.getMeasure() != newSupply.getMeasure()) {
+        *it = newSupply;
+        this->backupModule.updateSuppliesBackup(this->supplies);
+        qDebug() << "Suministro editado correctamente.";
+        return true;
+      }
+      qDebug() << "No se cambiaron los datos del suministro."; 
+    }
+    qDebug() << "No se encontró un suministro con este nombre.";
   }
+  return false;
 }
 
 std::vector<std::pair<std::string, Product>> POS_Model::getProductsForPage(

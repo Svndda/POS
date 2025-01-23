@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include "categories.h"
 #include "ui_categories.h"
 #include "categoryformdialog.h"

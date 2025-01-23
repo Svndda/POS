@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #ifndef UTIL_H
 #define UTIL_H
 

@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #ifndef SUPPLYITEM_H
 #define SUPPLYITEM_H
 
@@ -19,6 +20,7 @@ class SupplyItem {
 private:
   std::string name = ""; ///< Name of the supply item.
   uint64_t quantity = 0; ///< Quantity of the supply item in inventory.
+  std::string measureUnit = "";
 
 // Class Constructor.
 public:
@@ -31,8 +33,10 @@ public:
    * @param myName The name of the supply item (default is an empty string).
    * @param myQuantity The quantity of the supply item (default is 0).
    */
-  SupplyItem(const std::string& myName = "", uint64_t myQuantity = 0)
-    : name(myName), quantity(myQuantity) {
+  SupplyItem(const std::string& myName = ""
+    , uint64_t myQuantity = 0
+    , const std::string& myMeasure = "")
+      : name(myName), quantity(myQuantity), measureUnit(myMeasure) {
   };
   
   /**
@@ -44,19 +48,24 @@ public:
    * @return True if the supply items are equal, false otherwise.
    */
   bool operator==(const SupplyItem& other) const {
-    return this->name == other.name;
+    return this->name == other.name
+        && this->quantity == other.quantity
+        && this->measureUnit == other.measureUnit;
   }
   
-  SupplyItem &operator=(const SupplyItem &other) {
+  SupplyItem& operator=(const SupplyItem &other) {
     if (this == &other) {
-      // Evitar autoasignación
+      // Avoids autoassignation.
       return *this;
     }
     
+    // Copy the other object attributes.
     this->name = other.name;
     this->quantity = other.quantity;
+    this->measureUnit = other.measureUnit;
     
-    return *this; // Devolver la referencia al objeto actual
+    // returns the actual object.
+    return *this;
   }
   
   friend std::ostream& operator<<(std::ostream& os, const SupplyItem& supply);
@@ -76,6 +85,17 @@ public:
    * @return The quantity of the supply item.
    */
   inline const uint64_t getQuantity() const {return this->quantity;}
+  
+  /**
+   * @brief Gets the measure of the supply item.
+   * 
+   * @return The measure of the supply item.
+   */
+  inline const std::string& getMeasure() const {return this->measureUnit;}
+  
+  inline const bool empty() const {
+    return this->name.empty() && this->quantity == 0;
+  }
 
 // Class Setters.
 public:

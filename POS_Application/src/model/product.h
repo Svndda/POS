@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
@@ -129,17 +130,17 @@ public:
    */
   Product &operator=(const Product &other) {
     if (this == &other) {
-      // Evitar autoasignación
+      // Avoid self-assignment
       return *this;
     }
     
-    // Copiar los valores de los atributos
+    // Copy the values of the attributes
     this->id = other.id;
     this->name = other.name;
     this->ingredients = other.ingredients;
     this->price = other.price;
     
-    return *this; // Devolver la referencia al objeto actual
+    return *this; // Return the reference to the current object
   }
   
   /**

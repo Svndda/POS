@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include <QString>
 #include <map>
 #include <fstream>
@@ -8,7 +9,6 @@
 #include <cstdint>
 #include "backupmodule.h"
 #include "supplyitem.h"
-
 
 BackupModule::BackupModule() {
 }
@@ -114,12 +114,13 @@ void BackupModule::readSupplyItemsBackup(std::vector<SupplyItem>& supplies) {
   std::string line;
   std::string name;;
   uint64_t quantity;
+  std::string measure;
   
   size_t index = 0;
   while(std::getline(file, line)) {
     std::istringstream stream(line);
-    stream >> name >> quantity;
-    supplies.emplace_back(name, quantity);
+    stream >> name >> quantity >> measure;
+    supplies.emplace_back(name, quantity, measure);
     std::cout << supplies[index] << std::endl;
     ++index;
   }

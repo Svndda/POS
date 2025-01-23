@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #ifndef PRODUCTFORMDIALOG_H
 #define PRODUCTFORMDIALOG_H
 
@@ -12,97 +13,108 @@ class ProductFormDialog;
 
 /**
  * @class ProductFormDialog
- * @brief A dialog for displaying and editing product details.
+ * @brief Dialog class for managing product details.
  * 
- * This dialog allows the user to enter or edit the details of a product, such as 
- * its name, ingredients, price, and category. The dialog also validates the input
- * before creating or updating the product.
+ * The `ProductFormDialog` class provides a user interface for entering and editing
+ * product details such as name, ingredients, price, and category. It validates
+ * input and updates product information based on user actions.
  */
 class ProductFormDialog : public QDialog {
   Q_OBJECT
   
 private:
-  // Pointer to the ui object.
+  /**
+   * @brief Pointer to the UI components of the dialog.
+   */
   Ui::ProductFormDialog *ui;
-  // Map that contains all the registered drinks based on their category.
+  
+  /**
+   * @brief Reference to the map of registered products grouped by category.
+   */
   std::map<std::string, std::vector<Product>>& registeredProducts;
-  // Object that contains all the product information.
-  Product createdProduct = Product();
-  // String that contains the product's category.
-  QString productCategory = QString();
+  
+  /**
+   * @brief Product object containing the information entered or edited by the user.
+   */
+  Product createdProduct;
+  
+  /**
+   * @brief The category of the product being created or edited.
+   */
+  QString productCategory;
 
 public:
   /**
    * @brief Constructor for the ProductFormDialog class.
    * 
-   * Initializes the dialog, populates the product category combo box with available categories 
-   * from drinks and dishes, and sets up connections for the accept and cancel buttons.
+   * Initializes the dialog, populates the category combo box, and sets up connections
+   * for handling user actions.
    * 
-   * @param parent Parent widget for the dialog.
-   * @param drinks A map of drinks categories and corresponding products.
-   * @param dishes A map of dishes categories and corresponding products.
-   * @param product A Product object containing information to pre-fill the dialog fields.
-   * @param category The product category to be selected initially in the combo box.
+   * @param parent The parent widget of the dialog.
+   * @param products A reference to the map of registered products grouped by category.
+   * @param productToCreate The product object used to prepopulate the dialog fields.
+   * @param productCategory The initial category for the product.
    */
-  explicit ProductFormDialog(QWidget *parent
-      , std::map<std::string, std::vector<Product>>& products
-      , Product productToCreate
-      , QString productCategory);
+  explicit ProductFormDialog(QWidget *parent,
+                             std::map<std::string, std::vector<Product>>& products,
+                             Product productToCreate,
+                             QString productCategory);
   
   /**
    * @brief Destructor for the ProductFormDialog class.
    * 
-   * Cleans up the UI resources when the dialog is destroyed.
+   * Cleans up the resources allocated for the UI components.
    */
   ~ProductFormDialog();
   
   /**
-   * @brief Formats a list of product ingredients into a string.
+   * @brief Formats a vector of ingredients into a readable string.
    * 
-   * Iterates through a vector of SupplyItem objects and generates a formatted string 
-   * suitable for display in the product form.
+   * Converts a list of `SupplyItem` objects into a comma-separated string,
+   * where each ingredient includes its name and quantity.
    * 
-   * @param ingredients A vector of SupplyItem objects to be formatted.
-   * @return A QString containing the formatted product ingredients.
+   * @param ingredients A vector of `SupplyItem` objects.
+   * @return A formatted `QString` representation of the ingredients.
    */
   QString formatProductIngredients(const std::vector<SupplyItem>& ingredients);
   
   /**
    * @brief Retrieves the created or edited product.
    * 
-   * @return A Product object containing the information entered or edited by the user.
+   * @return A `Product` object with the details entered by the user.
    */
   Product getProduct();
   
   /**
-   * @brief Retrieves the created or edited product.
+   * @brief Retrieves the category of the product selected by the user.
    * 
-   * @return A Product object containing the information entered or edited by the user.
+   * @return A `QString` containing the product category.
    */
   QString getProductCategory();
   
   /**
-   * @brief Sets the product information in the dialog fields.
+   * @brief Populates the dialog fields with product information.
    * 
-   * Populates the product category, name, ingredients, and price into the respective UI elements.
+   * Fills in the UI elements with the product's name, ingredients, price, and
+   * category based on the provided product object and category.
    * 
-   * @param productToEdit The product whose information will be displayed.
-   * @param productCategory The product category to be set in the combo box.
+   * @param productToEdit The product object to use for populating fields.
+   * @param productCategory The category to be selected in the combo box.
    */
   void setProductInfo(Product& productToEdit, QString productCategory);
 private slots:
   /**
-   * @brief Slot connected to the accept button. Validates user input and saves the product information.
+   * @brief Slot for handling the "Accept" button click event.
    * 
-   * Validates the product name and ingredients entered by the user, ensuring that ingredients match the expected format.
-   * If valid, it creates a new product and accepts the dialog. Otherwise, it displays a warning message box.
+   * Validates the product details entered by the user and, if valid, creates
+   * or updates the product. Displays a warning if the input is incorrect.
    */
   void on_acceptProduct_button_clicked();
   
   /**
-   * @brief Slot connected to the cancel button. Closes the dialog without saving.
+   * @brief Slot for handling the "Cancel" button click event.
    * 
-   * Rejects the dialog, signaling that the user canceled the operation.
+   * Closes the dialog without saving changes, rejecting the user's input.
    */
   void on_cancelProduct_button_clicked();
 };

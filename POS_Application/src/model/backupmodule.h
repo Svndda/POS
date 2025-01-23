@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #ifndef BACKUPMODULE_H
 #define BACKUPMODULE_H
 
@@ -5,14 +6,14 @@
 #include <string>
 #include "product.h"
 
-  /**
-   * @class BackupModule
-   * @brief Handles reading and writing of product backup data from files.
-   * 
-   * The `BackupModule` class provides functionality for loading and saving product data 
-   * such as drinks and dishes to and from backup files. It supports reading product categories, 
-   * their ingredients, and prices from files, as well as writing the modified data back to files.
-   */
+/**
+ * @class BackupModule
+ * @brief Handles the backup and restoration of product and supply data from files.
+ *
+ * The `BackupModule` class facilitates reading and writing product and supply data 
+ * from backup files, ensuring data persistence for products (such as drinks and dishes) 
+ * and supplies (such as ingredients).
+ */
 class BackupModule {
 private:
   const std::string PRODUCTS_BACKUP_FILE = "C:\\Users\\aaron\\Dev\\Repositories" \
@@ -21,62 +22,96 @@ private:
       "\\POS\\POS_Application\\backup\\inventory\\primeMaterial.txt";
 public:
   /**
-   * @brief Gets the singleton instance of the BackupModule class.
+   * @brief Returns the singleton instance of the BackupModule.
    * 
-   * This function ensures that there is only one instance of `BackupModule` used 
-   * in the application.
+   * Ensures only one instance of the BackupModule class is used across the application.
    * 
-   * @return A reference to the static singleton instance of the `BackupModule` class.
+   * @return A reference to the static singleton instance of the BackupModule.
    */
   static BackupModule& getInstance();
-
+  
   /**
-   * @brief Reads the backup data for drinks.
+   * @brief Reads and returns the backup data for products.
    * 
-   * This function reads the drink-related backup file specified in the backup filenames 
-   * and returns a map of registered products categorized by type.
+   * Reads product data from the backup file and returns a map categorized by product type.
    * 
-   * @return A map where the key is a product category and the value is a vector of Product objects.
+   * @return A map where the key is a product category, and the value is a vector of Product objects.
    */
   std::map<std::string, std::vector<Product>> getProductsBackup();
   
+  /**
+   * @brief Reads and returns the backup data for supplies.
+   * 
+   * Reads supply data from the backup file and returns a vector of SupplyItem objects.
+   * 
+   * @return A vector of SupplyItem objects representing the supplies backup.
+   */
   std::vector<SupplyItem> getSuppliesBackup();
   
+  /**
+   * @brief Updates the backup data for products.
+   * 
+   * Writes the updated product data back to the backup file.
+   * 
+   * @param products A map of product categories and their associated Product objects.
+   */
   void updateProductsBackup(
       const std::map<std::string, std::vector<Product>>& products);
   
+  /**
+   * @brief Updates the backup data for supplies.
+   * 
+   * Writes the updated supply data back to the backup file.
+   * 
+   * @param supplies A vector of SupplyItem objects representing the updated supplies.
+   */
   void updateSuppliesBackup(const std::vector<SupplyItem>& supplies);
 private:
-  BackupModule();
+  BackupModule(); ///< Private constructor to enforce the singleton pattern.
   
   /**
-   * @brief Reads the backup data for products from a specified file.
+   * @brief Reads product data from a backup file and stores it in a map.
    * 
-   * This function reads the backup data from the provided file. It parses the file to extract product 
-   * categories, product names, ingredients, and prices, and stores the information in a map.
+   * Parses the product backup file, extracting product categories, names, ingredients, and prices.
    * 
-   * @param filename The name of the backup file to read from.
-   * @throws std::runtime_error If there is an issue opening or reading from the file.
+   * @param filename The path to the backup file.
+   * @param registeredProducts A map to store the parsed product data.
+   * @throws std::runtime_error If the file cannot be opened or read.
    */
-  void readProductsBackup(
-      const std::string& filename
-      , std::map<std::string, std::vector<Product>>& registeredProducts);
+  void readProductsBackup(const std::string& filename, std::map<std::string
+      , std::vector<Product>>& registeredProducts);
   
+  /**
+   * @brief Reads supply data from a backup file and stores it in a vector.
+   * 
+   * Parses the supplies backup file and extracts supply details.
+   * 
+   * @param supplies A vector to store the parsed supply data.
+   * @throws std::runtime_error If the file cannot be opened or read.
+   */
   void readSupplyItemsBackup(std::vector<SupplyItem>& supplies);
   
   /**
-   * @brief Writes the backup data for drinks to a file.
+   * @brief Writes product data to a backup file.
    * 
-   * This function writes the current state of registered drinks to the backup file.
+   * Saves the product data back to the backup file in the same format.
    * 
-   * @param registeredDrinks A map where the key is a product category and the value is a vector of Product objects.
+   * @param filename The path to the backup file.
+   * @param registeredProducts A map of product categories and associated products.
    */
-  void writeProductsBackup(
-      const std::string& filename,
-      const std::map<std::string, std::vector<Product>>& registeredProducts);
+  void writeProductsBackup(const std::string& filename
+      , const std::map<std::string, std::vector<Product>>& registeredProducts);
   
+  /**
+   * @brief Writes supply data to a backup file.
+   * 
+   * Saves the supply data back to the backup file.
+   * 
+   * @param supplies A vector of SupplyItem objects to be written to the backup file.
+   */
   void writeSuppliesBackup(const std::vector<SupplyItem>& supplies);
-  // Copy and assignation constructors disabled.
+  
+  // Copy and assignment constructors are disabled.
   BackupModule(const BackupModule&) = delete;
   BackupModule& operator=(const BackupModule&) = delete;
 };

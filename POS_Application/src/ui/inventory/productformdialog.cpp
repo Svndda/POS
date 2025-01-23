@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include <sstream>
 #include <string>
 
@@ -15,14 +16,10 @@ ProductFormDialog::ProductFormDialog(QWidget *parent
     , productCategory(category)
     , ui(new Ui::ProductFormDialog) {
   ui->setupUi(this);
-  std::vector<QString> productCategories;
   
-  for (const auto& category : this->registeredProducts) {
-    productCategories.push_back(category.first.data());
-  }
-  
-  for (const auto& category : productCategories) {
-    this->ui->productCategory_comboBox->addItem(category);
+  // Populate the combo box with categories
+  for (const auto& category : registeredProducts) {
+    ui->productCategory_comboBox->addItem(QString::fromStdString(category.first));
   }
   
   // Checks if product information were provided, if so, displays it.
@@ -30,12 +27,13 @@ ProductFormDialog::ProductFormDialog(QWidget *parent
     this->setProductInfo(this->createdProduct, this->productCategory);
   }
   
-  // Connects the slot of the accept button of the QDialog.
+  // Connect the "Accept" button to its slot
   connect(ui->acceptProduct_button
           , &QPushButton::clicked
           , this
           , &ProductFormDialog::on_acceptProduct_button_clicked);
-  // Connects the slot of the cancel button of the QDialog.  
+  
+  // Connect the "Cancel" button to its slot
   connect(ui->cancelProduct_button
           , &QPushButton::clicked
           , this
@@ -46,25 +44,22 @@ QString ProductFormDialog::formatProductIngredients(
     const std::vector<SupplyItem>& ingredients) {
   // String that will contain the ingredients information formated
   //  to be displayed.
-  QString formattedProductIngredients = "";
+  QString formattedIngredients = "";
   
-  // Iterates through all the ingredients contained in the vector.
+  // Iterates through all the ingredients contained in the vector.  
   for (auto it = ingredients.begin(); it != ingredients.end(); ++it) {
-    // Saves the ingredient's information.
-    QString ingredientName(it->getName().data());
-    QString ingredientQuantity = QString::number(it->getQuantity());
-    // Stablish a separator between ingredients.
-    if (it == ingredients.end() - 1) {
-      formattedProductIngredients = QString(formattedProductIngredients
-          + ingredientName.trimmed() + " " + ingredientQuantity);
-    } else {
-      formattedProductIngredients = QString(formattedProductIngredients
-          + ingredientName.trimmed() + " " + ingredientQuantity + ", ");
+    // Saves the ingredient's information.    
+    formattedIngredients.append(QString("%1 %2").arg(
+        QString::fromStdString(it->getName())
+        , QString::number(it->getQuantity())));
+    if (it != ingredients.end() - 1) {
+      // Stablish a separator between ingredients.      
+      formattedIngredients.append(", ");
     }
   }
   // Returns a string containing all the ingredients information formated to be
   // displayed.
-  return formattedProductIngredients;
+  return formattedIngredients;
 }
 
 void ProductFormDialog::on_cancelProduct_button_clicked() {

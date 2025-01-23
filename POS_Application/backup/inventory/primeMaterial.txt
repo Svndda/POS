@@ -1,4 +1,6 @@
-Papas 0
-Papas 3000
-Arroz 4000
-Camarones 40
+Frijoles 20 Gramos
+Papas 3000 Gramos
+Arroz 20 Kilogramos
+Camarones 40 Porciones
+Filet 20 Porciones
+Azucar 4 Kilogramos

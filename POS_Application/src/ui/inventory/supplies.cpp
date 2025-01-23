@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include "supplies.h"
 #include "ui_supplies.h"
 
@@ -80,7 +81,7 @@ void Supplies::refreshSuppliesDisplay(
       // Extracts all the product information to display it on the screen.
       name = visibleSupplies[index].getName().data();
       quantity = QString::number(visibleSupplies[index].getQuantity());
-      measureUnit = "Unidad";
+      measureUnit = visibleSupplies[index].getMeasure().data();
     }
     // Updates the the different labels for each product information that is
     // displayed in the UI.
@@ -100,7 +101,7 @@ void Supplies::refreshSuppliesDisplay(
   // Generates the page label text tha indicates the indexes of the products
   // displayed in the actual page.
   QString pageLabelText = QString("Mostrando suministros %1 hasta %2 de %3"
-      " categorías").arg(offset + 1).arg(std::min(offset + 9
+      " suministros").arg(offset + 1).arg(std::min(offset + 9
       , this->model.getNumberOfSupplies())).arg(
       this->model.getNumberOfSupplies());
   this->ui->pageProductsNumber_label->setText(pageLabelText);
@@ -112,10 +113,13 @@ void Supplies::addSupply_button_clicked() {
       , SupplyItem());
   
   if (dialog.exec() == QDialog::Accepted) {
-    qDebug() << "Se acepto el dialogo y se agrego un nuevo producto";
     SupplyItem supply = dialog.getNewSupply();
-    this->model.addSupply(supply);
-    this->refreshDisplay(this->itemsPerPage);
+    if (this->model.addSupply(supply)) {
+      this->refreshDisplay(this->itemsPerPage);
+    } else {
+      qDebug() << "No se ha agregado el suministro"
+          ", ya existe uno con ese nombre.";      
+    }
   } else {
     qDebug() << "Se cancelo la creacion de un producto";
   }
@@ -142,8 +146,9 @@ void Supplies::on_delete_button_clicked() {
     if (buttonIndex < suppliesForPage.size()) {
       // Gets the row supply.
       SupplyItem supply = suppliesForPage[buttonIndex];
-      this->model.removeSupply(supply);
-      this->refreshDisplay(this->itemsPerPage);
+      if (this->model.removeSupply(supply)) {
+        this->refreshDisplay(this->itemsPerPage);        
+      }
     }
   }
 }
@@ -170,12 +175,13 @@ void Supplies::on_edit_button_clicked() {
           , oldSupply);
       
       if (dialog.exec() == QDialog::Accepted) {
-        qDebug() << "Se ha modificado una categoria exitosamente";
         SupplyItem newSupply = dialog.getNewSupply();
-        if (oldSupply.getQuantity() != newSupply.getQuantity()) {
-          this->model.editSupply(oldSupply, newSupply);
+        if (this->model.editSupply(oldSupply, newSupply)) {
           // Updates the display with the new supply.
           this->refreshDisplay(this->itemsPerPage);
+          qDebug() << "Se ha modificado una categoria exitosamente";
+        } else {
+          qDebug() << "Se no ha modificado el suministro.";          
         }
       } else {
         qDebug() << "Se cancelo la edicion de una categoria";

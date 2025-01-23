@@ -1,3 +1,4 @@
+// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include <vector>
 #include <string>
 
@@ -12,18 +13,20 @@ CategoryFormDialog::CategoryFormDialog(QWidget *parent
     , existingCategories(categories)
     , newCategory(category) {
   ui->setupUi(this);
-  // Sets the category line edit text with the given string in the constructor.
+  // Set the initial value for the category name input field
   this->ui->categoryName_lineEdit->setText(this->newCategory.data());
-  // Connects the slot of the accept button of the QDialog.
-  this->connect(ui->acceptCategory_button
-          , &QPushButton::clicked
-          , this
-          , &CategoryFormDialog::on_acceptCategory_button_clicked);
-  // Connects the slot of the cancel button of the QDialog.  
-  this->connect(ui->cancelCategory_button
-          , &QPushButton::clicked
-          , this
-          , &CategoryFormDialog::on_cancelCategory_button_clicked);
+  
+  // Connect the "Accept" button to its slot
+  this->connect(ui->acceptCategory_button,
+                &QPushButton::clicked,
+                this,
+                &CategoryFormDialog::on_acceptCategory_button_clicked);
+  
+  // Connect the "Cancel" button to its slot
+  this->connect(ui->cancelCategory_button,
+                &QPushButton::clicked,
+                this,
+                &CategoryFormDialog::on_cancelCategory_button_clicked);
 }
 
 CategoryFormDialog::~CategoryFormDialog() {
@@ -37,21 +40,19 @@ std::string CategoryFormDialog::getNewCategory() {
 void CategoryFormDialog::on_acceptCategory_button_clicked() {
   // Saves the current text in the category line edit as the new category
   // desire by the user.
-  this->newCategory = this->ui->categoryName_lineEdit->text().toStdString();
+  std::string category = this->ui->categoryName_lineEdit->text().toStdString();
   // Tries to find the new category in the existing categories vector.
   auto it = std::find(this->existingCategories.begin()
-      , this->existingCategories.end(), this->newCategory);
+      , this->existingCategories.end(), category);
   // Checks if the new category already exist, if not, then accept the dialog.
   if (it == this->existingCategories.end()) {
+    this->newCategory = category;
     // Stablish that the QDialog has finished correctly.
     this->accept();
   }
 }
 
 void CategoryFormDialog::on_cancelCategory_button_clicked() {
-  // Cleans the new catgeory attribute to avoid to invoquin class to access
-  // garbage data.
-  this->newCategory = "";
   // Stablish that the QDialog has finished incorrectly.
   this->reject();
 }
