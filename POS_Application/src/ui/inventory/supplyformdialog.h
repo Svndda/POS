@@ -55,14 +55,14 @@ private slots:
    * Collects user inputs, creates or updates the supply item, 
    * and closes the dialog with an accepted result.
    */
-  void on_acceptCategory_button_clicked();
+  void on_acceptSupply_button_clicked();
   
   /**
    * @brief Handles the "Cancel" button click event.
    *
    * Discards changes and closes the dialog with a rejected result.
    */
-  void on_cancelCategory_button_clicked();
+  void on_cancelSupply_button_clicked();
 };
 
 #endif // SUPPLYFORMDIALOG_H

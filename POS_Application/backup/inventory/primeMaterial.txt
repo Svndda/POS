@@ -4,3 +4,8 @@ Arroz 20 Kilogramos
 Camarones 40 Porciones
 Filet 20 Porciones
 Azucar 4 Kilogramos
+Carne 2700 Gramos
+Cebolla 4 Unidades
+Mariscos 3 Kilogramos
+Bananos 4 Kilogramos
+Leche 2 Kilogramos

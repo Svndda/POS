@@ -1574,10 +1574,13 @@ color: black;padding: 5px;</string>
             <property name="spacing">
              <number>0</number>
             </property>
+            <property name="sizeConstraint">
+             <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
+            </property>
             <item>
              <widget class="QLabel" name="producIngredientsTitle_label">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>

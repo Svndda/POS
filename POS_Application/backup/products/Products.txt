@@ -36,3 +36,19 @@ Desayunos:
 Pinto con Salchichon -
 Pinto ; 1	Salchichon ; 3	Natilla ; 1	2500
 
+Entradas:
+Ceviche -
+Ceviche ; 1	2500
+
+Mariscos:
+
+Postre:
+Budin -
+Budin ; 1	1200
+
+Sodas:
+Canada Dry -
+Canada ; 1	1200
+
+Vegetariano:
+

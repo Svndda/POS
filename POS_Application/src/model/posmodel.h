@@ -27,8 +27,8 @@ class POS_Model {
 
 private:
   BackupModule& backupModule; ///< Reference to the backup module for data persistence.
-  std::map<std::string, std::vector<Product>> products; ///< Map of product categories to their products.
-  std::vector<std::pair<std::string, Product>> productsVector; ///< Vector of products used for interface display.
+  std::map<std::string, std::vector<Product>> categories; ///< Map of product categories to their products.
+  std::vector<std::pair<std::string, Product>> products; ///< Vector of products used for interface display.
   std::vector<SupplyItem> supplies; ///< Inventory of supplies.
   bool started = false; ///< Flag indicating if the POS model has been started.
   
@@ -69,20 +69,6 @@ public: ///< Public methods.
    * @throws std::runtime_error if the product is not found.
    */
   Product& findProduct(const std::string& productName);
-  
-  /**
-   * @brief Updates the product register based on the specified operation.
-   * 
-   * Performs an insert, update, or delete operation on the product register and immediately
-   * updates the backup system.
-   * 
-   * @param productCategory Category of the product to add or remove.
-   * @param product Product object to add or remove.
-   * @param operation Type of operation (INSERT, UPDATE, DELETE).
-   * @return True if the operation was successfully completed.
-   */
-  bool updateProductRegisters(const std::string productCategory,
-      const Product& product, const size_t operation);
   
   /**
    * @brief Adds a product to the specified category.
@@ -207,45 +193,49 @@ private: ///< Private methods.
   POS_Model(BackupModule& module);
   
   /**
-   * @brief Extracts products from the product register and adds them to a vector.
+   * @brief Extracts products from the category registers and adds them to a vector.
    * 
-   * Iterates through the product register (map of categories) and extracts all
+   * Iterates through the category registers (map of categories) and extracts all
    * the products, adding them to the provided vector.
    * 
-   * @param registeredProducts Vector to store the extracted products.
-   * @param productTypeRegister Map of registered products by category.
+   * @param existingProducts Vector to store the extracted products.
+   * @param categoryRegisters Map of registered products by category.
    */
-  void extractProducts(
-      std::vector<std::pair<std::string, Product>>& registeredProducts
-      , const std::map<std::string, std::vector<Product>>& productTypeRegister);
+  void obtainProducts(
+      std::vector<std::pair<std::string, Product>>& existingProducts
+      , const std::map<std::string, std::vector<Product>>& categoryRegisters);
   
   /**
-   * @brief Inserts a product into the product register.
+   * @brief Emplace a product into the product register.
    * 
-   * Inserts a product into the specified category, ensuring no duplicates exist.
+   * Emplace a product into the specified category, ensuring no duplicates exist.
    * 
    * @param productCategory Category of the product.
    * @param product Product object to insert.
-   * @param productTypeRegister Product register by category.
-   * @return True if the product was successfully inserted.
+   * @param categoriesRegister Category registers that contains the products.
+   * @return True if the product was successfully emplaced.
    */
-  bool insertProduct(const std::string productCategory
+  bool emplaceProduct(const std::string productCategory
       , const Product& product
-      , std::map<std::string, std::vector<Product>>& productTypeRegister);
+      , std::map<std::string, std::vector<Product>>& categoriesRegister);
   
   /**
-   * @brief Removes a product from the product register.
+   * @brief Erase a product from the product register.
    * 
-   * Removes a product from the specified category.
+   * Erase a product from the specified category.
    * 
    * @param productCategory Category of the product to remove.
    * @param product Product object to remove.
-   * @param productTypeRegister Product register by category.
-   * @return True if the product was successfully removed.
+   * @param categoriesRegister Category registers that contains the products.
+   * @return True if the product was successfully erased.
    */
-  bool eraseOnRegister(const std::string productCategory
-     , const Product& product
-     , std::map<std::string, std::vector<Product>>& productTypeRegister);
+  bool eraseProduct(const std::string productCategory
+      , const Product& product
+      , std::map<std::string, std::vector<Product>>& categoriesRegister);
+  
+  void updateProductsCategory(
+    std::vector<std::pair<std::string, Product>>& products
+      , const std::string& category);
   
 public: ///< Public getter methods.
   /**
@@ -258,12 +248,12 @@ public: ///< Public getter methods.
   }
   
   /**
-   * @brief Retrieves the registered products in the system.
+   * @brief Retrieves the registered categories in the system.
    * 
-   * @return Reference to the map of registered products by category.
+   * @return Reference to the map of registered categories by category.
    */
   std::map<std::string, std::vector<Product>>& getRegisteredProducts() {
-    return this->products;
+    return this->categories;
   }
   
   /**
@@ -288,7 +278,7 @@ public: ///< Public getter methods.
    * @return The total number of registered products.
    */
   size_t getNumberOfProducts() {
-    return this->productsVector.size();
+    return this->products.size();
   }
   
   /**
@@ -297,7 +287,7 @@ public: ///< Public getter methods.
    * @return The total number of registered categories.
    */
   size_t getNumberOfCategories() {
-    return this->products.size();
+    return this->categories.size();
   }
   
   /**

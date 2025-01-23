@@ -1,4 +1,4 @@
-// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
+ // Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include <sstream>
 #include <string>
 
@@ -15,11 +15,11 @@ ProductFormDialog::ProductFormDialog(QWidget *parent
     , createdProduct(product)
     , productCategory(category)
     , ui(new Ui::ProductFormDialog) {
-  ui->setupUi(this);
+  this->ui->setupUi(this);
   
   // Populate the combo box with categories
   for (const auto& category : registeredProducts) {
-    ui->productCategory_comboBox->addItem(QString::fromStdString(category.first));
+    this->ui->productCategory_comboBox->addItem(QString::fromStdString(category.first));
   }
   
   // Checks if product information were provided, if so, displays it.
@@ -28,16 +28,12 @@ ProductFormDialog::ProductFormDialog(QWidget *parent
   }
   
   // Connect the "Accept" button to its slot
-  connect(ui->acceptProduct_button
-          , &QPushButton::clicked
-          , this
-          , &ProductFormDialog::on_acceptProduct_button_clicked);
+  this->connect(ui->acceptProduct_button, &QPushButton::clicked
+      , this , &ProductFormDialog::on_acceptProduct_button_clicked);
   
   // Connect the "Cancel" button to its slot
-  connect(ui->cancelProduct_button
-          , &QPushButton::clicked
-          , this
-          , &ProductFormDialog::on_cancelProduct_button_clicked);
+  this->connect(ui->cancelProduct_button, &QPushButton::clicked
+      , this , &ProductFormDialog::on_cancelProduct_button_clicked);
 }
 
 QString ProductFormDialog::formatProductIngredients(
@@ -133,10 +129,12 @@ void ProductFormDialog::setProductInfo(
 }
 
 QString ProductFormDialog::getProductCategory() {
+  // Gets the current category in the comboBox.
   return this->ui->productCategory_comboBox->currentText();
 }
 
 Product ProductFormDialog::getProduct() {
+  // Gets product created by the user in the dialog.
   return this->createdProduct;
 }
 

@@ -12,21 +12,17 @@ CategoryFormDialog::CategoryFormDialog(QWidget *parent
     , ui(new Ui::CategoryFormDialog)
     , existingCategories(categories)
     , newCategory(category) {
-  ui->setupUi(this);
+  this->ui->setupUi(this);
   // Set the initial value for the category name input field
   this->ui->categoryName_lineEdit->setText(this->newCategory.data());
   
   // Connect the "Accept" button to its slot
-  this->connect(ui->acceptCategory_button,
-                &QPushButton::clicked,
-                this,
-                &CategoryFormDialog::on_acceptCategory_button_clicked);
+  this->connect(ui->acceptCategory_button, &QPushButton::clicked
+      , this, &CategoryFormDialog::on_acceptCategory_button_clicked);
   
   // Connect the "Cancel" button to its slot
-  this->connect(ui->cancelCategory_button,
-                &QPushButton::clicked,
-                this,
-                &CategoryFormDialog::on_cancelCategory_button_clicked);
+  this->connect(ui->cancelCategory_button, &QPushButton::clicked
+      , this, &CategoryFormDialog::on_cancelCategory_button_clicked);
 }
 
 CategoryFormDialog::~CategoryFormDialog() {
@@ -34,6 +30,7 @@ CategoryFormDialog::~CategoryFormDialog() {
 }
 
 std::string CategoryFormDialog::getNewCategory() {
+  // Returns the category created by the user in the dialog.
   return this->newCategory;
 }
 

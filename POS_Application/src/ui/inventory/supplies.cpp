@@ -13,13 +13,13 @@
 Supplies::Supplies(QWidget *parent, POS_Model& model)
     : Inventory(parent, model)
     , ui(new Ui::Supplies) {
-  ui->setupUi(this);
+  this->ui->setupUi(this);
   this->setupConnections();
   this->refreshDisplay(this->itemsPerPage);
 }
 
 Supplies::~Supplies() {
-  delete ui;
+  delete this->ui;
 }
 
 void Supplies::refreshDisplay(const size_t pageItems) {
@@ -42,26 +42,26 @@ void Supplies::setupConnections() {
     QPushButton* deleteButton = this->findChild<QPushButton *>(deleteButtonName);
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connects the buttons with their functions.
-    connect(deleteButton , &QPushButton::clicked
-            , this, &Supplies::on_delete_button_clicked);
-    connect(editButton , &QPushButton::clicked
-            , this, &Supplies::on_edit_button_clicked);
+    this->connect(deleteButton , &QPushButton::clicked
+        , this, &Supplies::on_delete_button_clicked);
+    this->connect(editButton , &QPushButton::clicked
+        , this, &Supplies::on_edit_button_clicked);
   }
   // Connects the funtions that handles the next and previous page of registered
   // categories.
-  connect(this->ui->nextProductPage_button, &QPushButton::clicked
-          , this, &Supplies::on_nextPage_button_clicked);
-  connect(this->ui->previousProductPage_button, &QPushButton::clicked
-          , this, &Supplies::on_previousPage_button_clicked);
+  this->connect(this->ui->nextProductPage_button, &QPushButton::clicked
+      , this, &Supplies::on_nextPage_button_clicked);
+  this->connect(this->ui->previousProductPage_button, &QPushButton::clicked
+      , this, &Supplies::on_previousPage_button_clicked);
   // Connects the function that handles the button to change to the products
   // page.
-  connect(this->ui->products_button, &QPushButton::clicked
-          , this, &Supplies::on_products_button_clicked);
-  connect(this->ui->categories_button, &QPushButton::clicked
-          , this, &Supplies::on_supplies_button_clicked);
+  this->connect(this->ui->products_button, &QPushButton::clicked
+      , this, &Supplies::on_products_button_clicked);
+  this->connect(this->ui->categories_button, &QPushButton::clicked
+      , this, &Supplies::on_supplies_button_clicked);
   // Connects the function that handles the add category button.
-  connect(this->ui->addCategory_button, &QPushButton::clicked
-          , this, &Supplies::addSupply_button_clicked);
+  this->connect(this->ui->addCategory_button, &QPushButton::clicked
+      , this, &Supplies::addSupply_button_clicked);
 }
 
 void Supplies::refreshSuppliesDisplay(
@@ -108,13 +108,17 @@ void Supplies::refreshSuppliesDisplay(
 }
 
 void Supplies::addSupply_button_clicked() {
-  SupplyFormDialog dialog(this
-      , this->model.getRegisteredSupplies()
+  // Creates a dialog to manage the creation of a new supply.
+  SupplyFormDialog dialog(this, this->model.getRegisteredSupplies()
       , SupplyItem());
   
+  // Executes the dialog and checks if were accepted.
   if (dialog.exec() == QDialog::Accepted) {
+    // Obtain the supply created in the dialog.
     SupplyItem supply = dialog.getNewSupply();
+    // Try to add the supply into the register of supplies.
     if (this->model.addSupply(supply)) {
+      // Update the supplies display.
       this->refreshDisplay(this->itemsPerPage);
     } else {
       qDebug() << "No se ha agregado el suministro"
@@ -134,8 +138,11 @@ void Supplies::on_previousPage_button_clicked() {
 }
 
 void Supplies::on_delete_button_clicked() {
+  // Catch the pointer to the button object that sended the signal.
   QPushButton *button = qobject_cast<QPushButton *>(sender());
+  // If there's a pointer, then.
   if (button) {
+    // Obtain the index of the display button.
     size_t buttonIndex = button->property("index").toUInt();
     qDebug() << "Button clicked, index:" << buttonIndex;
     // Gets the supplies vector for the actual page.
@@ -154,6 +161,7 @@ void Supplies::on_delete_button_clicked() {
 }
 
 void Supplies::on_edit_button_clicked() {
+  // Catch the pointer to the button object that sended the signal.  
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   // Checks if the pointer is valid.
   if (button) {
