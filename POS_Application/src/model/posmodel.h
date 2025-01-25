@@ -29,7 +29,7 @@ private:
   BackupModule& backupModule; ///< Reference to the backup module for data persistence.
   std::map<std::string, std::vector<Product>> categories; ///< Map of product categories to their products.
   std::vector<std::pair<std::string, Product>> products; ///< Vector of products used for interface display.
-  std::vector<SupplyItem> supplies; ///< Inventory of supplies.
+  std::vector<Supply> supplies; ///< Inventory of supplies.
   bool started = false; ///< Flag indicating if the POS model has been started.
   
 public: ///< Public methods.
@@ -99,7 +99,7 @@ public: ///< Public methods.
    * @param newSupply Supply item to add.
    * @return True if the supply was successfully added.
    */
-  bool addSupply(const SupplyItem newSupply);
+  bool addSupply(const Supply newSupply);
   
   /**
    * @brief Removes a product from the specified category.
@@ -130,7 +130,7 @@ public: ///< Public methods.
    * @param newSupply Supply item to remove.
    * @return True if the supply was successfully removed.
    */
-  bool removeSupply(const SupplyItem& newSupply);
+  bool removeSupply(const Supply& newSupply);
   
   /**
    * @brief Edits an existing product.
@@ -167,8 +167,8 @@ public: ///< Public methods.
    * @param newSupply New supply with updated details.
    * @return True if the supply was successfully edited.
    */
-  bool editSupply(const SupplyItem& oldSupply
-      , const SupplyItem& newSupply);
+  bool editSupply(const Supply& oldSupply
+      , const Supply& newSupply);
   
   /**
    * @brief Formats the ingredients of a product for display.
@@ -180,7 +180,7 @@ public: ///< Public methods.
    * @return Formatted string representing the product's ingredients.
    */
   QString formatProductIngredients(
-      const std::vector<SupplyItem>& ingredients);
+      const std::vector<Supply>& ingredients);
   
 private: ///< Private methods.
   /**
@@ -268,7 +268,7 @@ public: ///< Public getter methods.
    * 
    * @return Reference to the vector of registered supplies.
    */
-  std::vector<SupplyItem>& getRegisteredSupplies() {
+  std::vector<Supply>& getRegisteredSupplies() {
     return this->supplies;
   }
   
@@ -334,7 +334,7 @@ public: ///< Public getter methods.
    * @param itemsPerPage Number of supplies per page.
    * @return A vector of supplies for the specified page.
    */
-  std::vector<SupplyItem> getSuppliesForPage(const size_t pageIndex
+  std::vector<Supply> getSuppliesForPage(const size_t pageIndex
       , const size_t itemsPerPage);
   
 };

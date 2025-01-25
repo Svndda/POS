@@ -3,6 +3,8 @@
 #include "ui_categories.h"
 #include "categoryformdialog.h"
 
+#include <QMessageBox>
+
 #include "util.h"
 
 Categories::Categories(QWidget *parent, POS_Model& model)
@@ -121,11 +123,17 @@ void Categories::addCategory_button_clicked() {
   
   // Execute the dialog with empty information.
   if (dialog.exec() == QDialog::Accepted) {
-    qDebug() << "Se acepto el dialogo y se agrego una nueva categoría";
-    // Obtain and adds the created category by the user on the dialog.
-    this->model.addCategory(dialog.getNewCategory());
-    // Refresh the categories display.
-    this->refreshDisplay(this->itemsPerPage);
+    // Obtain the created category by the user on the dialog.    
+    const std::string category = dialog.getNewCategory();
+    // Try to add the created category to the registers.
+    if (this->model.addCategory(category)) {
+      // Refresh the categories display.
+      this->refreshDisplay(this->itemsPerPage);
+      qDebug() << "Se acepto el dialogo y se agrego una nueva categoría";
+    } else {
+      QMessageBox::information(this, "Informacion inválida"
+          , "No se añadió la categoría.");
+    }
   } else {
     qDebug() << "Se cancelo la creacion de una categoria";
   }
@@ -145,10 +153,14 @@ void Categories::on_delete_button_clicked() {
     if (buttonIndex < categoriesForPage.size()) {
       // Gets the row category.
       std::string category = categoriesForPage[buttonIndex];
-      // Removes the category from the registered ones.
-      this->model.removeCategory(category);
-      // Refresh the categories display with the updated data.
-      this->refreshDisplay(this->itemsPerPage);
+      // Try to remove the category from the registered ones.
+      if (this->model.removeCategory(category)) {
+        // Refresh the categories display with the updated data.
+        this->refreshDisplay(this->itemsPerPage);
+      } else {
+        QMessageBox::warning(this, "Error de registros"
+            , "No se añadió la categoría.");
+      }
     }
   }
 }
@@ -176,10 +188,14 @@ void Categories::on_edit_button_clicked() {
       if (dialog.exec() == QDialog::Accepted) {
         qDebug() << "Se ha modificado una categoria exitosamente";
         std::string newCategory = dialog.getNewCategory();
-        // Updates the category name to the name wiven by the user.
-        this->model.editCategory(oldCategory, newCategory);
-        // Updates the display with the new category.
-        this->refreshDisplay(this->itemsPerPage);
+        // Try to update the category name to the name given by the user.
+        if (this->model.editCategory(oldCategory, newCategory)) {
+          // Updates the display with the new category.
+          this->refreshDisplay(this->itemsPerPage);
+        } else {
+          QMessageBox::information(this, "Informacion inválida"
+              , "No se añadió la categoría.");
+        }
       } else {
         qDebug() << "Se cancelo la edicion de una categoria";
       } 

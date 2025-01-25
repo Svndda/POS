@@ -3,11 +3,11 @@
 #include "ui_supplyformdialog.h"
 
 #include <vector>
-#include <supplyitem.h>
+#include <supply.h>
 
 SupplyFormDialog::SupplyFormDialog(QWidget *parent
-    , std::vector<SupplyItem> supplies
-    , SupplyItem supply)
+    , std::vector<Supply> supplies
+    , Supply supply)
     : QDialog(parent)
     , ui(new Ui::SupplyFormDialog)
     , existingSupplies(supplies)
@@ -40,7 +40,7 @@ SupplyFormDialog::~SupplyFormDialog() {
   delete this->ui;
 }
 
-SupplyItem SupplyFormDialog::getNewSupply() {
+Supply SupplyFormDialog::getNewSupply() {
   // Returns the supply created by the user.
   return this->newSupply;
 }
@@ -54,7 +54,7 @@ void SupplyFormDialog::on_acceptSupply_button_clicked() {
   const std::string measureUnit =
       this->ui->measureUnit_comboBox->currentText().toStdString();
   // Creates a new supply object with the given information.
-  this->newSupply = SupplyItem(name, quantity, measureUnit);
+  this->newSupply = Supply(name, quantity, measureUnit);
   // Indicates that the dialog has ended accepted.
   this->accept();
 }

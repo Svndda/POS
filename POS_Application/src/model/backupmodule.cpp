@@ -8,7 +8,7 @@
 #include <vector>
 #include <cstdint>
 #include "backupmodule.h"
-#include "supplyitem.h"
+#include "supply.h"
 
 BackupModule::BackupModule() {
 }
@@ -28,9 +28,9 @@ std::map<std::string, std::vector<Product>> BackupModule::getProductsBackup() {
   return categoryRegisters;
 }
 
-std::vector<SupplyItem> BackupModule::getSuppliesBackup() {
+std::vector<Supply> BackupModule::getSuppliesBackup() {
   // Temporal vector to store the registered supplies.
-  std::vector<SupplyItem> registeredSupplies;
+  std::vector<Supply> registeredSupplies;
   // Reads the supplies information contained in the supplies backup file.
   this->readSupplyItemsBackup(registeredSupplies);
   return registeredSupplies;
@@ -75,7 +75,7 @@ void BackupModule::readProductsBackup(
       // Temporal string that will be parsing the product information.
       std::string productInfo;
       // Temporal vector to store the product's supplies.
-      std::vector<SupplyItem> productIngredients;
+      std::vector<Supply> productIngredients;
       uint64_t productPrice = 0;
       
       // While there's tabs of the actual line/stream
@@ -120,7 +120,7 @@ void BackupModule::readProductsBackup(
   file.close();
 }
 
-void BackupModule::readSupplyItemsBackup(std::vector<SupplyItem>& supplies) {
+void BackupModule::readSupplyItemsBackup(std::vector<Supply>& supplies) {
   std::ifstream file(this->SUPPLIES_BACKUP_FILE);
   // Try to open the input file name/file path.  
   if(!file) {
@@ -153,7 +153,7 @@ void BackupModule::updateProductsBackup(
 }
 
 void BackupModule::updateSuppliesBackup(
-    const std::vector<SupplyItem>& supplies) {
+    const std::vector<Supply>& supplies) {
   // Writes out the given supplies information into the supplies's backup files.
   this->writeSuppliesBackup(supplies);
 }
@@ -201,7 +201,7 @@ void BackupModule::writeProductsBackup(
 }
 
 void BackupModule::writeSuppliesBackup(
-    const std::vector<SupplyItem>& supplies) {
+    const std::vector<Supply>& supplies) {
   // Try to open the specified file of the supplies backup.
   std::ofstream file(this->SUPPLIES_BACKUP_FILE);
   if (!file) {

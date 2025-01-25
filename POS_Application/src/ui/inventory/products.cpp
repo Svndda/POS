@@ -2,14 +2,15 @@
 #include <string>
 #include <vector>
 #include <utility>
-
-#include "posmodel.h"
-#include "product.h"
-#include "util.h"
+#include <QMessageBox>
 
 #include "productformdialog.h"
 #include "products.h"
 #include "ui_products.h"
+
+#include "posmodel.h"
+#include "product.h"
+#include "util.h"
 
 Products::Products(QWidget *parent, POS_Model& model)
     : Inventory(parent)
@@ -155,7 +156,10 @@ void Products::addProduct_button_clicked() {
     // Try to add the new product into the registered ones.
     if (this->model.addProduct(category, product)) {
       // Refresh the display with the updated data.
-      this->refreshDisplay(this->itemsPerPage); 
+      this->refreshDisplay(this->itemsPerPage);
+    } else {
+      QMessageBox::information(this, "Informacion inválida"
+          , "No se añadió el suministro.");
     }
   } else {
     qDebug() << "Se cancelo la creacion de un producto";
@@ -258,6 +262,9 @@ void Products::deleteRegisteredProduct(size_t index) {
     , productToDelete)) {
     // Refresh the products display.
     this->refreshDisplay(this->itemsPerPage);
+  } else {
+    QMessageBox::warning(this, "Error"
+        , "No se pudo eliminar el producto.");
   }
 }
 

@@ -54,7 +54,7 @@ private:
    * @param visibleSupplies Vector of supplies to be displayed.
    * @param items Number of items to display.
    */
-  void refreshSuppliesDisplay(const std::vector<SupplyItem>& visibleSupplies
+  void refreshSuppliesDisplay(const std::vector<Supply>& visibleSupplies
       , const size_t items);
   
 private slots:

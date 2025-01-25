@@ -16,8 +16,7 @@ LoginPage::LoginPage(QWidget *parent,
   });
 }
 
-LoginPage::~LoginPage()
-{
+LoginPage::~LoginPage() {
   delete ui;
 }
 

@@ -4,10 +4,11 @@
 
 #include <vector>
 #include <string>
-#include <supplyitem.h>
+#include <QMessageBox>
 
 #include "posmodel.h"
 #include "util.h"
+#include "supply.h"
 #include "supplyformdialog.h"
 
 Supplies::Supplies(QWidget *parent, POS_Model& model)
@@ -65,7 +66,7 @@ void Supplies::setupConnections() {
 }
 
 void Supplies::refreshSuppliesDisplay(
-    const std::vector<SupplyItem>& visibleSupplies
+    const std::vector<Supply>& visibleSupplies
     , const size_t items) {
   // Initiazates the label index iterator.
   size_t labelIt = 0;
@@ -110,19 +111,19 @@ void Supplies::refreshSuppliesDisplay(
 void Supplies::addSupply_button_clicked() {
   // Creates a dialog to manage the creation of a new supply.
   SupplyFormDialog dialog(this, this->model.getRegisteredSupplies()
-      , SupplyItem());
+      , Supply());
   
   // Executes the dialog and checks if were accepted.
   if (dialog.exec() == QDialog::Accepted) {
     // Obtain the supply created in the dialog.
-    SupplyItem supply = dialog.getNewSupply();
+    Supply supply = dialog.getNewSupply();
     // Try to add the supply into the register of supplies.
     if (this->model.addSupply(supply)) {
       // Update the supplies display.
       this->refreshDisplay(this->itemsPerPage);
     } else {
-      qDebug() << "No se ha agregado el suministro"
-          ", ya existe uno con ese nombre.";      
+      QMessageBox::information(this, "Informacion inválida"
+          , "No se añadió el suministro.");  
     }
   } else {
     qDebug() << "Se cancelo la creacion de un producto";
@@ -130,11 +131,31 @@ void Supplies::addSupply_button_clicked() {
 }
 
 void Supplies::on_nextPage_button_clicked() {
-  
+  // Calculates the supplies page start and end indexes for the next page.
+  size_t suppliesPageIt = (this->currentPageIndex + 1) * 9;
+  size_t suppliesPageIt2 = suppliesPageIt + 9;
+  // Checks if the indexes the number of registered supplies is greather or
+  // between the next page indexes.
+  if (this->model.getNumberOfSupplies() >= suppliesPageIt
+      && this->model.getNumberOfSupplies() <= suppliesPageIt2) {
+    ++this->currentPageIndex;
+    // Updates the supplies information in the display to show the next supplies
+    // page.
+    this->refreshDisplay(this->itemsPerPage);
+  }
+  qDebug() << "Boton de avance: " << this->currentPageIndex;
 }
 
 void Supplies::on_previousPage_button_clicked() {
-  
+  // Checks that the actual page is not the first one.
+  if (this->currentPageIndex > 0) {
+    // Decrements the page index.
+    --this->currentPageIndex;
+    // Updates the product information in the display to show the previous
+    // product page.
+    this->refreshDisplay(this->itemsPerPage);
+  }
+  std::cout << "Boton de retroceso: " << this->currentPageIndex << std::endl;
 }
 
 void Supplies::on_delete_button_clicked() {
@@ -152,9 +173,12 @@ void Supplies::on_delete_button_clicked() {
     // page to avoid an empty row.
     if (buttonIndex < suppliesForPage.size()) {
       // Gets the row supply.
-      SupplyItem supply = suppliesForPage[buttonIndex];
+      Supply supply = suppliesForPage[buttonIndex];
       if (this->model.removeSupply(supply)) {
-        this->refreshDisplay(this->itemsPerPage);        
+        this->refreshDisplay(this->itemsPerPage);
+      } else {
+        QMessageBox::warning(this, "Error"
+            , "No se pudo eliminar el suministro.");
       }
     }
   }
@@ -174,7 +198,7 @@ void Supplies::on_edit_button_clicked() {
     // page to avoid an empty row.
     if (buttonIndex < suppliesForPage.size()) {
       // Gets the row supply.
-      SupplyItem oldSupply = this->model.getSuppliesForPage(
+      Supply oldSupply = this->model.getSuppliesForPage(
           this->currentPageIndex, this->itemsPerPage)[buttonIndex];
       qDebug() << "Button clicked, index:" << buttonIndex << " " << oldSupply.getName();
       // Creates a dialog to manage the existing supply editing.
@@ -183,17 +207,18 @@ void Supplies::on_edit_button_clicked() {
           , oldSupply);
       
       if (dialog.exec() == QDialog::Accepted) {
-        SupplyItem newSupply = dialog.getNewSupply();
+        Supply newSupply = dialog.getNewSupply();
         if (this->model.editSupply(oldSupply, newSupply)) {
           // Updates the display with the new supply.
           this->refreshDisplay(this->itemsPerPage);
           qDebug() << "Se ha modificado una categoria exitosamente";
         } else {
-          qDebug() << "Se no ha modificado el suministro.";          
+          QMessageBox::information(this, "Informacion inválida"
+              , "No se editó el suministro.");
         }
       } else {
         qDebug() << "Se cancelo la edicion de una categoria";
-      } 
+      }
     }
   }
 }

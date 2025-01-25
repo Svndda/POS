@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 
-#include "supplyitem.h"
+#include "supply.h"
 
 /**
  * @class Product
@@ -21,7 +21,7 @@ class Product {
 private:
   uint64_t id = 0; ///< Unique identifier for the product.
   std::string name = ""; ///< Name of the product.
-  std::vector<SupplyItem> ingredients; ///< List of ingredients for the product.
+  std::vector<Supply> ingredients; ///< List of ingredients for the product.
   double price = 0; ///< Price of the product.
 
   // Class constructor.
@@ -39,8 +39,8 @@ public:
    */
   Product(uint64_t myID = 0
       , const std::string &myName = ""
-      , const std::vector<SupplyItem> myIngredients
-          = std::vector<SupplyItem>()
+      , const std::vector<Supply> myIngredients
+          = std::vector<Supply>()
       , double myPrice = 0)
       : id(myID)
       , name(myName)
@@ -69,7 +69,7 @@ public:
    * 
    * @return A constant reference to the vector of ingredients.
    */
-  inline const std::vector<SupplyItem>& getIngredients() const {
+  inline const std::vector<Supply>& getIngredients() const {
     return this->ingredients;
   }
   
@@ -96,7 +96,7 @@ public:
    * 
    * @param newIngredients The new list of ingredients.
    */
-  inline void setIngredients(const std::vector<SupplyItem>
+  inline void setIngredients(const std::vector<Supply>
                                  &newIngredients) {
     this->ingredients = newIngredients;
   }
@@ -139,8 +139,8 @@ public:
     this->name = other.name;
     this->ingredients = other.ingredients;
     this->price = other.price;
-    
-    return *this; // Return the reference to the current object
+    // Return the reference to the current object
+    return *this;
   }
   
   /**

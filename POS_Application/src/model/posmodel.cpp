@@ -73,9 +73,12 @@ bool POS_Model::addCategory(const std::string newCategory) {
   return false;
 }
 
-bool POS_Model::addSupply(const SupplyItem newSupply) {
+bool POS_Model::addSupply(const Supply newSupply) {
+  // Temporal to adapt to avoid checking the measure, cause the ui always give
+  // it.
+  const Supply baseSupply("", 0, newSupply.getMeasure());
   // Checks that the given supply to add isn't empty.
-  if (!(newSupply == SupplyItem())) {
+  if (!(newSupply == baseSupply)) {
     // Try to find the given supply in the registered supplies of the pos.
     auto it = std::find(this->supplies.begin(), this->supplies.end()
         , newSupply);
@@ -126,7 +129,7 @@ bool POS_Model::removeCategory(const std::string category) {
   return false;
 }
 
-bool POS_Model::removeSupply(const SupplyItem &supply) {
+bool POS_Model::removeSupply(const Supply &supply) {
   // Checks that the supply contain or not information.
   if (!supply.empty()) {
     // Try to find the supply in the exitisting supplies in the pos.
@@ -185,13 +188,13 @@ bool POS_Model::editCategory(const std::string oldCategory
   return false;
 }
 
-bool POS_Model::editSupply(const SupplyItem& oldSupply
-    , const SupplyItem& newSupply) {
+bool POS_Model::editSupply(const Supply& oldSupply
+    , const Supply& newSupply) {
   // Checks that the provided supplies aren't equal.
-  if (!(oldSupply == newSupply)) {
+  if (!(oldSupply == newSupply) && !newSupply.empty()) {
     // Try to find the provided old supply on the registered supplies.
     auto existingSupply = std::find(this->supplies.begin(), this->supplies.end()
-                                    , oldSupply);
+        , oldSupply);
     // If there's a supply that matches, then.
     if (existingSupply != this->supplies.end()) {
       // Update the supply propperties.
@@ -248,7 +251,7 @@ std::vector<std::string> POS_Model::getCategoriesForPage(const size_t pageIndex
   return registeredCategories;
 }
 
-std::vector<SupplyItem> POS_Model::getSuppliesForPage(const size_t pageIndex
+std::vector<Supply> POS_Model::getSuppliesForPage(const size_t pageIndex
     , const size_t itemsPerPage) {
   // Calculate the starting and end index for the products of this page.  
   size_t startIdx = pageIndex * itemsPerPage;  
@@ -257,7 +260,7 @@ std::vector<SupplyItem> POS_Model::getSuppliesForPage(const size_t pageIndex
   // Temporal counter to manage the categories addition.
   size_t currentIdx = 0;
   // Temporal vector to store and return the supplies to display in this page.    
-  std::vector<SupplyItem> pageSupplies;
+  std::vector<Supply> pageSupplies;
   // Iterates between the start and ending indexes to access the supplies for
   // this page.
   for (size_t index = startIdx; index < endIdx; ++index) {
@@ -365,7 +368,7 @@ void POS_Model::obtainProducts(
 }
 
 QString POS_Model::formatProductIngredients(
-    const std::vector<SupplyItem>& ingredients) {
+    const std::vector<Supply>& ingredients) {
   // Qstring temporal to contain all the product's ingredients information.
   QString formattedProductIngredients = "";
   

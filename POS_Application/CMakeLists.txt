@@ -15,7 +15,7 @@ qt_add_executable(POS_Application
   src/model/backupmodule.h src/model/backupmodule.cpp
   src/model/posmodel.h src/model/posmodel.cpp
   src/model/product.h src/model/product.cpp
-  src/model/supplyitem.h
+  src/model/supply.h src/model/supply.cpp
   src/common/util.cpp src/common/util.h
   
   src/ui/inventory/products.h src/ui/inventory/products.cpp
@@ -30,9 +30,9 @@ qt_add_executable(POS_Application
   src/ui/inventory/categoryformdialog.ui
   src/ui/inventory/supplies.h src/ui/inventory/supplies.cpp
   src/ui/inventory/supplies.ui
-  src/model/supplyitem.cpp
   src/ui/inventory/inventory.h
   src/ui/inventory/supplyformdialog.h src/ui/inventory/supplyformdialog.cpp src/ui/inventory/supplyformdialog.ui
+  src/ui/pos/pos.h src/ui/pos/pos.cpp src/ui/pos/pos.ui
   
 )
 

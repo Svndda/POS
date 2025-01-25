@@ -76,7 +76,7 @@ public:
    * @param ingredients A vector of `SupplyItem` objects.
    * @return A formatted `QString` representation of the ingredients.
    */
-  QString formatProductIngredients(const std::vector<SupplyItem>& ingredients);
+  QString formatProductIngredients(const std::vector<Supply>& ingredients);
   
   /**
    * @brief Retrieves the created or edited product.
@@ -109,7 +109,7 @@ private slots:
    * Validates the product details entered by the user and, if valid, creates
    * or updates the product. Displays a warning if the input is incorrect.
    */
-  void on_acceptProduct_button_clicked();
+  void acceptProduct_button_clicked();
   
   /**
    * @brief Slot for handling the "Cancel" button click event.

@@ -29,7 +29,7 @@ ProductFormDialog::ProductFormDialog(QWidget *parent
   
   // Connect the "Accept" button to its slot
   this->connect(ui->acceptProduct_button, &QPushButton::clicked
-      , this , &ProductFormDialog::on_acceptProduct_button_clicked);
+      , this , &ProductFormDialog::acceptProduct_button_clicked);
   
   // Connect the "Cancel" button to its slot
   this->connect(ui->cancelProduct_button, &QPushButton::clicked
@@ -37,7 +37,7 @@ ProductFormDialog::ProductFormDialog(QWidget *parent
 }
 
 QString ProductFormDialog::formatProductIngredients(
-    const std::vector<SupplyItem>& ingredients) {
+    const std::vector<Supply>& ingredients) {
   // String that will contain the ingredients information formated
   //  to be displayed.
   QString formattedIngredients = "";
@@ -63,7 +63,7 @@ void ProductFormDialog::on_cancelProduct_button_clicked() {
   this->reject();
 }
 
-void ProductFormDialog::on_acceptProduct_button_clicked() {
+void ProductFormDialog::acceptProduct_button_clicked() {
   // Product's information provided by the user.
   QString productCategory = this->ui->productCategory_comboBox->currentText();
   QString productName = this->ui->productName_lineEdit->text();
@@ -76,7 +76,7 @@ void ProductFormDialog::on_acceptProduct_button_clicked() {
     // Checks that the product ingredients match the stablished format.
     if (regex.match(productIngredients).hasMatch()) {
       // vector of product ingredients.
-      std::vector<SupplyItem> ingredients;
+      std::vector<Supply> ingredients;
       // buffer containing all the ingredients information.
       std::istringstream buffer(productIngredients.toStdString());
       // String to almacenate each ingredient information.
@@ -104,8 +104,13 @@ void ProductFormDialog::on_acceptProduct_button_clicked() {
       // product ingredients is wrong.
       QMessageBox::warning(this, "Error en formato de ingredientes",
           "Por favor, escriba los ingredientes del producto en el formato"
-          " solicitado");
+          " solicitado.");
     }
+  } else {
+    // Creates a message box to indicate the user that the format in the
+    // product ingredients is wrong.
+    QMessageBox::warning(this, "Error en nombre de producto.",
+                         "Por favor, proporcionele un nombre al producto."); 
   }
 }
 

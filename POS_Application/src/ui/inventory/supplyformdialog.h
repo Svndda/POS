@@ -4,7 +4,7 @@
 
 #include <QDialog>
 #include <vector>
-#include "supplyitem.h"
+#include "supply.h"
 
 namespace Ui {
 class SupplyFormDialog;
@@ -22,8 +22,8 @@ class SupplyFormDialog : public QDialog {
   
 private:
   Ui::SupplyFormDialog* ui;                   ///< Pointer to the UI layout.
-  std::vector<SupplyItem> existingSupplies;  ///< List of existing supplies for validation.
-  SupplyItem newSupply;                      ///< Supply item being created or modified.
+  std::vector<Supply> existingSupplies;  ///< List of existing supplies for validation.
+  Supply newSupply;                      ///< Supply item being created or modified.
 
 public:
   /**
@@ -33,8 +33,8 @@ public:
    * @param supply Supply item to edit, or an empty one for creation.
    */
   explicit SupplyFormDialog(QWidget *parent
-      , std::vector<SupplyItem> supplies
-      , SupplyItem supply);
+      , std::vector<Supply> supplies
+      , Supply supply);
   
   /**
    * @brief Destroys the dialog and its resources.
@@ -44,9 +44,9 @@ public:
 public:
   /**
    * @brief Retrieves the updated or newly created supply item.
-   * @return The new or modified SupplyItem object.
+   * @return The new or modified Supply object.
    */
-  SupplyItem getNewSupply();
+  Supply getNewSupply();
   
 private slots:
   /**

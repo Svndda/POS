@@ -42,11 +42,11 @@ public:
   /**
    * @brief Reads and returns the backup data for supplies.
    * 
-   * Reads supply data from the backup file and returns a vector of SupplyItem objects.
+   * Reads supply data from the backup file and returns a vector of Supply objects.
    * 
-   * @return A vector of SupplyItem objects representing the supplies backup.
+   * @return A vector of Supply objects representing the supplies backup.
    */
-  std::vector<SupplyItem> getSuppliesBackup();
+  std::vector<Supply> getSuppliesBackup();
   
   /**
    * @brief Updates the backup data for products.
@@ -65,7 +65,7 @@ public:
    * 
    * @param supplies A vector of SupplyItem objects representing the updated supplies.
    */
-  void updateSuppliesBackup(const std::vector<SupplyItem>& supplies);
+  void updateSuppliesBackup(const std::vector<Supply>& supplies);
 private:
   BackupModule(); ///< Private constructor to enforce the singleton pattern.
   
@@ -89,7 +89,7 @@ private:
    * @param supplies A vector to store the parsed supply data.
    * @throws std::runtime_error If the file cannot be opened or read.
    */
-  void readSupplyItemsBackup(std::vector<SupplyItem>& supplies);
+  void readSupplyItemsBackup(std::vector<Supply>& supplies);
   
   /**
    * @brief Writes product data to a backup file.
@@ -109,7 +109,7 @@ private:
    * 
    * @param supplies A vector of SupplyItem objects to be written to the backup file.
    */
-  void writeSuppliesBackup(const std::vector<SupplyItem>& supplies);
+  void writeSuppliesBackup(const std::vector<Supply>& supplies);
   
   // Copy and assignment constructors are disabled.
   BackupModule(const BackupModule&) = delete;
