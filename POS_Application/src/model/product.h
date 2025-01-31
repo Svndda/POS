@@ -2,6 +2,7 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
+#include <QPixmap>
 #include <vector>
 #include <iostream>
 
@@ -23,6 +24,7 @@ private:
   std::string name = ""; ///< Name of the product.
   std::vector<Supply> ingredients; ///< List of ingredients for the product.
   double price = 0; ///< Price of the product.
+  QPixmap image;
 
   // Class constructor.
 public:
@@ -41,11 +43,13 @@ public:
       , const std::string &myName = ""
       , const std::vector<Supply> myIngredients
           = std::vector<Supply>()
-      , double myPrice = 0)
+      , double myPrice = 0
+      , const QPixmap myImage = QPixmap())
       : id(myID)
       , name(myName)
       , ingredients(myIngredients)
-      , price(myPrice) {
+      , price(myPrice)
+      , image(myImage)  {
   }
 
   // Class Getters.
@@ -80,6 +84,9 @@ public:
    */
   inline const double getPrice() const {return this->price;}
   
+  
+  inline const QPixmap& getImage() const {return this->image;}
+  
   // Class Setters.
 public:
   /**
@@ -96,8 +103,7 @@ public:
    * 
    * @param newIngredients The new list of ingredients.
    */
-  inline void setIngredients(const std::vector<Supply>
-                                 &newIngredients) {
+  inline void setIngredients(const std::vector<Supply>& newIngredients) {
     this->ingredients = newIngredients;
   }
   
@@ -139,6 +145,7 @@ public:
     this->name = other.name;
     this->ingredients = other.ingredients;
     this->price = other.price;
+    this->image = other.image;
     // Return the reference to the current object
     return *this;
   }

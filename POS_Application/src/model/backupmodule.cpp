@@ -3,10 +3,14 @@
 #include <map>
 #include <fstream>
 #include <iostream>
+#include <qdebug.h>
+#include <qdir.h>
 #include <string>
 #include <sstream>
 #include <vector>
 #include <cstdint>
+#include <filesystem>
+
 #include "backupmodule.h"
 #include "supply.h"
 
@@ -46,11 +50,18 @@ void BackupModule::readProductsBackup(
     throw std::runtime_error("No se pudo abrir el archivo: " + filename);
   }
   
+  // Crear un objeto de tipo std::filesystem::path
+  std::filesystem::path filePath(PRODUCTS_BACKUP_FILE);
+  
+  // Obtener el padre del archivo (directorio que lo contiene)
+  std::filesystem::path parentPath = filePath.parent_path();
+  
   // Temporal variable to store a line of characters of the file.
   std::string line;
   // Temporal variables to store the category of the product and his name.
   std::string productCategory;
   std::string productName;
+  std::string imagePath;
   
   // While there's a line on the input file.
   while (std::getline(file, line)) {
@@ -106,15 +117,24 @@ void BackupModule::readProductsBackup(
           // If theres no spacer, then its the product's price.
           try {
             productPrice = std::stod(productInfo);
-          } catch (const std::exception&) {
-            throw std::runtime_error("Error al convertir el precio: " + productInfo);
+          } catch (const std::exception& e) {
+            imagePath = productInfo;
+            // Erase the blanck spaces on the image path.
+            imagePath.erase(
+                std::remove_if(imagePath.begin(), imagePath.end(), isspace),
+                imagePath.end());
+            // Construir la ruta completa usando std::filesystem::path
+            std::filesystem::path fullPath = parentPath / imagePath;
+            imagePath = fullPath.string();
           }
         }
       }
       
       // Creates a new product for the corresponding category.
       registeredProducts[productCategory].emplace_back(1, productName,
-          productIngredients, productPrice);
+        productIngredients, productPrice, QPixmap(imagePath.c_str()));
+      
+      qDebug() << imagePath << " cargando imagen de";      
     }
   }
   file.close();
@@ -168,6 +188,12 @@ void BackupModule::writeProductsBackup(
     throw std::runtime_error("No se pudo abrir el archivo para escritura: " + filename);
   }
   
+  // Crear un objeto de tipo std::filesystem::path
+  std::filesystem::path filePath(filename);
+  
+  // Obtener el padre del archivo (directorio que lo contiene)
+  std::filesystem::path parentPath = filePath.parent_path();
+  
   // Transverse the map through all the product categories.
   for (const auto& [category, products] : registeredProducts) {
     QString productCategtory(category.data());
@@ -188,9 +214,29 @@ void BackupModule::writeProductsBackup(
         file << ingredientName.toStdString() << " ; "
             << ingredient.getQuantity() << "\t";
       }
-      
+      std::string imageName = product.getName() +  ".png";
+      // Erase the blanck spaces on the image path.
+      imageName.erase(
+          std::remove_if(imageName.begin(), imageName.end(), isspace),
+          imageName.end());
       // Writes out the product's price as the last character of the line.
-      file << product.getPrice() << std::endl;
+      file << product.getPrice() << "\t" << imageName << std::endl;
+      // Saves the product image in the save directory as the backup file.
+      const QPixmap& productImage = product.getImage();
+      const std::string directory = parentPath.string() + "\\" + imageName;
+      
+      // Verifica si el directorio existe; si no, lo crea
+      QDir dir(QString::fromStdString(parentPath.string()));
+      if (!dir.exists()) {
+        dir.mkpath("."); // Crea el directorio completo si no existe
+      }
+      
+      try {
+        productImage.save(QString::fromStdString(directory));
+        qDebug() << directory << " salvango imagen en";
+      } catch(std::runtime_error& e) {
+        qDebug() << "El producto: " << product.getImage() << ". No tiene imagen";
+      }
     }
     
     // Writes out a blank line between categories.

@@ -159,7 +159,7 @@ void Products::addProduct_button_clicked() {
       this->refreshDisplay(this->itemsPerPage);
     } else {
       QMessageBox::information(this, "Informacion inválida"
-          , "No se añadió el suministro.");
+          , "No se añadió el producto.");
     }
   } else {
     qDebug() << "Se cancelo la creacion de un producto";
@@ -172,8 +172,7 @@ void Products::on_nextPage_button_clicked() {
   size_t productPageIt2 = productPageIt + 9;
   // Checks if the indexes the number of registered products is greather or
   // between the next page indexes.
-  if (this->model.getNumberOfProducts() >= productPageIt
-      && this->model.getNumberOfProducts() <= productPageIt2) {
+  if (this->model.getNumberOfProducts() >= productPageIt) {
     ++this->currentPageIndex;
     // Updates the product information in the display to show the next product
     // page.

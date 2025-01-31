@@ -1,7 +1,9 @@
  // Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include <sstream>
 #include <string>
-
+ 
+#include <QPixmap>
+#include <QFileDialog>
 #include <QMessageBox>
 #include "productformdialog.h"
 #include "ui_productformdialog.h"
@@ -34,6 +36,12 @@ ProductFormDialog::ProductFormDialog(QWidget *parent
   // Connect the "Cancel" button to its slot
   this->connect(ui->cancelProduct_button, &QPushButton::clicked
       , this , &ProductFormDialog::on_cancelProduct_button_clicked);
+  
+  // Connect the "Select product image" button to its slot
+  this->connect(ui->productImageSelector_button
+      , &QPushButton::clicked
+      , this
+      , &ProductFormDialog::productImageSelector_button_clicked);
 }
 
 QString ProductFormDialog::formatProductIngredients(
@@ -58,6 +66,30 @@ QString ProductFormDialog::formatProductIngredients(
   return formattedIngredients;
 }
 
+void ProductFormDialog::productImageSelector_button_clicked() {
+  // Creates a dialog to manage the file search.
+  QFileDialog dialog;
+  // Sets the window title.
+  dialog.setWindowTitle("Selecciona una imagen para el producto.");
+  // Stablish the starting directory.
+  dialog.setDirectory(QDir::homePath());
+  // Sets the type of files expected.
+  dialog.setNameFilter("Images (*.png *.jpg *.jpeg *.bmp)");
+  if (dialog.exec()) {
+    // Saves the file path given by the dialog.
+    QString filePath = dialog.selectedFiles().first();
+    // Creates a pix map with the file information.
+    QPixmap productImage(filePath);
+    // Stablish the product image label to show the selected image.
+    this->ui->producImage_label->setPixmap(productImage.scaled(
+        this->ui->producImage_label->size()
+        , Qt::KeepAspectRatio
+        , Qt::SmoothTransformation));
+    // Updates the label to display the pixmap.
+    // this->ui->producImage_label->update();
+  }
+}
+
 void ProductFormDialog::on_cancelProduct_button_clicked() {
   // Stablish that the QDialog has finished incorrectly.
   this->reject();
@@ -69,7 +101,8 @@ void ProductFormDialog::acceptProduct_button_clicked() {
   QString productName = this->ui->productName_lineEdit->text();
   QString productIngredients = this->ui->productIngredients_lineEdit->text();
   double productPrice = this->ui->productPrice_doubleSpinBox->value();
-  
+  const QPixmap productImage = this->ui->producImage_label->pixmap();
+    
   QRegularExpression regex(R"(^\s*\p{L}+\s+\d+(\s*,\s*\p{L}+\s+\d+)*\s*$)");
   // Checks if product name were provided.
   if (!productName.isEmpty()) {
@@ -94,9 +127,19 @@ void ProductFormDialog::acceptProduct_button_clicked() {
         // Emplace a new ingredients to the product's vector ingredients.
         ingredients.emplace_back(name, quantity);
       }
-      // Store a new product into with information given by the user.
-      this->createdProduct = Product(1, productName.toStdString()
-          , ingredients, productPrice);
+      // Store a new product into with information given by the user.      
+      // Checks if the product image pixmap is valid.
+      if (productImage.isNull()) {
+        qDebug() << "La imagen porporcionada por el usuario tiene un error o no"
+                    " se ha porporcionado imagen para el producto.";
+        // Create a new product with without a image
+        this->createdProduct = Product(1, productName.toStdString()
+            , ingredients, productPrice);
+      } else {
+        // Store a new product into with image information.
+        this->createdProduct = Product(1, productName.toStdString()
+            , ingredients, productPrice, productImage);
+      }
       // Stablish that the Qdialog has finished correctly.
       this->accept();
     } else {
@@ -131,6 +174,10 @@ void ProductFormDialog::setProductInfo(
   this->ui->productIngredients_lineEdit->setText(productIngredients);
   // Sets the value of the double spin box of the product price.
   this->ui->productPrice_doubleSpinBox->setValue(productToEdit.getPrice());
+  this->ui->producImage_label->setPixmap(productToEdit.getImage().scaled(
+      this->ui->producImage_label->size()
+      , Qt::KeepAspectRatio
+      , Qt::SmoothTransformation));
 }
 
 QString ProductFormDialog::getProductCategory() {

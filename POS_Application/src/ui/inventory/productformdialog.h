@@ -103,6 +103,8 @@ public:
    */
   void setProductInfo(Product& productToEdit, QString productCategory);
 private slots:
+  
+  void productImageSelector_button_clicked();
   /**
    * @brief Slot for handling the "Accept" button click event.
    * 

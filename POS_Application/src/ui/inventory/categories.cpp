@@ -209,8 +209,7 @@ void Categories::on_nextPage_button_clicked() {
   size_t categoryPageIt2 = categoryPageIt + 9;
   // Checks if the indexes the number of registered categories is greather or
   // between the next page indexes.
-  if (this->model.getNumberOfCategories() >= categoryPageIt
-      && this->model.getNumberOfCategories() <= categoryPageIt2) {
+  if (this->model.getNumberOfCategories() >= categoryPageIt) {
     // Increments the current page.
     ++this->currentPageIndex;
     // Updates the information in the display to show the next categories

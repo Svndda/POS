@@ -31,9 +31,14 @@ qt_add_executable(POS_Application
   src/ui/inventory/supplies.h src/ui/inventory/supplies.cpp
   src/ui/inventory/supplies.ui
   src/ui/inventory/inventory.h
-  src/ui/inventory/supplyformdialog.h src/ui/inventory/supplyformdialog.cpp src/ui/inventory/supplyformdialog.ui
-  src/ui/pos/pos.h src/ui/pos/pos.cpp src/ui/pos/pos.ui
-  
+  src/ui/inventory/supplyformdialog.h src/ui/inventory/supplyformdialog.cpp
+  src/ui/inventory/supplyformdialog.ui
+  src/ui/pos/pos.h src/ui/pos/pos.cpp
+  src/ui/pos/pos.ui
+  src/ui/pos/ReceiptElementWidget.ui
+  src/ui/pos/SelectReceiptWidget.ui
+  src/ui/pos/productselectionbutton.h src/ui/pos/productselectionbutton.cpp
+  src/ui/pos/productselectionbutton.ui
 )
 
 qt_add_translations(
@@ -54,6 +59,7 @@ target_include_directories(POS_Application
         ${CMAKE_SOURCE_DIR}/src/controller
         ${CMAKE_SOURCE_DIR}/src/ui
         ${CMAKE_SOURCE_DIR}/src/ui/inventory
+        ${CMAKE_SOURCE_DIR}/src/ui/pos
         ${CMAKE_SOURCE_DIR}/src/model
         ${CMAKE_SOURCE_DIR}/src/common
 )

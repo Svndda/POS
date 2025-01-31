@@ -1,52 +1,36 @@
 Almuerzos:
-Patacones -
-patacones ; 2	100
-Casado con Pollo -
-Arroz ; 200	Filet ; 0	ensalada ; 1	frijoles ; 50	3500
-Arrozx -
-arroz ; 1	102
-Casado de Res -
-Arroz ; 1	Bistek ; 1	Ensalada ; 1	Picadillo ; 1	3500
-Arroz con Camarones -
-Arroz ; 1	Camarones ; 1	Ensalada ; 1	Picadillo ; 10	6000
-Salchipapas -
-papas ; 10	salchicha ; 2	1800
-Casado con Higado -
-Arroz ; 1	Higado ; 1	Picadillo ; 1	2300
+Papass -
+Papas ; 2	2000	Papass.png
+Macarrones -
+Pasta ; 1	100	Macarrones.png
+Cafe -
+Cafe ; 1	1000	Cafe.png
+Coca -
+Coca ; 1	600	Coca.png
 
 Arroces:
-Arroz con camarones -
-Camarones ; 1	Arroz ; 200	Ensadala ; 1	2000
 
 Bebidas Calientes:
-Café -
-Cafe ; 100	agua ; 100	800
+Batido -
+Banano ; 2	1200	Batido.png
 
 Bebidas Frias:
-Batido de Arandanos(Leche) -
-Arandanos ; 75	Leche ; 200	Azúcar ; 80	2300
-Fresca -
-Fresca ; 1	1000
-Coca cola -
-Cocacola ; 1	2000
 
 Bebidas Naturales:
-Horchata -
-Horchata ; 0	1000
 
 Desayunos:
-Pinto con Salchichon -
-Pinto ; 1	Salchichon ; 3	Natilla ; 1	2500
+Pinto -
+Pinto ; 1	1000	Pinto.png
 
 Mariscos:
 
 Postre:
-Budin -
-Budin ; 1	1200
 
 Sodas:
-Canada Dry -
-Canada ; 1	1200
+Fresca -
+Fresca ; 1	600	Fresca.png
 
 Vegetariano:
+Arroz de vegetales -
+Arroz ; 1	2000	Arrozdevegetales.png
 

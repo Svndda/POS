@@ -136,8 +136,7 @@ void Supplies::on_nextPage_button_clicked() {
   size_t suppliesPageIt2 = suppliesPageIt + 9;
   // Checks if the indexes the number of registered supplies is greather or
   // between the next page indexes.
-  if (this->model.getNumberOfSupplies() >= suppliesPageIt
-      && this->model.getNumberOfSupplies() <= suppliesPageIt2) {
+  if (this->model.getNumberOfSupplies() >= suppliesPageIt) {
     ++this->currentPageIndex;
     // Updates the supplies information in the display to show the next supplies
     // page.

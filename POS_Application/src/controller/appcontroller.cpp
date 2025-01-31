@@ -7,6 +7,7 @@
 #include "products.h"
 #include "categories.h"
 #include "supplies.h"
+#include "pos.h"
 
 // Esta deberia de ser la clase controladora de la aplicacion.
 
@@ -29,12 +30,14 @@ AppController::AppController(QWidget *parent)
   Products* products = new Products(this, model);
   Categories* categories = new Categories(this, model);
   Supplies* supplies = new Supplies(this, model);
+  Pos* posSystem = new Pos(this, model);
 
   // Adds the program oages to the stack of pages.
   this->pageStack->addWidget(loginPage);
   this->pageStack->addWidget(products);
   this->pageStack->addWidget(categories);
   this->pageStack->addWidget(supplies);
+  this->pageStack->addWidget(posSystem);
   
   // Sets the page stack as the cental widget of the window.
   this->setCentralWidget(pageStack);
@@ -81,7 +84,7 @@ void AppController::inventory_productsDisplay() {
 }
 
 void AppController::inventory_primeDisplay() {
-  this->pageStack->setCurrentIndex(3);
+  this->pageStack->setCurrentIndex(4);
 }
 
 AppController::~AppController() {
