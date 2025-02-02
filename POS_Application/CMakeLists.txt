@@ -18,19 +18,19 @@ qt_add_executable(POS_Application
   src/model/supply.h src/model/supply.cpp
   src/common/util.cpp src/common/util.h
   
-  src/ui/inventory/products.h src/ui/inventory/products.cpp
-  src/ui/inventory/products.ui
+  src/ui/inventory/inventory.h src/ui/inventory/inventory.cpp
+  src/ui/inventory/inventory.ui
   
   src/ui/inventory/productformdialog.h src/ui/inventory/productformdialog.cpp
   src/ui/inventory/productformdialog.ui
   src/controller/mainwindow.ui
-  src/ui/inventory/categories.h src/ui/inventory/categories.cpp
-  src/ui/inventory/categories.ui
+  
+  
   src/ui/inventory/categoryformdialog.h src/ui/inventory/categoryformdialog.cpp
   src/ui/inventory/categoryformdialog.ui
-  src/ui/inventory/supplies.h src/ui/inventory/supplies.cpp
-  src/ui/inventory/supplies.ui
-  src/ui/inventory/inventory.h
+  src/ui/inventory/suppliescatalog.h src/ui/inventory/suppliescatalog.cpp
+  src/ui/inventory/suppliescatalog.ui
+  src/ui/inventory/catalog.h
   src/ui/inventory/supplyformdialog.h src/ui/inventory/supplyformdialog.cpp
   src/ui/inventory/supplyformdialog.ui
   src/ui/pos/pos.h src/ui/pos/pos.cpp
@@ -39,6 +39,8 @@ qt_add_executable(POS_Application
   src/ui/pos/SelectReceiptWidget.ui
   src/ui/pos/productselectionbutton.h src/ui/pos/productselectionbutton.cpp
   src/ui/pos/productselectionbutton.ui
+  src/ui/inventory/categoriescatalog.h src/ui/inventory/categoriescatalog.cpp src/ui/inventory/categoriescatalog.ui
+  src/ui/inventory/productscatalog.h src/ui/inventory/productscatalog.cpp src/ui/inventory/productscatalog.ui
 )
 
 qt_add_translations(
