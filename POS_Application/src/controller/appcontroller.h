@@ -40,19 +40,6 @@ private:
   POS_Model& model;                    ///< Reference to the POS model instance.
   
 private slots:
-  /**
-   * @brief Displays the categories page in the application.
-   */
-  void inventory_categoriesDisplay();
   
-  /**
-   * @brief Displays the products page in the application.
-   */
-  void inventory_productsDisplay();
-  
-  /**
-   * @brief Displays the supplies page in the application.
-   */
-  void inventory_primeDisplay();
 };
 #endif // APPCONTROLLER_H

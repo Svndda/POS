@@ -3,125 +3,78 @@
 #define INVENTORY_H
 
 #include <QWidget>
+#include <QStackedWidget>
 #include <QPushButton>
-
 #include "posmodel.h"
 
+namespace Ui {
+class Inventory;
+}
+
 /**
- * @class Inventory
- * @brief Abstract base class that serves as an interface for inventory-related subpages in the application.
+ * @class Products
+ * @brief Handles the user interface and logic for managing products in the POS system.
  * 
- * The `Inventory` class provides a standardized structure for managing different inventory-related subpages,
- * such as categories, products, and supplies. It defines common attributes, signals, and slots, while enforcing
- * implementation of key methods in derived classes.
+ * This class extends the Inventory interface to display, add, edit, and delete 
+ * products using a paginated UI. It uses a model (`POS_Model`) to interact with 
+ * the underlying data.
  */
 class Inventory : public QWidget {
   Q_OBJECT
   
+private:
+  Ui::Inventory* ui; ///< Pointer to the UI elements for the Products class.
+  POS_Model& model;                    ///< Reference to the POS model instance.
+  QStackedWidget* catalogStack;
+
 public:
   /**
-   * @brief Constructs an Inventory object.
-   * @param parent The parent widget, defaulting to nullptr.
-   * @param appModel A reference to the POS_Model instance used for managing application data.
-   * @param items The number of items to display per page, defaulting to 9.
+   * @brief Constructor for the Products class.
+   * 
+   * @param parent The parent QWidget (default is nullptr).
+   * @param model Reference to the singleton POS_Model instance.
    */
-  explicit Inventory(QWidget* parent = nullptr
-      , POS_Model& appModel = POS_Model::getInstance()
-      , const size_t items = 9)
-      : QWidget(parent)
-      , model(appModel)
-      , currentPageIndex(0)
-      , itemsPerPage(items) {}
+  explicit Inventory(QWidget *parent = nullptr
+      , POS_Model& model = POS_Model::getInstance());
   
   /**
-   * @brief Virtual destructor to allow proper cleanup in derived classes.
+   * @brief Destructor for the Products class.
    */
-  virtual ~Inventory() {}
+  ~Inventory();
   
 protected:
   /**
-   * @brief Reference to the application model, which provides data for the inventory.
+   * @brief Refreshes the display with the products of the current page.
+   * 
+   * @param pageItems Number of items to display per page.
    */
-  POS_Model& model;
-  /**
-   * @brief Index of the currently displayed page in the inventory.
-   */
-  size_t currentPageIndex = 0;
-  /**
-   * @brief Number of items displayed per page in the inventory.
-   */
-  size_t itemsPerPage = 9;
-  
-protected:
-  /**
-   * @brief Pure virtual method that must be implemented by derived classes to establish signal-slot connections.
-   */
-  virtual void setupConnections() = 0;
-  /**
-   * @brief Pure virtual method that must be implemented by derived classes to refresh the displayed items.
-   * @param pageItems The number of items to display per page.
-   */
-  virtual void refreshDisplay(const size_t pageItems) = 0;
-  
-public:
-signals:
-  /**
-   * @brief Signal emitted when the "Products" button is clicked.
-   */
-  void products_button_signal();
+  void refreshDisplay(const size_t pageItems);
   
   /**
-   * @brief Signal emitted when the "Categories" button is clicked.
+   * @brief Sets up connections between UI elements and their respective slots.
    */
-  void categories_button_signal();
+  void setupConnections();
   
-  /**
-   * @brief Signal emitted when the "Supplies" button is clicked.
-   */
-  void supplies_button_signal();
+  void setPressedPropperties(QPushButton* catalogButton
+      , QWidget* catalogWidget);
   
-protected slots:
-  /**
-   * @brief Slot for handling the "Next Page" button click event.
-   * This method can be overridden by derived classes.
-   */
-  virtual void on_nextPage_button_clicked() {}
+  void setUnpressedPropperties(QPushButton* catalogButton
+      , QWidget* catalogWidget);
   
+private slots:
   /**
-   * @brief Slot for handling the "Previous Page" button click event.
-   * This method can be overridden by derived classes.
+   * @brief Slot for handling the "ProductsCatalog" button click event.
    */
-  virtual void on_previousPage_button_clicked() {}
+  void on_productsCatalog_button_clicked();
+  /**
+   * @brief Slot for handling the "CategoriesCatalog" button click event.
+   */
+  void on_categoriesCatalog_button_clicked();
+  /**
+   * @brief Slot for handling the "SuppliesCatalog" button click event.
+   */
+  void on_suppliesCatalog_button_clicked();
   
-  /**
-   * @brief Slot for handling the "Delete" button click event.
-   * This method can be overridden by derived classes.
-   */
-  virtual void on_delete_button_clicked() {}
-  
-  /**
-   * @brief Slot for handling the "Edit" button click event.
-   * This method can be overridden by derived classes.
-   */
-  virtual void on_edit_button_clicked() {}
-  
-  /**
-   * @brief Slot for handling the "Categories" button click event.
-   * This method can be overridden by derived classes.
-   */
-  virtual void on_categories_button_clicked() {}
-  
-  /**
-   * @brief Slot for handling the "Supplies" button click event.
-   * This method can be overridden by derived classes.
-   */
-  virtual void on_supplies_button_clicked() {}
-  
-  /**
-   * @brief Slot for handling the "Products" button click event.
-   * This method can be overridden by derived classes.
-   */
-  virtual void on_products_button_clicked() {}
 };
 
 #endif // INVENTORY_H

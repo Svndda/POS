@@ -1,6 +1,6 @@
 // Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
-#include "supplies.h"
-#include "ui_supplies.h"
+#include "suppliescatalog.h"
+#include "ui_suppliescatalog.h"
 
 #include <vector>
 #include <string>
@@ -11,24 +11,24 @@
 #include "supply.h"
 #include "supplyformdialog.h"
 
-Supplies::Supplies(QWidget *parent, POS_Model& model)
-    : Inventory(parent, model)
-    , ui(new Ui::Supplies) {
+SuppliesCatalog::SuppliesCatalog(QWidget *parent, POS_Model& model)
+    : Catalog(parent, model)
+    , ui(new Ui::SuppliesCatalog) {
   this->ui->setupUi(this);
   this->setupConnections();
   this->refreshDisplay(this->itemsPerPage);
 }
 
-Supplies::~Supplies() {
+SuppliesCatalog::~SuppliesCatalog() {
   delete this->ui;
 }
 
-void Supplies::refreshDisplay(const size_t pageItems) {
+void SuppliesCatalog::refreshDisplay(const size_t pageItems) {
   this->refreshSuppliesDisplay(this->model.getSuppliesForPage(
       this->currentPageIndex, pageItems), pageItems);
 }
 
-void Supplies::setupConnections() {
+void SuppliesCatalog::setupConnections() {
   // String variables that will contain the different delete and edit buttons
   // name for each registered category.
   QString deleteButtonName("");
@@ -44,28 +44,22 @@ void Supplies::setupConnections() {
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connects the buttons with their functions.
     this->connect(deleteButton , &QPushButton::clicked
-        , this, &Supplies::on_delete_button_clicked);
+        , this, &SuppliesCatalog::on_delete_button_clicked);
     this->connect(editButton , &QPushButton::clicked
-        , this, &Supplies::on_edit_button_clicked);
+        , this, &SuppliesCatalog::on_edit_button_clicked);
   }
   // Connects the funtions that handles the next and previous page of registered
   // categories.
-  this->connect(this->ui->nextProductPage_button, &QPushButton::clicked
-      , this, &Supplies::on_nextPage_button_clicked);
-  this->connect(this->ui->previousProductPage_button, &QPushButton::clicked
-      , this, &Supplies::on_previousPage_button_clicked);
-  // Connects the function that handles the button to change to the products
-  // page.
-  this->connect(this->ui->products_button, &QPushButton::clicked
-      , this, &Supplies::on_products_button_clicked);
-  this->connect(this->ui->categories_button, &QPushButton::clicked
-      , this, &Supplies::on_supplies_button_clicked);
+  this->connect(this->ui->nextPage_button, &QPushButton::clicked
+      , this, &SuppliesCatalog::on_nextPage_button_clicked);
+  this->connect(this->ui->previousPage_button, &QPushButton::clicked
+      , this, &SuppliesCatalog::on_previousPage_button_clicked);
   // Connects the function that handles the add category button.
-  this->connect(this->ui->addCategory_button, &QPushButton::clicked
-      , this, &Supplies::addSupply_button_clicked);
+  this->connect(this->ui->addSupply_button, &QPushButton::clicked
+      , this, &SuppliesCatalog::addSupply_button_clicked);
 }
 
-void Supplies::refreshSuppliesDisplay(
+void SuppliesCatalog::refreshSuppliesDisplay(
     const std::vector<Supply>& visibleSupplies
     , const size_t items) {
   // Initiazates the label index iterator.
@@ -105,10 +99,10 @@ void Supplies::refreshSuppliesDisplay(
       " suministros").arg(offset + 1).arg(std::min(offset + 9
       , this->model.getNumberOfSupplies())).arg(
       this->model.getNumberOfSupplies());
-  this->ui->pageProductsNumber_label->setText(pageLabelText);
+  this->ui->pageDisplayingNumber_label->setText(pageLabelText);
 }
 
-void Supplies::addSupply_button_clicked() {
+void SuppliesCatalog::addSupply_button_clicked() {
   // Creates a dialog to manage the creation of a new supply.
   SupplyFormDialog dialog(this, this->model.getRegisteredSupplies()
       , Supply());
@@ -130,7 +124,7 @@ void Supplies::addSupply_button_clicked() {
   }
 }
 
-void Supplies::on_nextPage_button_clicked() {
+void SuppliesCatalog::on_nextPage_button_clicked() {
   // Calculates the supplies page start and end indexes for the next page.
   size_t suppliesPageIt = (this->currentPageIndex + 1) * 9;
   size_t suppliesPageIt2 = suppliesPageIt + 9;
@@ -145,7 +139,7 @@ void Supplies::on_nextPage_button_clicked() {
   qDebug() << "Boton de avance: " << this->currentPageIndex;
 }
 
-void Supplies::on_previousPage_button_clicked() {
+void SuppliesCatalog::on_previousPage_button_clicked() {
   // Checks that the actual page is not the first one.
   if (this->currentPageIndex > 0) {
     // Decrements the page index.
@@ -157,7 +151,7 @@ void Supplies::on_previousPage_button_clicked() {
   std::cout << "Boton de retroceso: " << this->currentPageIndex << std::endl;
 }
 
-void Supplies::on_delete_button_clicked() {
+void SuppliesCatalog::on_delete_button_clicked() {
   // Catch the pointer to the button object that sended the signal.
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   // If there's a pointer, then.
@@ -183,7 +177,7 @@ void Supplies::on_delete_button_clicked() {
   }
 }
 
-void Supplies::on_edit_button_clicked() {
+void SuppliesCatalog::on_edit_button_clicked() {
   // Catch the pointer to the button object that sended the signal.  
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   // Checks if the pointer is valid.
@@ -221,19 +215,3 @@ void Supplies::on_edit_button_clicked() {
     }
   }
 }
-
-void Supplies::on_categories_button_clicked() {
-  // Emit the signal for the app controller to handle/receive it.  
-  emit this->categories_button_signal();
-}
-
-void Supplies::on_supplies_button_clicked() {
-  
-}
-
-void Supplies::on_products_button_clicked() {
-  // Emit the signal for the app controller to handle/receive it.  
-  emit this->products_button_signal();
-}
-
-

@@ -1,11 +1,11 @@
 // Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
-#ifndef SUPPLIES_H
-#define SUPPLIES_H
+#ifndef SUPPLIESCATALOG_H
+#define SUPPLIESCATALOG_H
 
-#include "inventory.h"
+#include "catalog.h"
 
 namespace Ui {
-class Supplies;
+class SuppliesCatalog;
 }
 
 /**
@@ -15,11 +15,11 @@ class Supplies;
  * This class extends the Inventory interface to display, add, edit, and delete 
  * supply items using a paginated UI.
  */
-class Supplies : public Inventory {
+class SuppliesCatalog : public Catalog {
   Q_OBJECT
   
 private:
-  Ui::Supplies* ui; ///< Pointer to the UI elements for the Supplies class.
+  Ui::SuppliesCatalog* ui; ///< Pointer to the UI elements for the Supplies class.
   
 public:
   /**
@@ -28,12 +28,13 @@ public:
    * @param parent The parent QWidget (default is nullptr).
    * @param appModel Reference to the singleton POS_Model instance.
    */
-  explicit Supplies(QWidget *parent = nullptr, POS_Model& appModel = POS_Model::getInstance());
+  explicit SuppliesCatalog(QWidget *parent = nullptr
+      , POS_Model& appModel = POS_Model::getInstance());
   
   /**
    * @brief Destructor for the Supplies class.
    */
-  ~Supplies();
+  ~SuppliesCatalog();
   
 protected:
   /**
@@ -83,21 +84,6 @@ protected slots:
    * @brief Slot triggered when the "Edit Supply" button is clicked.
    */
   virtual void on_edit_button_clicked() override;
-  
-  /**
-   * @brief Slot triggered when the "Categories" button is clicked.
-   */
-  virtual void on_categories_button_clicked() override;
-  
-  /**
-   * @brief Slot triggered when the "Supplies" button is clicked.
-   */
-  virtual void on_supplies_button_clicked() override;
-  
-  /**
-   * @brief Slot triggered when the "Products" button is clicked.
-   */
-  virtual void on_products_button_clicked() override;
 };
 
-#endif // SUPPLIES_H
+#endif // SUPPLIESCATALOG_H

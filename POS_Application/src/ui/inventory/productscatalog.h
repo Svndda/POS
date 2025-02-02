@@ -1,46 +1,23 @@
-// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
-#ifndef PRODUCTS_H
-#define PRODUCTS_H
+#ifndef PRODUCTSCATALOG_H
+#define PRODUCTSCATALOG_H
 
-#include <QWidget>
-#include <vector>
-#include <string>
-#include "posmodel.h"
-#include "product.h"
-#include "inventory.h"
+#include "catalog.h"
 
 namespace Ui {
-class Products;
+class ProductsCatalog;
 }
 
-/**
- * @class Products
- * @brief Handles the user interface and logic for managing products in the POS system.
- * 
- * This class extends the Inventory interface to display, add, edit, and delete 
- * products using a paginated UI. It uses a model (`POS_Model`) to interact with 
- * the underlying data.
- */
-class Products : public Inventory {
+class ProductsCatalog : public Catalog
+{
   Q_OBJECT
-  
-private:
-  Ui::Products* ui; ///< Pointer to the UI elements for the Products class.
 
 public:
-  /**
-   * @brief Constructor for the Products class.
-   * 
-   * @param parent The parent QWidget (default is nullptr).
-   * @param model Reference to the singleton POS_Model instance.
-   */
-  explicit Products(QWidget *parent = nullptr
-      , POS_Model& model = POS_Model::getInstance());
-  
-  /**
-   * @brief Destructor for the Products class.
-   */
-  ~Products();
+  explicit ProductsCatalog(QWidget* parent = nullptr
+      , POS_Model& appModel = POS_Model::getInstance());
+  ~ProductsCatalog();
+
+private:
+  Ui::ProductsCatalog* ui;
   
 protected:
   /**
@@ -85,7 +62,7 @@ private slots:
    * @brief Slot triggered when the "Add Product" button is clicked.
    */
   void addProduct_button_clicked();
-
+  
 protected slots:
   /**
    * @brief Slot triggered when the "Next Page" button is clicked.
@@ -106,21 +83,6 @@ protected slots:
    * @brief Slot triggered when the "Edit Product" button is clicked.
    */
   virtual void on_edit_button_clicked() override;
-  
-  /**
-   * @brief Slot triggered when the "Categories" button is clicked.
-   */
-  virtual void on_categories_button_clicked() override;
-  
-  /**
-   * @brief Slot triggered when the "Supplies" button is clicked.
-   */
-  virtual void on_supplies_button_clicked() override;
-  
-  /**
-   * @brief Slot triggered when the "Products" button is clicked.
-   */
-  virtual void on_products_button_clicked() override;
 };
 
-#endif // Products_H
+#endif // PRODUCTSCATALOG_H

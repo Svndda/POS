@@ -1,39 +1,24 @@
-// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
-#ifndef CATEGORIES_H
-#define CATEGORIES_H
+#ifndef CATEGORIESCATALOG_H
+#define CATEGORIESCATALOG_H
 
-#include "inventory.h"
+#include <QWidget>
+
+#include "catalog.h"
 
 namespace Ui {
-class Categories;
+class CategoriesCatalog;
 }
 
-
-/**
- * @class Categories
- * @brief A class that extends Inventory to handle categories management within the UI.
- */
-class Categories : public Inventory {
+class CategoriesCatalog : public Catalog {
   Q_OBJECT
-  
-private:
-  /**
-   * @brief Pointer to the UI object that manages the graphical interface.
-   */
-  Ui::Categories* ui;
-  
+
 public:
-  /**
-   * @brief Constructs a Categories object.
-   * @param parent The parent widget, defaulting to nullptr.
-   * @param appModel A reference to the POS_Model instance used for managing application data.
-   */
-  explicit Categories(QWidget *parent = nullptr
+  explicit CategoriesCatalog(QWidget* parent = nullptr
       , POS_Model& appModel = POS_Model::getInstance());
-  /**
-   * @brief Destructor that cleans up allocated resources.
-   */
-  ~Categories();
+  ~CategoriesCatalog();
+
+private:
+  Ui::CategoriesCatalog* ui;
   
 protected:
   /**
@@ -41,10 +26,12 @@ protected:
    * @param pageItems The number of items to display per page.
    */
   void refreshDisplay(const size_t pageItems) override;
+  
   /**
    * @brief Sets up signal-slot connections for various UI components.
    */
-  void setupConnections() override;  
+  void setupConnections() override;
+  
 private:
   /**
    * @brief Refreshes the display for visible categories on the current page.
@@ -52,7 +39,7 @@ private:
    * @param items The number of items to display.
    */
   void refreshCategoriesDisplay(std::vector<std::string> visibleCategories
-      , const size_t items);
+                                , const size_t items);
   
 private slots:
   /**
@@ -81,20 +68,6 @@ protected slots:
    */
   virtual void on_edit_button_clicked() override;
   
-  /**
-   * @brief Handles the event when the "Categories" button is clicked.
-   */
-  virtual void on_categories_button_clicked() override;
-  
-  /**
-   * @brief Handles the event when the "Supplies" button is clicked.
-   */
-  virtual void on_supplies_button_clicked() override;
-  
-  /**
-   * @brief Handles the event when the "Products" button is clicked.
-   */
-  virtual void on_products_button_clicked() override;
 };
 
-#endif // CATEGORIES_H
+#endif // CATEGORIESCATALOG_H

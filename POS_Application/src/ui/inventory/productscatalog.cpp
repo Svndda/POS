@@ -1,49 +1,47 @@
-// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
+#include "productscatalog.h"
+#include "ui_productscatalog.h"
+
 #include <string>
 #include <vector>
 #include <utility>
 #include <QMessageBox>
+#include <QStackedWidget>
 
 #include "productformdialog.h"
-#include "products.h"
-#include "ui_products.h"
-
 #include "posmodel.h"
 #include "product.h"
 #include "util.h"
 
-Products::Products(QWidget *parent, POS_Model& model)
-    : Inventory(parent)
-    , ui(new Ui::Products) {
-  this->ui->setupUi(this);
-  
-  // Updates for the first time the diaply to show the first index page.
+ProductsCatalog::ProductsCatalog(QWidget *parent, POS_Model& model)
+    : Catalog(parent, model)
+    , ui(new Ui::ProductsCatalog) {
+  ui->setupUi(this);
   this->refreshDisplay(this->itemsPerPage);
   this->setupConnections();
 }
 
-Products::~Products() {
+ProductsCatalog::~ProductsCatalog() {
   delete ui;
 }
 
-void Products::setupConnections() {
+void ProductsCatalog::setupConnections() {
   // Connect the slot function to the next page button.
-  this->connect(this->ui->nextProductPage_button
+  this->connect(this->ui->nextPage_button
           , &QPushButton::clicked
           , this
-          , &Products::on_nextPage_button_clicked);
+          , &ProductsCatalog::on_nextPage_button_clicked);
   
   // Connect the slot function to the previous page button.
-  this->connect(this->ui->previousProductPage_button
+  this->connect(this->ui->previousPage_button
           , &QPushButton::clicked
           , this
-          , &Products::on_previousPage_button_clicked);
+          , &ProductsCatalog::on_previousPage_button_clicked);
   
-  // Connect the slot function to the previous page button.
+  // Connect the slot function to the add product button.
   this->connect(this->ui->addProduct_button
           , &QPushButton::clicked
           , this
-          , &Products::addProduct_button_clicked);
+          , &ProductsCatalog::addProduct_button_clicked);
   
   // Temporal variables to hold the different delete and edit buttons for each
   // product's row.
@@ -59,31 +57,25 @@ void Products::setupConnections() {
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connect the delete button with the slot function.
     this->connect(deleteButton
-            , &QPushButton::clicked
-            , this
-            , &Products::on_delete_button_clicked);
-    // Connect the edit button with the slot function.    
+        , &QPushButton::clicked
+        , this
+        , &ProductsCatalog::on_delete_button_clicked);
+    // Connect the edit button with the slot function.
     this->connect(editButton
-            , &QPushButton::clicked
-            , this
-            , &Products::on_edit_button_clicked);
+        , &QPushButton::clicked
+        , this
+        , &ProductsCatalog::on_edit_button_clicked);
   }
-  
-  // Connect the categories button with the slot function.  
-  this->connect(this->ui->categories_button
-          , &QPushButton::clicked
-          , this
-          , &Products::on_categories_button_clicked);
 }
 
-void Products::refreshDisplay(const size_t pageItems) {
+void ProductsCatalog::refreshDisplay(const size_t pageItems) {
   // Refresh the products display for the given items.
   this->refreshProductDisplay(
       this->model.getProductsForPage(this->currentPageIndex, pageItems)
       , pageItems);
 }
 
-void Products::refreshProductDisplay(
+void ProductsCatalog::refreshProductDisplay(
     std::vector<std::pair<std::string, Product>> visibleProducts
     , const size_t items) {
   // Initiazates the label index iterator.
@@ -136,16 +128,16 @@ void Products::refreshProductDisplay(
   // Generates the page label text tha indicates the indexes of the products
   // displayed in the actual page.
   QString pageLabelText = QString("Mostrando productos %1 hasta %2 de %3"
-    " productos").arg(offset + 1).arg(std::min(offset + 9,
-              this->model.getNumberOfProducts())).arg(
-    this->model.getNumberOfProducts());
-  this->ui->pageProductsNumber_label->setText(pageLabelText);
+      " productos").arg(offset + 1).arg(std::min(offset + 9,
+                this->model.getNumberOfProducts())).arg(
+      this->model.getNumberOfProducts());
+  // this->ui->pageProductsNumber_label->setText(pageLabelText);
 }
 
-void Products::addProduct_button_clicked() {
+void ProductsCatalog::addProduct_button_clicked() {
   // Creates a dialog to manage the product creation.
   ProductFormDialog dialog(this, this->model.getRegisteredProducts()
-      , Product(), QString());
+                           , Product(), QString());
   // Executes the dialog and check if were accepted.
   if (dialog.exec() == QDialog::Accepted) {
     qDebug() << "Se acepto el dialogo y se agrego un nuevo producto";
@@ -159,14 +151,14 @@ void Products::addProduct_button_clicked() {
       this->refreshDisplay(this->itemsPerPage);
     } else {
       QMessageBox::information(this, "Informacion inválida"
-          , "No se añadió el producto.");
+                               , "No se añadió el producto.");
     }
   } else {
     qDebug() << "Se cancelo la creacion de un producto";
   }
 }
 
-void Products::on_nextPage_button_clicked() {
+void ProductsCatalog::on_nextPage_button_clicked() {
   // Calculates the products page start and end indexes for the next page.
   size_t productPageIt = (this->currentPageIndex + 1) * 9;
   size_t productPageIt2 = productPageIt + 9;
@@ -181,7 +173,7 @@ void Products::on_nextPage_button_clicked() {
   qDebug() << "Boton de avance: " << this->currentPageIndex;
 }
 
-void Products::on_previousPage_button_clicked() {
+void ProductsCatalog::on_previousPage_button_clicked() {
   // Checks that the actual page is not the first one.
   if (this->currentPageIndex > 0) {
     // Decrements the page index.
@@ -193,22 +185,7 @@ void Products::on_previousPage_button_clicked() {
   std::cout << "Boton de retroceso: " << this->currentPageIndex << std::endl;
 }
 
-void Products::on_categories_button_clicked() {
-  emit this->categories_button_signal();
-}
-
-void Products::on_supplies_button_clicked() {
-  qDebug() << "Supplies button clicked"; // Verificar si la función se ejecuta.
-  
-  // Emit the signal for the app controller to handle/receive it.
-  emit this->supplies_button_signal();
-}
-
-void Products::on_products_button_clicked() {
-  
-}
-
-void Products::on_delete_button_clicked() {
+void ProductsCatalog::on_delete_button_clicked() {
   // Catch the pointer to the button object that sended the signal.
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   // If there's a pointer, then.
@@ -221,7 +198,7 @@ void Products::on_delete_button_clicked() {
   }
 }
 
-void Products::on_edit_button_clicked() {
+void ProductsCatalog::on_edit_button_clicked() {
   // Catch the pointer to the button object that sended the signal.
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   // If there's a pointer, then.
@@ -234,7 +211,7 @@ void Products::on_edit_button_clicked() {
   }
 }
 
-void Products::deleteRegisteredProduct(size_t index) {
+void ProductsCatalog::deleteRegisteredProduct(size_t index) {
   // Temporal variables to store the name of the labels containing products name
   // category.
   QString labelName;
@@ -258,16 +235,16 @@ void Products::deleteRegisteredProduct(size_t index) {
   Product& productToDelete = this->model.findProduct(productName.toStdString());
   // Try to delete the product from the registers.
   if (this->model.removeProduct(productCategory.toStdString()
-    , productToDelete)) {
+                                , productToDelete)) {
     // Refresh the products display.
     this->refreshDisplay(this->itemsPerPage);
   } else {
     QMessageBox::warning(this, "Error"
-        , "No se pudo eliminar el producto.");
+                         , "No se pudo eliminar el producto.");
   }
 }
 
-void Products::editProductInformation(size_t index) {
+void ProductsCatalog::editProductInformation(size_t index) {
   // Temporal variables to store the name of the labels containing products name
   // category.
   QString labelName;
@@ -311,3 +288,4 @@ void Products::editProductInformation(size_t index) {
     }
   }
 }
+
