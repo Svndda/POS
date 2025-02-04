@@ -12,6 +12,7 @@ CategoriesCatalog::CategoriesCatalog(QWidget *parent, POS_Model& model)
     , ui(new Ui::CategoriesCatalog) {
   this->ui->setupUi(this);
   
+  // Setup the ui elements coonnections with their slots.
   this->setupConnections();
   // Updates the view for first time with the correponding categories.
   this->refreshDisplay(this->itemsPerPage);
@@ -87,13 +88,13 @@ void CategoriesCatalog::refreshCategoriesDisplay(
     ++labelIt;
   }
   
-  size_t offset = this->currentPageIndex * 9;
+  const size_t offset = this->currentPageIndex * 9;
   // Generates the page label text tha indicates the indexes of the products
   // displayed in the actual page.
-  QString pageLabelText = QString("Mostrando categorias %1 hasta %2 de %3"
-                                  " categorías").arg(offset + 1).arg(std::min(offset + 9,
-                                            this->model.getNumberOfCategories())).arg(
-                                  this->model.getNumberOfCategories());
+  const QString pageLabelText = QString("Mostrando categorias %1 hasta %2 de %3"
+      " categorías").arg(offset + 1).arg(std::min(offset + 9,
+                this->model.getNumberOfCategories())).arg(
+      this->model.getNumberOfCategories());
   this->ui->pageDisplayingNumber_label->setText(pageLabelText);
 }
 
@@ -124,16 +125,16 @@ void CategoriesCatalog::on_delete_button_clicked() {
   QPushButton *button = qobject_cast<QPushButton *>(sender());
   if (button) {
     // Search for the property index in the button to see their index.
-    size_t buttonIndex = button->property("index").toUInt();
+    const size_t buttonIndex = button->property("index").toUInt();
     qDebug() << "Button clicked, index:" << buttonIndex;
     // Gets the categories vector for the actual page.
-    auto categoriesForPage = this->model.getCategoriesForPage(
+    const auto categoriesForPage = this->model.getCategoriesForPage(
         this->currentPageIndex, this->itemsPerPage);
     // Checks that that the button index is lower than the categories for this
     // page to avoid an empty row.
     if (buttonIndex < categoriesForPage.size()) {
       // Gets the row category.
-      std::string category = categoriesForPage[buttonIndex];
+      const std::string category = categoriesForPage[buttonIndex];
       // Try to remove the category from the registered ones.
       if (this->model.removeCategory(category)) {
         // Refresh the categories display with the updated data.
@@ -153,14 +154,13 @@ void CategoriesCatalog::on_edit_button_clicked() {
     // Search for the property index in the button to see their index.
     size_t buttonIndex = button->property("index").toUInt();
     // Gets the categories vector for the actual page.
-    auto categoriesForPage = this->model.getCategoriesForPage(
+    const auto categoriesForPage = this->model.getCategoriesForPage(
         this->currentPageIndex, this->itemsPerPage);
     // Checks that that the button index is lower than the categories for this
     // page to avoid an empty row.
     if (buttonIndex < categoriesForPage.size()) {
       // Gets the row category.
-      std::string oldCategory = this->model.getCategoriesForPage(
-          this->currentPageIndex, this->itemsPerPage)[buttonIndex];
+      const std::string oldCategory = categoriesForPage[buttonIndex];
       qDebug() << "Button clicked, index:" << buttonIndex << " " << oldCategory;
       // Creates a dialog to manage the existing category editing.
       CategoryFormDialog dialog(this, this->model.getRegisteredCategories()
@@ -168,7 +168,7 @@ void CategoriesCatalog::on_edit_button_clicked() {
       // Executes the dialog to manage the category creation.
       if (dialog.exec() == QDialog::Accepted) {
         qDebug() << "Se ha modificado una categoria exitosamente";
-        std::string newCategory = dialog.getNewCategory();
+        const std::string newCategory = dialog.getNewCategory();
         // Try to update the category name to the name given by the user.
         if (this->model.editCategory(oldCategory, newCategory)) {
           // Updates the display with the new category.
@@ -186,8 +186,8 @@ void CategoriesCatalog::on_edit_button_clicked() {
 
 void CategoriesCatalog::on_nextPage_button_clicked() {
   // Calculates the category page start and end indexes for the next page.
-  size_t categoryPageIt = (this->currentPageIndex + 1) * 9;
-  size_t categoryPageIt2 = categoryPageIt + 9;
+  const size_t categoryPageIt = (this->currentPageIndex + 1) * 9;
+  const size_t categoryPageIt2 = categoryPageIt + 9;
   // Checks if the indexes the number of registered categories is greather or
   // between the next page indexes.
   if (this->model.getNumberOfCategories() >= categoryPageIt) {

@@ -7,52 +7,64 @@ namespace Ui {
 class ProductsCatalog;
 }
 
-class ProductsCatalog : public Catalog
-{
+/**
+ * @class ProductsCatalog
+ * @brief Class for managing the products catalog in the application.
+ *
+ * This class inherits from Catalog and implements methods to display, add, edit, and delete products.
+ * It provides a paginated view of the products available.
+ */
+class ProductsCatalog : public Catalog {
   Q_OBJECT
 
 public:
+  /**
+   * @brief Constructs a ProductsCatalog object.
+   * @param parent Pointer to the parent widget (default is nullptr).
+   * @param appModel Reference to the POS_Model instance (default is POS_Model::getInstance()).
+   */
   explicit ProductsCatalog(QWidget* parent = nullptr
       , POS_Model& appModel = POS_Model::getInstance());
+  
+  /**
+   * @brief Destructor for the ProductsCatalog class.
+   */
   ~ProductsCatalog();
 
 private:
-  Ui::ProductsCatalog* ui;
+  Ui::ProductsCatalog* ui; ///< Pointer to the UI elements for ProductsCatalog.
   
 protected:
   /**
    * @brief Refreshes the display with the products of the current page.
-   * 
-   * @param pageItems Number of items to display per page.
+   * @param pageItems Number of products to display per page.
    */
   void refreshDisplay(const size_t pageItems) override;
   
   /**
-   * @brief Sets up connections between UI elements and their respective slots.
+   * @brief Sets up signal-slot connections for the UI components.
    */
   void setupConnections() override;
   
   // Private class functions.
-private:  
+private:
   /**
-   * @brief Refreshes the UI to display products on the current page.
-   * 
-   * @param visibleProducts Vector of visible product-category pairs.
+   * @brief Updates the UI to display the products on the current page.
+   * @param visibleProducts Vector of pairs containing a category name and a Product object representing the visible products.
    * @param items Number of items to display.
    */
   void refreshProductDisplay(
-      std::vector<std::pair<std::string, Product>> visibleProducts,
-      const size_t items);  
+      std::vector<std::pair<std::string, Product>> visibleProducts
+      ,const size_t items);
+  
   /**
    * @brief Deletes a product from the registered products.
-   * 
    * @param index Index of the product to delete.
    */
   void deleteRegisteredProduct(size_t index);
   
   /**
    * @brief Opens the product editing dialog for a specific product.
-   * 
    * @param index Index of the product to edit.
    */
   void editProductInformation(size_t index);

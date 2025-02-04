@@ -55,11 +55,16 @@ protected:
    */
   void setupConnections();
   
-  void setPressedPropperties(QPushButton* catalogButton
-      , QWidget* catalogWidget);
-  
-  void setUnpressedPropperties(QPushButton* catalogButton
-      , QWidget* catalogWidget);
+  /**
+ * @brief Switches the current catalog view.
+ *
+ * This function updates the displayed catalog page in the QStackedWidget based on the provided index.
+ * It also updates the state of the catalog buttons and their corresponding widgets by setting the
+ * appropriate "checked" status and applying a style sheet.
+ *
+ * @param index The index of the catalog to display (0 for Products, 1 for Categories, 2 for Supplies).
+ */
+  void switchCatalog(const size_t index);
   
 private slots:
   /**

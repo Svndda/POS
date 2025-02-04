@@ -9,50 +9,48 @@ class SuppliesCatalog;
 }
 
 /**
- * @class Supplies
- * @brief Manages the supplies UI and logic in the POS system.
- * 
- * This class extends the Inventory interface to display, add, edit, and delete 
- * supply items using a paginated UI.
+ * @class SuppliesCatalog
+ * @brief Class for managing the supplies catalog in the application.
+ *
+ * This class inherits from Catalog and implements methods to display, add, edit, and delete supply items.
+ * It provides a paginated view of the supplies available.
  */
 class SuppliesCatalog : public Catalog {
   Q_OBJECT
   
 private:
-  Ui::SuppliesCatalog* ui; ///< Pointer to the UI elements for the Supplies class.
+  Ui::SuppliesCatalog* ui; ///< Pointer to the UI elements for SuppliesCatalog.
   
 public:
   /**
-   * @brief Constructor for the Supplies class.
-   * 
-   * @param parent The parent QWidget (default is nullptr).
-   * @param appModel Reference to the singleton POS_Model instance.
+   * @brief Constructs a SuppliesCatalog object.
+   * @param parent Pointer to the parent widget (default is nullptr).
+   * @param appModel Reference to the POS_Model instance (default is POS_Model::getInstance()).
    */
   explicit SuppliesCatalog(QWidget *parent = nullptr
       , POS_Model& appModel = POS_Model::getInstance());
   
   /**
-   * @brief Destructor for the Supplies class.
+   * @brief Destructor for the SuppliesCatalog  class.
    */
   ~SuppliesCatalog();
   
 protected:
   /**
    * @brief Refreshes the display with the supplies of the current page.
-   * 
-   * @param pageItems Number of items to display per page.
+   * @param pageItems Number of supplies to display per page.
    */
   void refreshDisplay(const size_t pageItems) override;
   
   /**
-   * @brief Sets up connections between UI elements and their respective slots.
+   * @brief Sets up signal-slot connections for the UI components.
    */
   void setupConnections() override;
+  
 private:
   /**
-   * @brief Refreshes the UI to display supplies on the current page.
-   * 
-   * @param visibleSupplies Vector of supplies to be displayed.
+   * @brief Updates the UI to display the supplies on the current page.
+   * @param visibleSupplies Vector of Supply objects representing the supplies to be displayed.
    * @param items Number of items to display.
    */
   void refreshSuppliesDisplay(const std::vector<Supply>& visibleSupplies

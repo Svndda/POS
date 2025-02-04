@@ -1849,7 +1849,7 @@ color: black;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_27">
+             <widget class="QPushButton" name="deleteProduct_button_0">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1891,7 +1891,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_27">
+             <widget class="QPushButton" name="editProduct_button_0">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1978,7 +1978,7 @@ padding-left: 5px;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_28">
+             <widget class="QPushButton" name="deleteProduct_button_1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2020,7 +2020,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_28">
+             <widget class="QPushButton" name="editProduct_button_1">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2106,7 +2106,7 @@ color: black;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_29">
+             <widget class="QPushButton" name="deleteProduct_button_2">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2148,7 +2148,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_29">
+             <widget class="QPushButton" name="editProduct_button_2">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2235,7 +2235,7 @@ padding-left: 5px;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_30">
+             <widget class="QPushButton" name="deleteProduct_button_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2277,7 +2277,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_30">
+             <widget class="QPushButton" name="editProduct_button_3">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2363,7 +2363,7 @@ color: black;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_31">
+             <widget class="QPushButton" name="deleteProduct_button_4">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2405,7 +2405,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_31">
+             <widget class="QPushButton" name="editProduct_button_4">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2492,7 +2492,7 @@ padding-left: 5px;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_32">
+             <widget class="QPushButton" name="deleteProduct_button_5">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2534,7 +2534,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_32">
+             <widget class="QPushButton" name="editProduct_button_5">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2620,7 +2620,7 @@ color: black;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_33">
+             <widget class="QPushButton" name="deleteProduct_button_6">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2662,7 +2662,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_33">
+             <widget class="QPushButton" name="editProduct_button_6">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2749,7 +2749,7 @@ padding-left: 5px;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_34">
+             <widget class="QPushButton" name="deleteProduct_button_7">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2791,7 +2791,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_34">
+             <widget class="QPushButton" name="editProduct_button_7">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2877,7 +2877,7 @@ color: black;</string>
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="deleteProduct_button_35">
+             <widget class="QPushButton" name="deleteProduct_button_8">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -2919,7 +2919,7 @@ color:rgb(255, 255, 255);</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="editProduct_button_35">
+             <widget class="QPushButton" name="editProduct_button_8">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>

@@ -5,7 +5,7 @@
 #include <QPainterPath>
 #include <QString>
 
-ProductSelectionButton::ProductSelectionButton(QWidget *parent
+ProductSelectionButton::ProductSelectionButton(QWidget* parent
     , const Product& myProduct)
     : QWidget(parent)
     , ui(new Ui::ProductSelectionButton)
@@ -35,4 +35,8 @@ void ProductSelectionButton::paintEvent(QPaintEvent* event) {
     painter.drawPixmap(rect(), pixmap); // Escalar al tamaño del widget
   }
   QWidget::paintEvent(event);
+}
+
+void ProductSelectionButton::on_button_clicked() {
+  emit on_productSelectionButton_clicked(this->product);
 }

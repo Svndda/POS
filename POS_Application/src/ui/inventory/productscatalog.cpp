@@ -124,27 +124,27 @@ void ProductsCatalog::refreshProductDisplay(
     ++labelIt;
   }
   
-  size_t offset = this->currentPageIndex * 9;
+  const size_t offset = this->currentPageIndex * 9;
   // Generates the page label text tha indicates the indexes of the products
   // displayed in the actual page.
-  QString pageLabelText = QString("Mostrando productos %1 hasta %2 de %3"
+  const QString pageLabelText = QString("Mostrando productos %1 hasta %2 de %3"
       " productos").arg(offset + 1).arg(std::min(offset + 9,
-                this->model.getNumberOfProducts())).arg(
+      this->model.getNumberOfProducts())).arg(
       this->model.getNumberOfProducts());
-  // this->ui->pageProductsNumber_label->setText(pageLabelText);
+  this->ui->pageDisplayingNumber_label->setText(pageLabelText);
 }
 
 void ProductsCatalog::addProduct_button_clicked() {
   // Creates a dialog to manage the product creation.
-  ProductFormDialog dialog(this, this->model.getRegisteredProducts()
+  ProductFormDialog dialog(this, this->model.getRegisteredProductsMap()
                            , Product(), QString());
   // Executes the dialog and check if were accepted.
   if (dialog.exec() == QDialog::Accepted) {
     qDebug() << "Se acepto el dialogo y se agrego un nuevo producto";
     // Obtain the product created in the dialog.
-    Product product = dialog.getProduct();
+    const Product product = dialog.getProduct();
     // Obtain the category of the product.
-    std::string category = dialog.getProductCategory().toStdString();
+    const std::string category = dialog.getProductCategory().toStdString();
     // Try to add the new product into the registered ones.
     if (this->model.addProduct(category, product)) {
       // Refresh the display with the updated data.
@@ -160,8 +160,8 @@ void ProductsCatalog::addProduct_button_clicked() {
 
 void ProductsCatalog::on_nextPage_button_clicked() {
   // Calculates the products page start and end indexes for the next page.
-  size_t productPageIt = (this->currentPageIndex + 1) * 9;
-  size_t productPageIt2 = productPageIt + 9;
+  const size_t productPageIt = (this->currentPageIndex + 1) * 9;
+  const size_t productPageIt2 = productPageIt + 9;
   // Checks if the indexes the number of registered products is greather or
   // between the next page indexes.
   if (this->model.getNumberOfProducts() >= productPageIt) {
@@ -187,27 +187,27 @@ void ProductsCatalog::on_previousPage_button_clicked() {
 
 void ProductsCatalog::on_delete_button_clicked() {
   // Catch the pointer to the button object that sended the signal.
-  QPushButton *button = qobject_cast<QPushButton *>(sender());
+  QPushButton* button = qobject_cast<QPushButton *>(sender());
   // If there's a pointer, then.
   if (button) {
     // Obtain the index of the display button.
-    size_t index = button->property("index").toUInt();
-    qDebug() << "Button clicked, index:" << index;
+    const size_t buttonIndex = button->property("index").toUInt();
+    qDebug() << "Button clicked, index:" << buttonIndex;
     // Delete the registered product.
-    this->deleteRegisteredProduct(index);
+    this->deleteRegisteredProduct(buttonIndex);
   }
 }
 
 void ProductsCatalog::on_edit_button_clicked() {
   // Catch the pointer to the button object that sended the signal.
-  QPushButton *button = qobject_cast<QPushButton *>(sender());
+  QPushButton* button = qobject_cast<QPushButton *>(sender());
   // If there's a pointer, then.
   if (button) {
     // Obtain the index of the display button.    
-    size_t index = button->property("index").toUInt();
-    qDebug() << "Button clicked, index:" << index;
+    const size_t buttonIndex = button->property("index").toUInt();
+    qDebug() << "Button clicked, index:" << buttonIndex;
     // Edit the product.
-    this->editProductInformation(index);
+    this->editProductInformation(buttonIndex);
   }
 }
 
@@ -273,7 +273,7 @@ void ProductsCatalog::editProductInformation(size_t index) {
     // Open the dialog for product editing.
     ProductFormDialog dialog(
         this,
-        this->model.getRegisteredProducts(),
+        this->model.getRegisteredProductsMap(),
         Product(productToEdit),
         QString(productCategory));
     // Executes the dialog and checks if was accepted.

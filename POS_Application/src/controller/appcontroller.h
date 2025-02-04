@@ -39,7 +39,15 @@ private:
   QStackedWidget* pageStack;           ///< Stack widget managing application pages.
   POS_Model& model;                    ///< Reference to the POS model instance.
   
-private slots:
+private:
+  void setupConnections();
+  void switchPages(const size_t pageIndex);
   
+private slots:
+  void on_pos_button_clicked();
+  void on_inventory_button_clicked();
+  void on_sells_button_clicked();
+  void on_users_button_clicked();
+  void on_settings_button_clicked();
 };
 #endif // APPCONTROLLER_H

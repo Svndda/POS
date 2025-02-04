@@ -8,22 +8,22 @@
 #include "posmodel.h"
 
 /**
- * @class CATALOG_H
- * @brief Abstract base class that serves as an interface for Catalog-related widgets in the application.
- * 
- * The `Catalog` class provides a standardized structure for managing different Inventory related catalogs,
+ * @class Catalog
+ * @brief Abstract base class for catalog-related UI components.
+ *
+ * The Catalog class provides a standardized structure for managing different inventory-related catalogs,
  * such as categories, products, and supplies. It defines common attributes, signals, and slots, while enforcing
- * implementation of key methods in derived classes.
+ * the implementation of key methods in derived classes.
  */
 class Catalog : public QWidget {
   Q_OBJECT
   
 public:
   /**
-   * @brief Constructs an Catalog object.
-   * @param parent The parent widget, defaulting to nullptr.
-   * @param appModel A reference to the POS_Model instance used for managing application data.
-   * @param items The number of items to display per page, defaulting to 9.
+   * @brief Constructs a Catalog object.
+   * @param parent Pointer to the parent widget (default is nullptr).
+   * @param appModel Reference to the POS_Model instance used for managing application data.
+   * @param items Number of items to display per page (default is 9).
    */
   explicit Catalog(QWidget* parent = nullptr
       , POS_Model& appModel = POS_Model::getInstance()
@@ -39,71 +39,54 @@ public:
   virtual ~Catalog() {}
   
 protected:
-  /**
-   * @brief Reference to the application model, which provides data for the Catalog.
-   */
-  POS_Model& model;
-  /**
-   * @brief Index of the currently displayed page in the Catalog.
-   */
-  size_t currentPageIndex = 0;
-  /**
-   * @brief Number of items displayed per page in the Catalog.
-   */
-  size_t itemsPerPage = 9;
+  POS_Model& model;            ///< Reference to the application model.
+  size_t currentPageIndex = 0; ///< Index of the currently displayed page.
+  size_t itemsPerPage = 9;     ///< Number of items displayed per page.
   
 protected:
   /**
-   * @brief Pure virtual method that must be implemented by derived classes to establish signal-slot connections.
+   * @brief Pure virtual method to set up signal-slot connections.
+   *
+   * Derived classes must implement this method to connect UI elements with their corresponding slots.
    */
   virtual void setupConnections() = 0;
+  
   /**
-   * @brief Pure virtual method that must be implemented by derived classes to refresh the displayed items.
-   * @param pageItems The number of items to display per page.
+   * @brief Pure virtual method to refresh the display of items.
+   * @param pageItems Number of items to display per page.
+   *
+   * Derived classes must implement this method to update the UI based on the current page.
    */
   virtual void refreshDisplay(const size_t pageItems) = 0;
-  
-public:
-signals:
-  /**
-   * @brief Signal emitted when the "Products" button is clicked.
-   */
-  void products_button_signal();
-  
-  /**
-   * @brief Signal emitted when the "Categories" button is clicked.
-   */
-  void categories_button_signal();
-  
-  /**
-   * @brief Signal emitted when the "Supplies" button is clicked.
-   */
-  void supplies_button_signal();
   
 protected slots:
   /**
    * @brief Slot for handling the "Next Page" button click event.
-   * This method can be overridden by derived classes.
+   *
+   * Must be implemented by derived classes.
    */
-  virtual void on_nextPage_button_clicked() {}
+  virtual void on_nextPage_button_clicked() = 0;
   
   /**
    * @brief Slot for handling the "Previous Page" button click event.
-   * This method can be overridden by derived classes.
+   *
+   * Must be implemented by derived classes.
    */
-  virtual void on_previousPage_button_clicked() {}
+  virtual void on_previousPage_button_clicked() = 0;
   
   /**
    * @brief Slot for handling the "Delete" button click event.
-   * This method can be overridden by derived classes.
+   *
+   * Must be implemented by derived classes.
    */
-  virtual void on_delete_button_clicked() {}
+  virtual void on_delete_button_clicked() = 0;
   
   /**
    * @brief Slot for handling the "Edit" button click event.
-   * This method can be overridden by derived classes.
+   *
+   * Must be implemented by derived classes.
    */
-  virtual void on_edit_button_clicked() {}
+  virtual void on_edit_button_clicked() = 0;
 };
 
 #endif // CATALOG_H

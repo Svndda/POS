@@ -15,7 +15,9 @@ SuppliesCatalog::SuppliesCatalog(QWidget *parent, POS_Model& model)
     : Catalog(parent, model)
     , ui(new Ui::SuppliesCatalog) {
   this->ui->setupUi(this);
+  // Setups the ui elements conecctions with their function slots.
   this->setupConnections();
+  // Refresh for the first time the ui information.
   this->refreshDisplay(this->itemsPerPage);
 }
 
@@ -92,10 +94,10 @@ void SuppliesCatalog::refreshSuppliesDisplay(
     ++labelIt;
   }
   
-  size_t offset = this->currentPageIndex * 9;
+  const size_t offset = this->currentPageIndex * 9;
   // Generates the page label text tha indicates the indexes of the products
   // displayed in the actual page.
-  QString pageLabelText = QString("Mostrando suministros %1 hasta %2 de %3"
+  const QString pageLabelText = QString("Mostrando suministros %1 hasta %2 de %3"
       " suministros").arg(offset + 1).arg(std::min(offset + 9
       , this->model.getNumberOfSupplies())).arg(
       this->model.getNumberOfSupplies());
@@ -110,7 +112,7 @@ void SuppliesCatalog::addSupply_button_clicked() {
   // Executes the dialog and checks if were accepted.
   if (dialog.exec() == QDialog::Accepted) {
     // Obtain the supply created in the dialog.
-    Supply supply = dialog.getNewSupply();
+    const Supply supply = dialog.getNewSupply();
     // Try to add the supply into the register of supplies.
     if (this->model.addSupply(supply)) {
       // Update the supplies display.
@@ -126,8 +128,8 @@ void SuppliesCatalog::addSupply_button_clicked() {
 
 void SuppliesCatalog::on_nextPage_button_clicked() {
   // Calculates the supplies page start and end indexes for the next page.
-  size_t suppliesPageIt = (this->currentPageIndex + 1) * 9;
-  size_t suppliesPageIt2 = suppliesPageIt + 9;
+  const size_t suppliesPageIt = (this->currentPageIndex + 1) * 9;
+  const size_t suppliesPageIt2 = suppliesPageIt + 9;
   // Checks if the indexes the number of registered supplies is greather or
   // between the next page indexes.
   if (this->model.getNumberOfSupplies() >= suppliesPageIt) {
@@ -157,10 +159,10 @@ void SuppliesCatalog::on_delete_button_clicked() {
   // If there's a pointer, then.
   if (button) {
     // Obtain the index of the display button.
-    size_t buttonIndex = button->property("index").toUInt();
+    const size_t buttonIndex = button->property("index").toUInt();
     qDebug() << "Button clicked, index:" << buttonIndex;
     // Gets the supplies vector for the actual page.
-    auto suppliesForPage = this->model.getSuppliesForPage(
+    const auto suppliesForPage = this->model.getSuppliesForPage(
         this->currentPageIndex, this->itemsPerPage);
     // Checks that that the button index is lower than the supplies for this
     // page to avoid an empty row.
@@ -183,24 +185,24 @@ void SuppliesCatalog::on_edit_button_clicked() {
   // Checks if the pointer is valid.
   if (button) {
     // Gets the index of the button.
-    size_t buttonIndex = button->property("index").toUInt();
+    const size_t buttonIndex = button->property("index").toUInt();
     // Gets the supplies vector for the actual page.
-    auto suppliesForPage = this->model.getSuppliesForPage(
+    const auto suppliesForPage = this->model.getSuppliesForPage(
         this->currentPageIndex, this->itemsPerPage);
     // Checks that that the button index is lower than the supplies for this
     // page to avoid an empty row.
     if (buttonIndex < suppliesForPage.size()) {
       // Gets the row supply.
-      Supply oldSupply = this->model.getSuppliesForPage(
-          this->currentPageIndex, this->itemsPerPage)[buttonIndex];
-      qDebug() << "Button clicked, index:" << buttonIndex << " " << oldSupply.getName();
+      const Supply oldSupply = suppliesForPage[buttonIndex];
+      qDebug() << "Button clicked, index:" << buttonIndex << " "
+          << oldSupply.getName();
       // Creates a dialog to manage the existing supply editing.
       SupplyFormDialog dialog(this
           , this->model.getRegisteredSupplies()
           , oldSupply);
       
       if (dialog.exec() == QDialog::Accepted) {
-        Supply newSupply = dialog.getNewSupply();
+        const Supply newSupply = dialog.getNewSupply();
         if (this->model.editSupply(oldSupply, newSupply)) {
           // Updates the display with the new supply.
           this->refreshDisplay(this->itemsPerPage);

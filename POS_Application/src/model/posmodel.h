@@ -30,6 +30,7 @@ private:
   std::map<std::string, std::vector<Product>> categories; ///< Map of product categories to their products.
   std::vector<std::pair<std::string, Product>> products; ///< Vector of products used for interface display.
   std::vector<Supply> supplies; ///< Inventory of supplies.
+  size_t closedReceipts = 0;
   bool started = false; ///< Flag indicating if the POS model has been started.
   
 public: ///< Public methods.
@@ -69,6 +70,15 @@ public: ///< Public methods.
    * @throws std::runtime_error if the product is not found.
    */
   Product& findProduct(const std::string& productName);
+  
+  /**
+   * @brief Increments the count of closed receipts.
+   * 
+   * This function increases the internal counter that keeps track 
+   * of the number of closed receipts in the POS system.
+   * It should be called whenever a transaction is successfully completed.
+   */
+  void increaseClosedReceiptCount() {++this->closedReceipts;};
   
   /**
    * @brief Adds a product to the specified category.
@@ -248,12 +258,21 @@ public: ///< Public getter methods.
   }
   
   /**
-   * @brief Retrieves the registered categories in the system.
+   * @brief Retrieves the registered products indexed by categories in the system.
    * 
-   * @return Reference to the map of registered categories by category.
+   * @return Reference to the map of registered products by category.
    */
-  std::map<std::string, std::vector<Product>>& getRegisteredProducts() {
+  std::map<std::string, std::vector<Product>>& getRegisteredProductsMap() {
     return this->categories;
+  }
+  
+  /**
+   * @brief Retrieves the registered products in the system.
+   * 
+   * @return Reference to the vector of registered products.
+   */
+  std::vector<std::pair<std::string, Product>>& getRegisteredProductsVector() {
+    return this->products;
   }
   
   /**

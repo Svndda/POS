@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ReceiptElement_Widget</class>
- <widget class="QWidget" name="ReceiptElement_Widget">
+ <class>ReceiptElement</class>
+ <widget class="QWidget" name="ReceiptElement">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>390</width>
     <height>50</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>400</width>
+    <width>390</width>
     <height>50</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>400</width>
+    <width>390</width>
     <height>50</height>
    </size>
   </property>
@@ -43,25 +43,40 @@
 </string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>9</number>
+    <number>5</number>
    </property>
    <item>
     <widget class="QLabel" name="productName_label">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>170</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>170</width>
+       <height>16777215</height>
+      </size>
      </property>
      <property name="font">
       <font>
@@ -69,31 +84,20 @@
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: none</string>
+      <string notr="true">border: none;
+padding-left: 20px;
+padding-right: 20px;</string>
      </property>
      <property name="text">
       <string>Pizza</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
     </widget>
    </item>
    <item>
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <widget class="QLabel" name="indPrice_label">
+    <widget class="QLabel" name="productPrice_label">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -106,20 +110,21 @@
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: none</string>
+      <string notr="true">border: none;
+padding-left: 10px;</string>
      </property>
      <property name="text">
       <string>2500</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
     </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="quantity_layout">
      <item>
-      <widget class="QPushButton" name="addQuantity_button">
+      <widget class="QPushButton" name="reduceQuantity_button">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -181,7 +186,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="quantityNumber_label">
+      <widget class="QLabel" name="quantity_label">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -205,7 +210,7 @@ QPushButton:checked {
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="reduceQuantity_button">
+      <widget class="QPushButton" name="incrementQuantity_button">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -269,7 +274,7 @@ QPushButton:checked {
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="totalPriceNumber_label">
+    <widget class="QLabel" name="totalPrice_label">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -282,13 +287,14 @@ QPushButton:checked {
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">border: none</string>
+      <string notr="true">border: none;
+padding-left: 15px;</string>
      </property>
      <property name="text">
       <string>2500</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignmentFlag::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
      </property>
     </widget>
    </item>
