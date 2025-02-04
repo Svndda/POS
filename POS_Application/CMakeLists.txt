@@ -35,12 +35,15 @@ qt_add_executable(POS_Application
   src/ui/inventory/supplyformdialog.ui
   src/ui/pos/pos.h src/ui/pos/pos.cpp
   src/ui/pos/pos.ui
-  src/ui/pos/ReceiptElementWidget.ui
-  src/ui/pos/SelectReceiptWidget.ui
+  
+  
   src/ui/pos/productselectionbutton.h src/ui/pos/productselectionbutton.cpp
   src/ui/pos/productselectionbutton.ui
   src/ui/inventory/categoriescatalog.h src/ui/inventory/categoriescatalog.cpp src/ui/inventory/categoriescatalog.ui
   src/ui/inventory/productscatalog.h src/ui/inventory/productscatalog.cpp src/ui/inventory/productscatalog.ui
+  src/ui/pos/receipt.h src/ui/pos/receipt.cpp src/ui/pos/receipt.ui
+  src/ui/pos/receiptelement.h src/ui/pos/receiptelement.cpp src/ui/pos/receiptelement.ui
+  src/ui/pos/receiptselectionbutton.h src/ui/pos/receiptselectionbutton.cpp src/ui/pos/receiptselectionbutton.ui
 )
 
 qt_add_translations(
