@@ -96,3 +96,4 @@ tests/*.err
 # Archivos de configuración del entorno
 .env
 .env.*
+/POS_Application/backup
