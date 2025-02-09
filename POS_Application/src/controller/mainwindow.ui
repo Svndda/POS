@@ -152,8 +152,12 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
-  color: #7f8c8d;                /* Color del texto deshabilitado */
+  background: transparent;
+  border: none;
+ color: rgb(0, 0, 0);
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 QPushButton:checked {
@@ -200,7 +204,7 @@ QPushButton:checked {
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(0, 153, 73);</string>
+           <string notr="true">background-color: transparent;</string>
           </property>
          </widget>
         </item>
@@ -276,8 +280,12 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
-  color: #7f8c8d;                /* Color del texto deshabilitado */
+  background: transparent;
+  border: none;
+ color: rgb(0, 0, 0);
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 QPushButton:checked {
@@ -394,8 +402,12 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
-  color: #7f8c8d;                /* Color del texto deshabilitado */
+  background: transparent;
+  border: none;
+ color: rgb(0, 0, 0);
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 QPushButton:checked {
@@ -509,8 +521,12 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
-  color: #7f8c8d;                /* Color del texto deshabilitado */
+  background: transparent;
+  border: none;
+ color: rgb(0, 0, 0);
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 QPushButton:checked {
@@ -624,8 +640,12 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
-  color: #7f8c8d;                /* Color del texto deshabilitado */
+  background: transparent;
+  border: none;
+ color: rgb(0, 0, 0);
+  text-align: center;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 QPushButton:checked {

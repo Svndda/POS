@@ -1,36 +1,24 @@
 Almuerzos:
-Papass -
-Papas ; 2	2000	Papass.png
-Macarrones -
-Pasta ; 1	100	Macarrones.png
-Cafe -
-Cafe ; 1	1000	Cafe.png
-Coca -
-Coca ; 1	600	Coca.png
+Casado de Pollo -
+Arroz ; 1	Pollo ; 1	Picadillo ; 1	Ensalada ; 1	Frijoles ; 1	3500	CasadodePollo.png
 
-Arroces:
+Batidos:
+Batido de Banano(leche) -
+Banano ; 1	Leche ; 1	Hielo ; 1	1500	BatidodeBanano(leche).png
 
 Bebidas Calientes:
-Batido -
-Banano ; 2	1200	Batido.png
 
-Bebidas Frias:
+Bebidas Frías:
 
 Bebidas Naturales:
+Tamarindo -
+Tamarindo ; 1	800	Tamarindo.png
+
+Comida Rápida:
+Papas fritas -
+Papas ; 2	1200	Papasfritas.png
 
 Desayunos:
-Pinto -
-Pinto ; 1	1000	Pinto.png
 
-Mariscos:
-
-Postre:
-
-Sodas:
-Fresca -
-Fresca ; 1	600	Fresca.png
-
-Vegetariano:
-Arroz de vegetales -
-Arroz ; 1	2000	Arrozdevegetales.png
+Postres:
 

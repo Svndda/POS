@@ -17,14 +17,48 @@ POS_Model& POS_Model::getInstance() {
   return instance;
 }
 
-void POS_Model::start() {
+bool POS_Model::start(const User& user) {
+  // Obtains the registrered users information.
+  this->users = this->backupModule.getUsersBackup();  
+  // Checks if the given user is registered.
+  if (this->isUserRegistered(user)) {
+    // Loads the products information.
+    this->loadProductsBackups();
+    qDebug() << "Model encendido.";
+    // Change model state flag to true.
+    this->started = true;
+  }
+  // Returns the model state flag.
+  return this->started;
+}
+
+const User& POS_Model::getCurrentUser() {
+  // Returns the current user information.
+  return this->currentUser;
+} 
+
+bool POS_Model::isUserRegistered(const User& user) {
+  // Transverse all the registered users.
+  for (size_t i = 0; i < this->users.size(); ++i) {
+    // Checks if the given user information matches.
+    if (this->users[i] == user) {
+      qDebug() << "registered user permissions:" << this->users[i].permissions.size();
+      // Save the user information into the current user holder.
+      this->currentUser = this->users[i];
+      qDebug() << "el usuario esta registrado id: " << this->currentUser.id << " " << this->currentUser.name;
+      return true;
+    }
+  }
+  qDebug() << "el usuario no esta registrado";  
+  return false;
+}
+
+void POS_Model::loadProductsBackups() {
   // Reads and store the backup to the program memory to use them in the
   // program execution.
   this->categories = this->backupModule.getProductsBackup();
   this->obtainProducts(this->products, this->categories);
   this->supplies = this->backupModule.getSuppliesBackup();
-  // Changes the started value to true.
-  this->started = true;
 }
 
 Product& POS_Model::findProduct(const std::string& productName) {
@@ -389,10 +423,14 @@ QString POS_Model::formatProductIngredients(
 }
 
 void POS_Model::shutdown() {
-  // Writes out the registers of the dishes and drinks back to the backup files.
-  this->backupModule.updateProductsBackup(this->categories);
-  this->backupModule.updateSuppliesBackup(this->supplies);
-  // Clears the vector memory.
-  this->categories.clear();
-  this->started = false;
+  // Cheks if the model is stated.
+  if (this->isStarted()) {
+    // Writes out the registers of the products information.
+    this->backupModule.updateProductsBackup(this->categories);
+    this->backupModule.updateSuppliesBackup(this->supplies);
+    // Clears the vector memory.
+    this->categories.clear();
+    // Sets the model state flag to false.
+    this->started = false; 
+  }
 }

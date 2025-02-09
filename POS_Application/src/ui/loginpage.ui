@@ -132,6 +132,9 @@ color: rgb(0, 0, 0)</string>
           <string notr="true">background-color: rgb(255, 255, 255);
 color: rgb(0, 0, 0)</string>
          </property>
+         <property name="echoMode">
+          <enum>QLineEdit::EchoMode::Password</enum>
+         </property>
         </widget>
        </item>
        <item alignment="Qt::AlignmentFlag::AlignTop">

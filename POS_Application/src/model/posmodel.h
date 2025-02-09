@@ -6,19 +6,18 @@
 #include <vector>
 #include <map>
 #include <string>
+
+#include "user.h"
 #include "backupmodule.h"
 #include "product.h"
 
 /**
  * @class POS_Model
- * 
- * @brief A singleton class responsible for managing the Point of Sale (POS) system's products,
- *        categories, and supplies, as well as performing backup operations.
- * 
- * The POS_Model class serves as the core of the POS system, interacting with the backup module
- * to persist and load product and supply data. It allows for the manipulation of products and
- * categories, as well as managing the supply inventory. The class ensures that data is backed
- * up whenever changes are made and allows easy retrieval and modification of products.
+ * @brief Core singleton class managing the POS system.
+ *
+ * POS_Model is responsible for handling products, categories, supplies and user data.
+ * It interacts with the BackupModule to load and persist data, and provides functions
+ * for adding, editing, and removing items in the system.
  */
 class POS_Model {
   // Deleted copy constructor and assignment operator to prevent copying.
@@ -26,335 +25,342 @@ class POS_Model {
   POS_Model operator=(const POS_Model) = delete;
 
 private:
+  User currentUser = User(); ///< Currently logged in user.
+  std::vector<User> users;   ///< Registered users loaded from backup.
   BackupModule& backupModule; ///< Reference to the backup module for data persistence.
   std::map<std::string, std::vector<Product>> categories; ///< Map of product categories to their products.
-  std::vector<std::pair<std::string, Product>> products; ///< Vector of products used for interface display.
+  std::vector<std::pair<std::string, Product>> products;   ///< Vector of products for interface display.
   std::vector<Supply> supplies; ///< Inventory of supplies.
-  size_t closedReceipts = 0;
-  bool started = false; ///< Flag indicating if the POS model has been started.
+  size_t closedReceipts = 0;  ///< Counter of closed receipts.
+  bool started = false;       ///< Flag indicating if the model has been started.
   
-public: ///< Public methods.
+public:
   /**
    * @brief Retrieves the singleton instance of POS_Model.
-   * 
-   * This method ensures that only one instance of POS_Model exists, initializing it with the
-   * necessary file paths for backup operations.
-   * 
    * @return Reference to the single instance of POS_Model.
    */
   static POS_Model& getInstance();
   
   /**
-   * @brief Starts the POS model by loading backup data into memory.
-   * 
-   * This function loads product (beverages and dishes) data from the backup system and stores it
-   * in the program's memory, marking the model as started.
+   * @brief Starts the POS model.
+   *
+   * Loads user data from backup and, if the provided user is registered, loads
+   * product and supply data into memory.
+   *
+   * @param user The user to start the model with.
+   * @return True if the model has been successfully started.
    */
-  void start();
+  bool start(const User& user);
   
   /**
-   * @brief Shuts down the POS model, saving data and clearing memory.
-   * 
-   * This function writes the current product and supply data to backup files and clears
-   * the in-memory data.
+   * @brief Shuts down the POS model.
+   *
+   * Saves the current product and supply data to backup files and clears internal data.
    */
   void shutdown();
   
   /**
    * @brief Finds a product by its name.
-   * 
-   * Searches through product categories to locate a specific product by its name.
-   * 
-   * @param productName Name of the product to search for.
-   * @return Reference to the found product.
+   *
+   * Searches all product categories for a product matching the provided name.
+   *
+   * @param productName The name of the product to search for.
+   * @return Reference to the found Product.
    * @throws std::runtime_error if the product is not found.
    */
   Product& findProduct(const std::string& productName);
   
   /**
-   * @brief Increments the count of closed receipts.
-   * 
-   * This function increases the internal counter that keeps track 
-   * of the number of closed receipts in the POS system.
-   * It should be called whenever a transaction is successfully completed.
+   * @brief Increments the closed receipts counter.
+   *
+   * Call this method each time a transaction is completed successfully.
    */
-  void increaseClosedReceiptCount() {++this->closedReceipts;};
+  void increaseClosedReceiptCount() { ++this->closedReceipts; }
   
   /**
-   * @brief Adds a product to the specified category.
-   * 
-   * Inserts a product into a specific category.
-   * 
-   * @param category Category to add the product to.
-   * @param product Product object to add.
-   * @return True if the product was successfully added.
+   * @brief Adds a product to a specified category.
+   *
+   * Inserts the product into the given category if no duplicate exists.
+   *
+   * @param category The category name.
+   * @param product The Product to add.
+   * @return True if the product was added successfully.
    */
   bool addProduct(const std::string& category, const Product& product);
   
   /**
    * @brief Adds a new product category.
-   * 
-   * Creates a new product category in the register.
-   * 
-   * @param newCategory Name of the new category.
-   * @return True if the category was successfully added.
+   *
+   * Creates a new category in the system.
+   *
+   * @param newCategory The name of the new category.
+   * @return True if the category was added successfully.
    */
   bool addCategory(const std::string newCategory);
   
   /**
    * @brief Adds a new supply to the inventory.
-   * 
-   * Inserts a new supply into the supply inventory.
-   * 
-   * @param newSupply Supply item to add.
-   * @return True if the supply was successfully added.
+   *
+   * Inserts a new supply item if it does not already exist.
+   *
+   * @param newSupply The Supply to add.
+   * @return True if the supply was added successfully.
    */
   bool addSupply(const Supply newSupply);
   
   /**
-   * @brief Removes a product from the specified category.
-   * 
-   * Removes a specific product from its category.
-   * 
-   * @param category Category of the product to remove.
-   * @param product Product object to remove.
-   * @return True if the product was successfully removed.
+   * @brief Removes a product from a specified category.
+   *
+   * Erases the given product from its category.
+   *
+   * @param category The category from which to remove the product.
+   * @param product The Product to remove.
+   * @return True if the product was removed successfully.
    */
   bool removeProduct(const std::string& category, const Product& product);
   
   /**
    * @brief Removes a product category.
-   * 
-   * Removes a product category along with its associated products.
-   * 
-   * @param category Name of the category to remove.
-   * @return True if the category was successfully removed.
+   *
+   * Erases a category and all its associated products.
+   *
+   * @param category The name of the category to remove.
+   * @return True if the category was removed successfully.
    */
   bool removeCategory(const std::string category);
   
   /**
    * @brief Removes a supply from the inventory.
-   * 
-   * Removes a specific supply from the inventory.
-   * 
-   * @param newSupply Supply item to remove.
-   * @return True if the supply was successfully removed.
+   *
+   * Erases the specified supply from the inventory.
+   *
+   * @param supply The Supply to remove.
+   * @return True if the supply was removed successfully.
    */
-  bool removeSupply(const Supply& newSupply);
+  bool removeSupply(const Supply& supply);
   
   /**
    * @brief Edits an existing product.
-   * 
-   * Replaces an existing product in its category with a new one.
-   * 
-   * @param oldCategory Original category of the product.
-   * @param oldProduct Original product to replace.
-   * @param newCategory New category for the product.
-   * @param newProduct New product to replace the old one.
-   * @return True if the product was successfully edited.
+   *
+   * Replaces an old product with a new one, potentially changing its category.
+   *
+   * @param oldCategory The original category.
+   * @param oldProduct The product to replace.
+   * @param newCategory The new category for the product.
+   * @param newProduct The new product data.
+   * @return True if the product was edited successfully.
    */
-  bool editProduct(const std::string& oldCategory, const Product& oldProduct
-      , const std::string& newCategory, const Product& newProduct);
+  bool editProduct(const std::string& oldCategory, const Product& oldProduct,
+      const std::string& newCategory, const Product& newProduct);
   
   /**
    * @brief Edits the name of an existing product category.
-   * 
-   * Changes the name of an existing product category.
-   * 
-   * @param oldCategory Original category name.
-   * @param newCategory New category name.
-   * @return True if the category was successfully edited.
+   *
+   * Changes the category name while retaining its associated products.
+   *
+   * @param oldCategory The original category name.
+   * @param newCategory The new category name.
+   * @return True if the category name was updated successfully.
    */
   bool editCategory(const std::string oldCategory
       , const std::string newCategory);
   
   /**
    * @brief Edits an existing supply.
-   * 
-   * Replaces an old supply with a new one containing updated information.
-   * 
-   * @param oldSupply Original supply.
-   * @param newSupply New supply with updated details.
-   * @return True if the supply was successfully edited.
+   *
+   * Updates an existing supply with new information.
+   *
+   * @param oldSupply The original supply.
+   * @param newSupply The new supply data.
+   * @return True if the supply was edited successfully.
    */
-  bool editSupply(const Supply& oldSupply
-      , const Supply& newSupply);
+  bool editSupply(const Supply& oldSupply, const Supply& newSupply);
   
   /**
-   * @brief Formats the ingredients of a product for display.
-   * 
-   * Converts a list of ingredients into a string format suitable for displaying
-   * in the user interface.
-   * 
-   * @param ingredients List of ingredients for the product.
-   * @return Formatted string representing the product's ingredients.
+   * @brief Formats product ingredients for display.
+   *
+   * Converts a list of supplies (ingredients) into a formatted QString for UI display.
+   *
+   * @param ingredients Vector of Supply objects.
+   * @return QString containing the formatted ingredients.
    */
-  QString formatProductIngredients(
-      const std::vector<Supply>& ingredients);
+  QString formatProductIngredients(const std::vector<Supply>& ingredients);
   
-private: ///< Private methods.
+private:
   /**
-   * @brief Constructor for POS_Model.
-   * 
-   * Initializes POS_Model with a reference to a backup module.
-   * 
-   * @param module Reference to the backup module for data persistence.
+   * @brief Private constructor for POS_Model.
+   *
+   * Initializes the model with a reference to the backup module.
+   *
+   * @param module Reference to the BackupModule.
    */
   POS_Model(BackupModule& module);
   
   /**
-   * @brief Extracts products from the category registers and adds them to a vector.
-   * 
-   * Iterates through the category registers (map of categories) and extracts all
-   * the products, adding them to the provided vector.
-   * 
+   * @brief Loads product and supply data from backups.
+   *
+   * Reads products and supplies data from the backup module and stores them in memory.
+   */
+  void loadProductsBackups();
+  
+  /**
+   * @brief Checks if a user is registered.
+   *
+   * Searches through the registered users to see if the provided user exists.
+   *
+   * @param user The User to check.
+   * @return True if the user is found; otherwise, false.
+   */
+  bool isUserRegistered(const User& user);
+  
+  /**
+   * @brief Populates the products vector from category registers.
+   *
+   * Iterates over the categories map and extracts products into a vector for UI display.
+   *
    * @param existingProducts Vector to store the extracted products.
-   * @param categoryRegisters Map of registered products by category.
+   * @param categoryRegisters Map of categories to products.
    */
   void obtainProducts(
       std::vector<std::pair<std::string, Product>>& existingProducts
       , const std::map<std::string, std::vector<Product>>& categoryRegisters);
   
   /**
-   * @brief Emplace a product into the product register.
-   * 
-   * Emplace a product into the specified category, ensuring no duplicates exist.
-   * 
-   * @param productCategory Category of the product.
-   * @param product Product object to insert.
-   * @param categoriesRegister Category registers that contains the products.
-   * @return True if the product was successfully emplaced.
+   * @brief Emplaces a product into the specified category.
+   *
+   * Adds a product to the category register if it does not already exist.
+   *
+   * @param productCategory The target category.
+   * @param product The Product to insert.
+   * @param categoriesRegister The map of categories to products.
+   * @return True if the product was successfully inserted.
    */
-  bool emplaceProduct(const std::string productCategory
-      , const Product& product
+  bool emplaceProduct(const std::string productCategory, const Product& product
       , std::map<std::string, std::vector<Product>>& categoriesRegister);
   
   /**
-   * @brief Erase a product from the product register.
-   * 
-   * Erase a product from the specified category.
-   * 
-   * @param productCategory Category of the product to remove.
-   * @param product Product object to remove.
-   * @param categoriesRegister Category registers that contains the products.
-   * @return True if the product was successfully erased.
+   * @brief Erases a product from the specified category.
+   *
+   * Removes a product from the category register.
+   *
+   * @param productCategory The category from which to remove the product.
+   * @param product The Product to remove.
+   * @param categoriesRegister The map of categories to products.
+   * @return True if the product was successfully removed.
    */
-  bool eraseProduct(const std::string productCategory
-      , const Product& product
-      , std::map<std::string, std::vector<Product>>& categoriesRegister);
+  bool eraseProduct(const std::string productCategory, const Product& product,
+      std::map<std::string, std::vector<Product>>& categoriesRegister);
   
+  /**
+   * @brief Updates the products vector for a specific category.
+   *
+   * Refreshes the products vector for a given category after modifications.
+   *
+   * @param products Vector to update.
+   * @param category The category name.
+   */
   void updateProductsCategory(
-    std::vector<std::pair<std::string, Product>>& products
+      std::vector<std::pair<std::string, Product>>& products
       , const std::string& category);
   
-public: ///< Public getter methods.
+public:
   /**
    * @brief Checks if the POS model has been started.
-   * 
-   * @return True if the POS model is started.
+   * @return True if the model is started.
    */
-  inline bool isStarted() {
-    return this->started;
-  }
+  inline bool isStarted() { return this->started; }
   
   /**
-   * @brief Retrieves the registered products indexed by categories in the system.
-   * 
-   * @return Reference to the map of registered products by category.
+   * @brief Retrieves the currently logged in user.
+   * @return Reference to the current User.
    */
-  std::map<std::string, std::vector<Product>>& getRegisteredProductsMap() {
-    return this->categories;
-  }
+  const User& getCurrentUser();
   
   /**
-   * @brief Retrieves the registered products in the system.
-   * 
+   * @brief Retrieves the registered products categorized.
+   * @return Reference to the map of registered products.
+   */
+  std::map<std::string, std::vector<Product>>& getRegisteredProductsMap() { return this->categories; }
+  
+  /**
+   * @brief Retrieves the products vector for UI display.
    * @return Reference to the vector of registered products.
    */
-  std::vector<std::pair<std::string, Product>>& getRegisteredProductsVector() {
-    return this->products;
-  }
+  std::vector<std::pair<std::string, Product>>& getRegisteredProductsVector() { return this->products; }
   
   /**
-   * @brief Retrieves the categories of products registered in the system.
-   * 
-   * @return A vector containing the names of the registered categories.
+   * @brief Retrieves the list of registered category names.
+   * @return Vector of category names.
    */
   std::vector<std::string> getRegisteredCategories();
   
   /**
-   * @brief Retrieves the registered supplies in the system.
-   * 
-   * @return Reference to the vector of registered supplies.
+   * @brief Retrieves the registered supplies.
+   * @return Reference to the vector of supplies.
    */
-  std::vector<Supply>& getRegisteredSupplies() {
-    return this->supplies;
-  }
+  std::vector<Supply>& getRegisteredSupplies() { return this->supplies; }
   
   /**
-   * @brief Retrieves the total number of products registered.
-   * 
-   * @return The total number of registered products.
+   * @brief Retrieves the total number of registered products.
+   * @return Number of products.
    */
-  size_t getNumberOfProducts() {
-    return this->products.size();
-  }
+  size_t getNumberOfProducts() { return this->products.size(); }
   
   /**
-   * @brief Retrieves the total number of categories registered.
-   * 
-   * @return The total number of registered categories.
+   * @brief Retrieves the total number of registered categories.
+   * @return Number of categories.
    */
-  size_t getNumberOfCategories() {
-    return this->categories.size();
-  }
+  size_t getNumberOfCategories() { return this->categories.size(); }
   
   /**
-   * @brief Retrieves the total number of supplies registered.
-   * 
-   * @return The total number of registered supplies.
+   * @brief Retrieves the total number of registered supplies.
+   * @return Number of supplies.
    */
-  size_t getNumberOfSupplies() {
-    return this->supplies.size();
-  }
+  size_t getNumberOfSupplies() { return this->supplies.size(); }
   
   /**
-   * @brief Retrieves product categories for a specific page.
-   * 
-   * @param pageIndex Index of the page.
+   * @brief Retrieves product categories for a given page.
+   *
+   * Paginates the category names based on the specified page index and items per page.
+   *
+   * @param pageIndex The page index.
    * @param itemsPerPage Number of items per page.
-   * @return Vector containing category names for the page.
+   * @return Vector of category names for the page.
    */
-  std::vector<std::string> getCategoriesForPage(const size_t pageIndex
-      , const size_t itemsPerPage);
+  std::vector<std::string> getCategoriesForPage(
+      const size_t pageIndex, const size_t itemsPerPage);
   
   /**
-   * @brief Retrieves the size of a specific category.
-   * 
-   * @param category Name of the category.
-   * @return The size of the category or a maximum value if not found.
+   * @brief Retrieves the size (number of products) of a specific category.
+   *
+   * @param category The category name.
+   * @return Number of products in the category, or std::numeric_limits<size_t>::max() if not found.
    */
   size_t getSizeOfCategory(std::string category);
   
   /**
-   * @brief Retrieves products for a specific page.
-   * 
-   * @param pageIndex Index of the page.
+   * @brief Retrieves products for a given page.
+   *
+   * Paginates the products vector based on the specified page index and items per page.
+   *
+   * @param pageIndex The page index.
    * @param itemsPerPage Number of products per page.
-   * @return A vector of products for the specified page.
+   * @return Vector of products for the specified page.
    */
   std::vector<std::pair<std::string, Product>> getProductsForPage(
-      const size_t pageIndex , const size_t itemsPerPage);
+      const size_t pageIndex, const size_t itemsPerPage);
   
   /**
-   * @brief Retrieves supplies for a specific page.
-   * 
-   * @param pageIndex Index of the page.
+   * @brief Retrieves supplies for a given page.
+   *
+   * Paginates the supplies vector based on the specified page index and items per page.
+   *
+   * @param pageIndex The page index.
    * @param itemsPerPage Number of supplies per page.
-   * @return A vector of supplies for the specified page.
+   * @return Vector of supplies for the specified page.
    */
-  std::vector<Supply> getSuppliesForPage(const size_t pageIndex
-      , const size_t itemsPerPage);
+  std::vector<Supply> getSuppliesForPage(
+      const size_t pageIndex, const size_t itemsPerPage);
   
 };
 

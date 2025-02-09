@@ -295,7 +295,7 @@ color: black;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="priceToPay_label">
+       <widget class="QLabel" name="totalReceiptPrice_label">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -315,7 +315,7 @@ color: black;</string>
          </font>
         </property>
         <property name="text">
-         <string>5000.00</string>
+         <string>00.00</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignCenter</set>

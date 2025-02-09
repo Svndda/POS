@@ -2,43 +2,32 @@
 #include "appcontroller.h"
 #include "posmodel.h"
 
+#include "user.h"
 #include "ui_mainwindow.h"
 #include "loginpage.h"
 #include "inventory.h"
 #include "pos.h"
-
-// Esta deberia de ser la clase controladora de la aplicacion.
 
 AppController::AppController(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
   , pageStack(new QStackedWidget(this))
   , model(POS_Model::getInstance()) {
-  
   // Define the controller ui as the mainWindow.
   ui->setupUi(this);
-  
-  // Obtain a reference to the model instance.
-  POS_Model& model = POS_Model::getInstance();
-  
-  // Start, tell the model to prepare his information.
-  model.start();
-  
-  // Creates the different program pages.
-  LoginPage* loginPage = new LoginPage(this, model);
-  qDebug() << "Entrado a crear products display";
-  Pos* posSystem = new Pos(this, model);  
-  Inventory* inventory = new Inventory(this, model);
-
-  // Adds the program pages to the stack of pages.
-  this->pageStack->addWidget(loginPage);
-  this->pageStack->addWidget(posSystem);  
-  this->pageStack->addWidget(inventory);
-  
   // Adds the pages stack in his corresponding area of the program ui.
   this->ui->mainLayout->addWidget(this->pageStack, 1, 0);
-  // Sets the stack page to the pos.
-  this->pageStack->setCurrentIndex(1);
+  // Creates the pos loggin page to manage the user's loggin.
+  LoginPage* loginPage = new LoginPage(this, this->model);
+  // Add the login page to the stack view.
+  this->pageStack->addWidget(loginPage);
+  this->pageStack->setCurrentIndex(0);
+  // Connects the login signal to the controller function to try
+  //  start the system.
+  this->connect(loginPage, &LoginPage::sendCredentials
+      , this, &AppController::userAccepted);
+  // Connects all the ui elements to their slot functions.
+  this->setupConnections();
 }
 
 AppController::~AppController() {
@@ -46,17 +35,65 @@ AppController::~AppController() {
   this->model.shutdown();
 }
 
+void AppController::userAccepted(const User user) {
+  // Start, tell the model to prepare his information.  
+  if (this->model.start(user)) {
+    // Creates 
+    this->prepareSystemPages();
+    // Enables the page buttons.
+    this->enableButtons();    
+    qDebug() << "credenciales aceptadas";
+  } else {
+    qDebug() << "Las credenciales de usuario no coinciden.";
+  }
+}
+
+void AppController::enableButtons() {
+  // Enables all the system pages buttons.
+  this->ui->pos_button->setEnabled(true);
+  this->ui->inventory_button->setEnabled(true);
+  this->ui->sells_button->setEnabled(true);
+  this->ui->users_button->setEnabled(true);
+  this->ui->settings_button->setEnabled(true);
+}
+
+void AppController::disableButtons() {
+  // Disables all the system pages buttons.  
+  this->ui->pos_button->setDisabled(true);
+  this->ui->inventory_button->setDisabled(true);
+  this->ui->sells_button->setDisabled(true);
+  this->ui->users_button->setDisabled(true);
+  this->ui->settings_button->setDisabled(true);
+}
+
+void AppController::prepareSystemPages() {
+  // Creates the different program pages.
+  Pos* posPage = new Pos(this, this->model);
+  Inventory* inventoryPage = new Inventory(this, this->model);
+  
+  // Adds the program pages to the stack of pages.
+  this->pageStack->addWidget(posPage);
+  this->pageStack->addWidget(inventoryPage);
+  
+  // Sets the stack page to the pos.
+  this->pageStack->setCurrentIndex(1);
+}
+
 void AppController::setupConnections() {
+  // Connects all the pages systen pages buttons to thei slot functions.
   this->connect(this->ui->pos_button, &QPushButton::clicked
-      , this, &AppController::on_pos_button_clicked);
+              , this, &AppController::on_pos_button_clicked);
   this->connect(this->ui->inventory_button, &QPushButton::clicked
-                , this, &AppController::on_inventory_button_clicked);
+              , this, &AppController::on_inventory_button_clicked);
   this->connect(this->ui->sells_button, &QPushButton::clicked
-                , this, &AppController::on_sells_button_clicked);
+              , this, &AppController::on_sells_button_clicked);
   this->connect(this->ui->users_button, &QPushButton::clicked
-                , this, &AppController::on_users_button_clicked);
+              , this, &AppController::on_users_button_clicked);
   this->connect(this->ui->settings_button, &QPushButton::clicked
-                , this, &AppController::on_settings_button_clicked);
+              , this, &AppController::on_settings_button_clicked);
+  
+  // Disables the pages buttons.
+  this->disableButtons();
 }
 
 void AppController::switchPages(const size_t pageIndex) {
@@ -99,11 +136,33 @@ void AppController::switchPages(const size_t pageIndex) {
 }
 
 void AppController::on_pos_button_clicked() {
-  this->switchPages(1);
+  // Checks if the model is started.
+  if (this->model.isStarted()) {
+    qDebug() << "boton de pos seleccionado";
+    // Obtains the current user permissions.
+    const auto userPermissions = this->model.getCurrentUser().permissions;
+    qDebug() << "permission state: " << userPermissions[1].access;
+    // Checks if the user has allowed access to the clicked button's page.
+    if (userPermissions[1].access == User::PageAccess::ALLOWED) {
+      // Switch the page.
+      this->switchPages(1);
+    } 
+  }
 }
 
 void AppController::on_inventory_button_clicked() {
-  this->switchPages(2);
+  // Checks if the model is started.
+  if (this->model.isStarted()) {
+    qDebug() << "boton de pos seleccionado";
+    // Obtains the current user permissions.
+    const auto userPermissions = this->model.getCurrentUser().permissions;
+    qDebug() << "permission state: " << userPermissions[2].access;
+    // Checks if the user has allowed access to the clicked button's page.
+    if (userPermissions[2].access == User::PageAccess::ALLOWED) {
+      // Switch the page.      
+      this->switchPages(2);
+    } 
+  }
 }
 
 void AppController::on_sells_button_clicked() {

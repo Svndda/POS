@@ -1,12 +1,5 @@
-Frijoles 20 Gramos
-Papas 3000 Gramos
-Arroz 20 Kilogramos
-Camarones 40 Porciones
-Filet 20 Porciones
+Hielo 10 Kilogramos
+Banano 5 Unidades
+Carne 0 Unidades
 Azucar 4 Kilogramos
-Carne 2700 Gramos
-Cebolla 4 Unidades
-Mariscos 3 Kilogramos
-Bananos 4 Kilogramos
-Leche 2 Kilogramos
-Rosca 0 Kilogramos
+Leche 10 Unidades

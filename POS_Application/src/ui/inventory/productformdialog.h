@@ -55,10 +55,10 @@ public:
    * @param productToCreate The product object used to prepopulate the dialog fields.
    * @param productCategory The initial category for the product.
    */
-  explicit ProductFormDialog(QWidget *parent,
-                             std::map<std::string, std::vector<Product>>& products,
-                             Product productToCreate,
-                             QString productCategory);
+  explicit ProductFormDialog(QWidget *parent
+      , std::map<std::string, std::vector<Product>>& products
+      , Product productToCreate
+      , QString productCategory);
   
   /**
    * @brief Destructor for the ProductFormDialog class.
@@ -102,8 +102,13 @@ public:
    * @param productCategory The category to be selected in the combo box.
    */
   void setProductInfo(Product& productToEdit, QString productCategory);
-private slots:
   
+private slots:
+  /**
+   * @brief Slot for handling the "select image" button click event.
+   * 
+   * Creates a dialog to handle the image file searching.
+   */
   void productImageSelector_button_clicked();
   /**
    * @brief Slot for handling the "Accept" button click event.

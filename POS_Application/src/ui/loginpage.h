@@ -17,10 +17,12 @@ public:
   ~LoginPage();
 
 private:
-  Ui::LoginPage *ui;
+  Ui::LoginPage* ui = nullptr;
   // Reference to the application model.
   POS_Model& appModel;
-
+  
+signals:
+  void sendCredentials(const User user);
 private slots:
   void on_sendCredentials_button_clicked();
 };

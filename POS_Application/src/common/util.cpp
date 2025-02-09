@@ -19,6 +19,23 @@ void Util::updatePrefixedLabel(QWidget* view,  const QString& labelPrefix
     label->setAlignment(Qt::AlignCenter);
   } else {
     qDebug() << "No se pudo encontrar el puntero del label con prefijo: "
-             << labelPrefix;
+        << labelPrefix;
   }
+}
+
+QLabel* Util::cloneLabel(QLabel* original) {
+  QLabel* newLabel = new QLabel(original->parentWidget());
+  
+  // Copy the important attributes.
+  newLabel->setText(original->text());
+  newLabel->setAlignment(original->alignment());
+  newLabel->setStyleSheet(original->styleSheet());
+  newLabel->setFont(original->font());
+  newLabel->setPixmap(original->pixmap(Qt::ReturnByValue)); // Si usa pixmap
+  
+  // Other settings if needed.
+  newLabel->setSizePolicy(original->sizePolicy());
+  newLabel->setGeometry(original->geometry());
+  
+  return newLabel;
 }

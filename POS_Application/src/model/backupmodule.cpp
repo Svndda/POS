@@ -12,6 +12,7 @@
 #include <filesystem>
 
 #include "backupmodule.h"
+#include "user.h"
 #include "supply.h"
 
 BackupModule::BackupModule() {
@@ -38,6 +39,15 @@ std::vector<Supply> BackupModule::getSuppliesBackup() {
   // Reads the supplies information contained in the supplies backup file.
   this->readSupplyItemsBackup(registeredSupplies);
   return registeredSupplies;
+}
+
+std::vector<User> BackupModule::getUsersBackup() {
+  // Temporal vector to store the registered users's information.
+  std::vector<User> registeredUsers;
+  // Obtains and store the users information into the temporal vector.
+  this->readUsersBackup(registeredUsers);
+  // Returns the users's information.
+  return registeredUsers;
 }
 
 void BackupModule::readProductsBackup(
@@ -144,7 +154,7 @@ void BackupModule::readSupplyItemsBackup(std::vector<Supply>& supplies) {
   std::ifstream file(this->SUPPLIES_BACKUP_FILE);
   // Try to open the input file name/file path.  
   if(!file) {
-    throw std::runtime_error("No se pudo abrir el archivo para escritura: "
+    throw std::runtime_error("No se pudo abrir el archivo para lectura: "
         + this->SUPPLIES_BACKUP_FILE);
   }
   
@@ -166,6 +176,33 @@ void BackupModule::readSupplyItemsBackup(std::vector<Supply>& supplies) {
   }
 }
 
+void BackupModule::readUsersBackup(std::vector<User>& registeredUsers) {
+  // Opens the users's backup file in binary read mode.
+  std::ifstream inFile(this->USERS_BACKUP_FILE, std::ios::binary);
+  if (!inFile) {
+    throw std::runtime_error("No se pudo abrir el archivo para lectura: "
+        + this->SUPPLIES_BACKUP_FILE); 
+  }
+  
+  // Reads the number of registered users.
+  size_t numUsers = -1;
+  inFile.read(reinterpret_cast<char*>(&numUsers), sizeof(numUsers));
+  // Cleans the given vector before hand.
+  registeredUsers.clear();
+  qDebug() << "usuarios a leer: " << numUsers;
+  // Reads the user's information.
+  for (size_t i = 0; i < numUsers; ++i) {
+    // Creates a user data object.
+    User user;
+    // Reads an user information the backup file.
+    user.loadFromBinary(inFile);
+    // Add the user data into the program memory.
+    registeredUsers.push_back(user);
+  }
+  // Close the backup file.
+  inFile.close();
+}
+
 void BackupModule::updateProductsBackup(
     const std::map<std::string, std::vector<Product>>& products) {
   // Writes out the given products information into the product's backup files.
@@ -178,6 +215,31 @@ void BackupModule::updateSuppliesBackup(
   this->writeSuppliesBackup(supplies);
 }
 
+void BackupModule::updateUsersBackup(const std::vector<User>& users) {
+  // Writes out the given users information into the users's backup files.
+  this->writeUsersBackup(users);
+} 
+
+void BackupModule::writeUsersBackup(const std::vector<User>& users) {
+  // Opens the file in binary write mode.
+  std::ofstream outFile(this->USERS_BACKUP_FILE, std::ios::binary);
+  if (!outFile) {
+    std::cerr << "Error: No se pudo abrir el archivo para escritura.\n";
+    return;
+  }
+  
+  // Save the users quantity into the file.
+  size_t numUsers = users.size();
+  outFile.write(reinterpret_cast<const char*>(&numUsers), sizeof(numUsers));
+  
+  // Writes out the user information binary into the given file.
+  for (const auto& user : users) {
+    user.saveToBinary(outFile);
+  }
+  
+  outFile.close();
+}
+
 void BackupModule::writeProductsBackup(
     const std::string& filename,
     const std::map<std::string, std::vector<Product>>& registeredProducts) {
@@ -185,13 +247,14 @@ void BackupModule::writeProductsBackup(
   // Open the file in write mode and erase the content.
   std::ofstream file(filename);
   if (!file) {
-    throw std::runtime_error("No se pudo abrir el archivo para escritura: " + filename);
+    throw std::runtime_error("No se pudo abrir el archivo para escritura: "
+        + filename);
   }
   
-  // Crear un objeto de tipo std::filesystem::path
+  // Creates a std::filesystem::path object.
   std::filesystem::path filePath(filename);
   
-  // Obtener el padre del archivo (directorio que lo contiene)
+  // Obtains the parent directory's name.
   std::filesystem::path parentPath = filePath.parent_path();
   
   // Transverse the map through all the product categories.
@@ -214,6 +277,7 @@ void BackupModule::writeProductsBackup(
         file << ingredientName.toStdString() << " ; "
             << ingredient.getQuantity() << "\t";
       }
+      // Creates the string name of the product's image backup file.
       std::string imageName = product.getName() +  ".png";
       // Erase the blanck spaces on the image path.
       imageName.erase(
@@ -221,14 +285,15 @@ void BackupModule::writeProductsBackup(
           imageName.end());
       // Writes out the product's price as the last character of the line.
       file << product.getPrice() << "\t" << imageName << std::endl;
+      
       // Saves the product image in the save directory as the backup file.
       const QPixmap& productImage = product.getImage();
       const std::string directory = parentPath.string() + "\\" + imageName;
       
-      // Verifica si el directorio existe; si no, lo crea
+      // Checks if the direcoty already exist, if not, creates it.
       QDir dir(QString::fromStdString(parentPath.string()));
       if (!dir.exists()) {
-        dir.mkpath("."); // Crea el directorio completo si no existe
+        dir.mkpath(".");
       }
       
       try {

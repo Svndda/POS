@@ -23,9 +23,9 @@ class Inventory : public QWidget {
   Q_OBJECT
   
 private:
-  Ui::Inventory* ui; ///< Pointer to the UI elements for the Products class.
-  POS_Model& model;                    ///< Reference to the POS model instance.
-  QStackedWidget* catalogStack;
+  Ui::Inventory* ui;               ///< Pointer to the UI elements for the Products class.
+  POS_Model& model;                ///< Reference to the POS model instance.
+  QStackedWidget* catalogStack;    ///< Pointer to the stack of inventory's catalog pages.
 
 public:
   /**
@@ -56,14 +56,14 @@ protected:
   void setupConnections();
   
   /**
- * @brief Switches the current catalog view.
- *
- * This function updates the displayed catalog page in the QStackedWidget based on the provided index.
- * It also updates the state of the catalog buttons and their corresponding widgets by setting the
- * appropriate "checked" status and applying a style sheet.
- *
- * @param index The index of the catalog to display (0 for Products, 1 for Categories, 2 for Supplies).
- */
+   * @brief Switches the current catalog view.
+   *
+   * This function updates the displayed catalog page in the QStackedWidget based on the provided index.
+   * It also updates the state of the catalog buttons and their corresponding widgets by setting the
+   * appropriate "checked" status and applying a style sheet.
+   *
+   * @param index The index of the catalog to display (0 for Products, 1 for Categories, 2 for Supplies).
+   */
   void switchCatalog(const size_t index);
   
 private slots:
@@ -71,10 +71,12 @@ private slots:
    * @brief Slot for handling the "ProductsCatalog" button click event.
    */
   void on_productsCatalog_button_clicked();
+  
   /**
    * @brief Slot for handling the "CategoriesCatalog" button click event.
    */
   void on_categoriesCatalog_button_clicked();
+  
   /**
    * @brief Slot for handling the "SuppliesCatalog" button click event.
    */

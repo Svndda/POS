@@ -21,7 +21,7 @@ LoginPage::~LoginPage() {
 }
 
 void LoginPage::on_sendCredentials_button_clicked() {
-  QRegularExpression emailRegex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+  // QRegularExpression emailRegex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
   QRegularExpression passwordRegex("^[A-Za-z0-9]{8,}$");
 
   QString email = this->ui->email_lineEdit->text();
@@ -34,12 +34,14 @@ void LoginPage::on_sendCredentials_button_clicked() {
     QMessageBox::warning(this, "Error",
         "Porfavor, rellena todos los campos solicitados.");
   } else {
-    QRegularExpressionMatch emailMatch = emailRegex.match(email);
+    // QRegularExpressionMatch emailMatch = emailRegex.match(email);
     QRegularExpressionMatch passwordMatch = passwordRegex.match(password);
 
-    if (emailMatch.hasMatch()) {
+    if (!email.isEmpty()) {
       if (passwordMatch.hasMatch()) {
-        QMessageBox::information(this, "Exito", "Iniciando sesion.");
+        User user(0, email.toStdString());
+        user.setPassword(password.toStdString());
+        emit this->sendCredentials(user);
       } else {
         QMessageBox::warning(this, "Error",
             "Porfavor, introduzca una contraseña de al menos, 8 carácteres..");
