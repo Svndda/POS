@@ -9,11 +9,29 @@ User::User(const size_t userId, const std::string userName
     , permissions(userPermissions) {
 }
 
-User::PageAccess::PageAccess(const size_t pageIndexed, const size_t pageAccess
-    , const size_t pageDataAccess)
+User::PageAccess::PageAccess(const size_t pageIndexed, const size_t pageAccess)
     : pageIndex(pageIndexed)
-    , access(pageAccess)
-    , dataAccess(pageDataAccess) {
+    , access(pageAccess) {
+}
+
+const size_t& User::getID() const {
+  // Returns the user's id.
+  return this->id;
+}
+
+void User::setUserID(const size_t id) {
+  // Sets the user's id.
+  this->id = id;
+}
+
+const std::string& User::getUsername() const {
+  // Returns the user's name.
+  return this->name;
+}
+
+void User::setUsername(const std::string name) {
+  // Sets the user's name.
+  this->name = name;
 }
 
 void User::setPassword(const std::string& newPassword) {
@@ -30,15 +48,25 @@ bool User::verifyPassword(const std::string& passwordToCheck) const {
   return this->password == hasher(passwordToCheck);
 }
 
-const std::string& User::getUsername() const {
-  // Returns the user's name.
-  return this->name;
+const std::vector<User::PageAccess>& User::getUserPermissions() const {
+  // Returns the user's permissions.
+  return this->permissions;
+}
+
+void User::setUserPermissions(const std::vector<User::PageAccess> permissions) {
+  // Sets the user's permissions.
+  this->permissions = permissions;
 }
 
 bool User::operator==(const User& other) const {
   // Checks if the users's attributes matches.
   return (this->name == other.name)
-  && (this->password == other.password);
+      && (this->password == other.password);
+}
+
+bool User::operator!=(const User& other) const {
+  // Checks if the users's attributes does not matches.
+  return !(*this == other);
 }
 
 User& User::operator=(const User& other) {
@@ -62,8 +90,7 @@ User& User::operator=(const User& other) {
 bool User::PageAccess::operator==(const PageAccess& other) const {
   // Checks if the page's accesses aattributes matches.
   return (this->pageIndex == other.pageIndex)
-  && (this->access == other.access)
-      && (this->dataAccess == other.dataAccess);  
+      && (this->access == other.access);;  
 }
 
 User::PageAccess& User::PageAccess::operator=(const PageAccess& other) {
@@ -74,7 +101,6 @@ User::PageAccess& User::PageAccess::operator=(const PageAccess& other) {
   // Copy the other object attributes.    
   this->pageIndex = other.pageIndex;
   this->access = other.access;
-  this->dataAccess = other.dataAccess;
   // Returns the current object.
   return *this;
 }
@@ -155,9 +181,6 @@ void User::PageAccess::saveToBinary(std::ofstream& outFile) const {
     // Writes out the page access user's access state information.    
     outFile.write(reinterpret_cast<const char*>(&this->access)
         , sizeof(this->access));
-    // Writes out the page access user's data access state information.        
-    outFile.write(reinterpret_cast<const char*>(&this->dataAccess)
-        , sizeof(this->dataAccess));
   } else {
     std::cerr << "Error: El archivo no se pudo abrir para escritura.\n";
   }
@@ -171,9 +194,6 @@ void User::PageAccess::loadFromBinary(std::ifstream& inFile) {
     // Reads out the page access user's access state information.
     inFile.read(reinterpret_cast<char*>(&access)
         , sizeof(access));
-    // Reads out the page access user's data access state information.    
-    inFile.read(reinterpret_cast<char*>(&this->dataAccess)
-        , sizeof(this->dataAccess));
   } else {
     std::cerr << "Error: El archivo no se pudo abrir para lectura.\n";
   }

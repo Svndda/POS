@@ -61,6 +61,14 @@ public:
    * @param product The Product to add to the receipt.
    */
   void addProductToReceipt(const Product& product);
+private:
+  /**
+   * @brief Creates and prepare the necesary initial state of some ui elements.
+   *
+   * Creates the dynamic ui elements layout and intial elements state.
+   *
+   */
+  void setupDisplay();
   
   /**
    * @brief Creates product selection buttons.

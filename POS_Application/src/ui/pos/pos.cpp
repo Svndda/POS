@@ -14,118 +14,149 @@ Pos::Pos(QWidget *parent, POS_Model& appModel)
     , ui(new Ui::Pos)
     , model(appModel) {
   ui->setupUi(this);
-  this->receipStack = new QStackedWidget();
-  this->createSelectProductButtons(6);
-  this->ui->billingLayout->setAlignment(Qt::AlignTop);
-  
-  Receipt* receipt = new Receipt(this, 0);
-  this->ui->billingLayout->addWidget(this->receipStack);
-  this->receipStack->addWidget(receipt);
-  
-  QHBoxLayout* layout = new QHBoxLayout();
-  layout->setAlignment(Qt::AlignLeft);
-  layout->setContentsMargins(0, 0, 0, 0);
-  layout->setSpacing(1);
-  this->ui->openedReceiptsArea->setLayout(layout);
-
-  ReceiptSelectionButton* receiptSelectionButton
-      = new ReceiptSelectionButton(this, this->openedReceipts);
-  layout->addWidget(receiptSelectionButton);
+  this->setupDisplay();
 }
 
 Pos::~Pos() {
   delete ui;
 }
 
+void Pos::setupDisplay() {
+  // Creates the widget stack to store the current receipts.
+  this->receipStack = new QStackedWidget();
+  // Creates the product selection buttons on the scroll view, with six elements
+  // per row.
+  this->createSelectProductButtons(6);
+  // Sets the receipts layout container alignment to the top.
+  this->ui->billingLayout->setAlignment(Qt::AlignTop);
+  
+  // Creates a new receipt.
+  Receipt* receipt = new Receipt(this, 0);
+  // Adds the new receipt to the layout.
+  this->ui->billingLayout->addWidget(this->receipStack);
+  // Adds the nre receipt to the stak.
+  this->receipStack->addWidget(receipt);
+  
+  // Creates a layout to store the receipt selection buttons of the pos.
+  QHBoxLayout* layout = new QHBoxLayout();
+  // Sets the layout aligment to the left.
+  layout->setAlignment(Qt::AlignLeft);
+  // Sets the layout content margins to zero.
+  layout->setContentsMargins(0, 0, 0, 0);
+  // Sets the layout elements spacing to one.
+  layout->setSpacing(1);
+  this->ui->openedReceiptsArea->setLayout(layout);
+  
+  // Creates and adds up a receipt selection button into the layout.
+  ReceiptSelectionButton* receiptSelectionButton
+      = new ReceiptSelectionButton(this, this->openedReceipts);
+  layout->addWidget(receiptSelectionButton);
+}
+
 void Pos::on_createReceipt_button_clicked() {
-  // Obtains the layout of receipts selection buttons.
-  QLayout* receiptsSelectButtonsLayout = this->ui->openedReceiptsArea->layout();
-  // Checks if the layout is empty.
-  if (receiptsSelectButtonsLayout->isEmpty()) {
-    qDebug() << "anadiendo nueva factura";
-    // Creates a new receipt selection button and add it to the layout.
-    ReceiptSelectionButton* receiptSelectionButton
-        = new ReceiptSelectionButton(this, ++this->openedReceipts);
-    receiptsSelectButtonsLayout->addWidget(receiptSelectionButton);
-    // Force the ui content to uodate.
-    this->update();
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Obtains the layout of receipts selection buttons.
+    QLayout* receiptsSelectButtonsLayout = this->ui->openedReceiptsArea->layout();
+    // Checks if the layout is empty.
+    if (receiptsSelectButtonsLayout->isEmpty()) {
+      qDebug() << "anadiendo nueva factura";
+      // Creates a new receipt selection button and add it to the layout.
+      ReceiptSelectionButton* receiptSelectionButton
+          = new ReceiptSelectionButton(this, ++this->openedReceipts);
+      receiptsSelectButtonsLayout->addWidget(receiptSelectionButton);
+      // Force the ui content to uodate.
+      this->update();
+    } else {
+      // Display a message box warning that there is an remaining receipt.
+      QMessageBox::warning(this, "Error en solicitud"
+          , "Por favor, cierre o finalice la factura actual.");
+    }
   } else {
-    // Display a message box warning that there is an remaining receipt.
-    QMessageBox::warning(this, "Error en solicitud"
-        , "Por favor, cierre o finalice la factura actual.");
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
   }
 }
 
 void Pos::on_cancelReceipt_button_clicked() {
-  // Checks if the receipt stack isn't empty.
-  if (this->receipStack) {
-    // Obtains the widget indexed on the first position of the current receipts
-    // stack.
-    QWidget* widget = this->receipStack->widget(0);
-    // Remove the receipt widget from the stack.
-    this->receipStack->removeWidget(widget);
-    // Force the object deletion.
-    widget->deleteLater();
-    
-    // Obtains the receipt's selection button.
-    QLayoutItem* receiptSelectButton
-        = this->ui->openedReceiptsArea->layout()->takeAt(0);
-    // Force the object deletion.
-    receiptSelectButton->widget()->deleteLater();
-    // Decrement the openen receipts counter.
-    --this->openedReceipts;
-    // Creates a new empty receipt to be a place holder.
-    Receipt* receipt = new Receipt(this, 0);
-    // Adds the new receipt to the related stack.
-    this->receipStack->addWidget(receipt);
-    // For the ui update.
-    this->update();
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Checks if the receipt stack isn't empty.
+    if (this->receipStack) {
+      // Obtains the widget indexed on the first position of the current receipts
+      // stack.
+      QWidget* widget = this->receipStack->widget(0);
+      // Remove the receipt widget from the stack.
+      this->receipStack->removeWidget(widget);
+      // Force the object deletion.
+      widget->deleteLater();
+      
+      // Obtains the receipt's selection button.
+      QLayoutItem* receiptSelectButton
+          = this->ui->openedReceiptsArea->layout()->takeAt(0);
+      // Force the object deletion.
+      receiptSelectButton->widget()->deleteLater();
+      // Decrement the openen receipts counter.
+      --this->openedReceipts;
+      // Creates a new empty receipt to be a place holder.
+      Receipt* receipt = new Receipt(this, 0);
+      // Adds the new receipt to the related stack.
+      this->receipStack->addWidget(receipt);
+      // For the ui update.
+      this->update();
+    } 
+  } else {
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
   }
 }
 
 void Pos::on_payReceipt_button_clicked() {
-  // Checks if the receipts stack isn't empty.
-  if (this->receipStack) {
-    // Obstains the widget of the first position of the stack.
-    QWidget* widget = this->receipStack->widget(0);
-    // Creates a printer object to sets the receipt printint settings.
-    QPrinter printer(QPrinter::HighResolution);
-    // Sets the printing page size of the receipt.
-    printer.setPageSize(QPageSize(QPageSize::A6));
-    // Sets the printing ouput format of the receipt.
-    printer.setOutputFormat(QPrinter::NativeFormat);
-    // Sets the printing page margins of the receipt.
-    printer.setPageMargins(QMarginsF(0, 0, 0, 0), QPageLayout::Millimeter);
-    
-    // Creates the print preview dialog.
-    QPrintPreviewDialog previewDialog(&printer, this);
-    
-    // Connects the printing fucntion to the printer.
-    connect(&previewDialog, &QPrintPreviewDialog::paintRequested
-        , this, &Pos::printPreview);
-    
-    // Checks if the user printed the receipt.
-    if (previewDialog.exec() == QDialog::Accepted) {
-      // Remove the current receipt from the stack.
-      this->receipStack->removeWidget(widget);
-      // Force the deletion of the receipt.
-      widget->deleteLater();
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Checks if the receipts stack isn't empty.
+    if (this->receipStack) {
+      // Obstains the widget of the first position of the stack.
+      QWidget* widget = this->receipStack->widget(0);
+      // Creates a printer object to sets the receipt printint settings.
+      QPrinter printer(QPrinter::HighResolution);
+      // Sets the printing page size of the receipt.
+      printer.setPageSize(QPageSize(QPageSize::A6));
+      // Sets the printing ouput format of the receipt.
+      printer.setOutputFormat(QPrinter::NativeFormat);
+      // Sets the printing page margins of the receipt.
+      printer.setPageMargins(QMarginsF(0, 0, 0, 0), QPageLayout::Millimeter);
       
-      // Obtains the receipt selection button related to the deleted receipt.
-      QLayoutItem* receiptSelectButton
-          = this->ui->openedReceiptsArea->layout()->takeAt(0);
-      // Force the deletion of the button.
-      receiptSelectButton->widget()->deleteLater();
-      // Decrements the opened receipts counter.
-      --this->openedReceipts;
+      // Creates the print preview dialog.
+      QPrintPreviewDialog previewDialog(&printer, this);
       
-      // Creates a new receipt to be a place holder.
-      Receipt* receipt = new Receipt(this, 0);
-      // Adds the new receipt to the stack.
-      this->receipStack->addWidget(receipt);
-      // Force the ui update.
-      this->update();
-    }
+      // Connects the printing fucntion to the printer.
+      connect(&previewDialog, &QPrintPreviewDialog::paintRequested
+              , this, &Pos::printPreview);
+      
+      // Checks if the user printed the receipt.
+      if (previewDialog.exec() == QDialog::Accepted) {
+        // Remove the current receipt from the stack.
+        this->receipStack->removeWidget(widget);
+        // Force the deletion of the receipt.
+        widget->deleteLater();
+        
+        // Obtains the receipt selection button related to the deleted receipt.
+        QLayoutItem* receiptSelectButton
+            = this->ui->openedReceiptsArea->layout()->takeAt(0);
+        // Force the deletion of the button.
+        receiptSelectButton->widget()->deleteLater();
+        // Decrements the opened receipts counter.
+        --this->openedReceipts;
+        
+        // Creates a new receipt to be a place holder.
+        Receipt* receipt = new Receipt(this, 0);
+        // Adds the new receipt to the stack.
+        this->receipStack->addWidget(receipt);
+        // Force the ui update.
+        this->update();
+      }
+    } 
+  } else {
+    QMessageBox::information(this, "Acceso restrido."
+                             , "El usuario no posee los permisos de edición.");
   }
 }
 
@@ -175,26 +206,31 @@ void Pos::printPreview(QPrinter* printer) {
 }
 
 void Pos::addProductToReceipt(const Product& product) {
-  // Checks that there's al least 1 receipt openend to accept the click from a
-  // product selection button.
-  if (this->ui->openedReceiptsArea->layout()->count() > 0) {
-    // Retrieve the currently active widget from the receiptStack  
-    QWidget* currentWidget = this->receipStack->currentWidget();
-    
-    // Safely cast the QWidget to a Receipt pointer using qobject_cast
-    Receipt* currentReceipt = qobject_cast<Receipt*>(currentWidget);
-    
-    // Checks that the current receipt pointer isn't null.
-    if (currentReceipt) {
-      // Adds the product into the current receipt.
-      currentReceipt->addProduct(product);
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Checks that there's al least 1 receipt openend to accept the click from a
+    // product selection button.
+    if (this->ui->openedReceiptsArea->layout()->count() > 0) {
+      // Retrieve the currently active widget from the receiptStack  
+      QWidget* currentWidget = this->receipStack->currentWidget();
+      
+      // Safely cast the QWidget to a Receipt pointer using qobject_cast
+      Receipt* currentReceipt = qobject_cast<Receipt*>(currentWidget);
+      
+      // Checks that the current receipt pointer isn't null.
+      if (currentReceipt) {
+        // Adds the product into the current receipt.
+        currentReceipt->addProduct(product);
+      } else {
+        qDebug() << "Error: The current widget is not a Receipt.";
+      }
     } else {
-      qDebug() << "Error: The current widget is not a Receipt.";
+      // Displays a warning message box to show the error to the user.
+      QMessageBox::warning(this, "Error en la adición del producto"
+          , "Por favor, primero cree una nueva factura.");
     }
   } else {
-    // Displays a warning message box to show the error to the user.
-    QMessageBox::warning(this, "Error en la adición del producto"
-        , "Por favor, primero cree una nueva factura.");
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
   }
 }
 

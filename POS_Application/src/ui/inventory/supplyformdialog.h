@@ -22,7 +22,7 @@ class SupplyFormDialog : public QDialog {
   
 private:
   Ui::SupplyFormDialog* ui;                   ///< Pointer to the UI layout.
-  std::vector<Supply> existingSupplies;  ///< List of existing supplies for validation.
+  const std::vector<Supply>& existingSupplies;  ///< List of existing supplies for validation.
   Supply newSupply;                      ///< Supply item being created or modified.
 
 public:

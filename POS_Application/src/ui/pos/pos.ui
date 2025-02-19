@@ -493,7 +493,7 @@ QPushButton:checked {
     color: black;
     background-color: rgb(237, 233, 230);
     padding-left: 20px;
-    padding-right: 20px;
+    padding-right: 10px;
   }
 
   /* Estilo para el área desplegable */
@@ -541,7 +541,7 @@ QComboBox::drop-down {
   color: rgb(0, 0, 0);
   background-color: rgb(237, 233, 230);
   padding-left: 20px;
-  padding-right: 20px;
+  padding-right: 10px;
 }
 </string>
           </property>

@@ -300,14 +300,13 @@ void BackupModule::writeProductsBackup(
         productImage.save(QString::fromStdString(directory));
         qDebug() << directory << " salvango imagen en";
       } catch(std::runtime_error& e) {
-        qDebug() << "El producto: " << product.getImage() << ". No tiene imagen";
+        qDebug() << "El producto: " << product.getImage()
+            << ". No tiene imagen";
       }
     }
-    
     // Writes out a blank line between categories.
     file << std::endl;
   }
-  
   file.close();
 }
 

@@ -27,17 +27,13 @@ public:
    */
   class PageAccess {
   public:
-    static const size_t EDITABLE = 1;       ///< Editable data indicator.
-    static const size_t NON_EDITABLE = 0;   ///< Non-editable data indicator.
-    
-    static const size_t ALLOWED = 3;        ///< Access allowed indicator.
-    static const size_t DENEGATED = 2;      ///< Access denied indicator.
+    static const size_t EDITABLE = 2;       ///< Editable data indicator.
+    static const size_t NON_EDITABLE = 1;   ///< Non-editable data indicator.
+    static const size_t DENIED = 0;      ///< Access denied indicator.
     
   public:
     size_t pageIndex = 0;   ///< Index of the page.
-    size_t access = this->DENEGATED;    ///< Access permission (allowed/denegated).
-    size_t dataAccess = this->NON_EDITABLE; ///< Data access permission (editable/non-editable).
-    
+    size_t access = this->DENIED;    ///< Access permission (allowed/denegated).    
   public:
     /**
      * @brief Constructs a PageAccess object.
@@ -46,8 +42,7 @@ public:
      * @param pageDataAccess The data access permission for the page.
      */
     PageAccess(const size_t pageIndexed = 0
-        , const size_t pageAccess = PageAccess::DENEGATED
-        , const size_t pageDataAccess = PageAccess::NON_EDITABLE);
+        , const size_t pageAccess = PageAccess::DENIED);
     
     /**
      * @brief Destructor.
@@ -94,15 +89,15 @@ public:
      */
     void loadFromBinary(std::ifstream& inFile);
   };
-  
+    
 private:
-public:
   size_t id = 0;                    ///< Unique identifier of the user.
   std::string name = "";            ///< Name of the user.
   std::vector<PageAccess> permissions; ///< Vector of page access permissions.
   size_t password = 0;              ///< Hashed password.
   
 public:
+
   /**
    * @brief Constructs a User object.
    *
@@ -128,9 +123,19 @@ public:
    * Compares two User objects based on their name and hashed password.
    *
    * @param other The other User object to compare.
-   * @return True if the names and passwords match; otherwise, false.
+   * @return True if the users attributes match; otherwise, false.
    */
   bool operator==(const User& other) const;
+  
+  /**
+   * @brief Unequality operator.
+   *
+   * Compares two User objects based on their name and hashed password.
+   *
+   * @param other The other User object to compare.
+   * @return True if the users attributes does not match; otherwise, false.
+   */
+  bool operator!=(const User& other) const;
   
   /**
    * @brief Assignment operator.
@@ -141,6 +146,34 @@ public:
    * @return Reference to the current object.
    */
   User& operator=(const User& other);
+  
+  /**
+   * @brief Retrieves the user's id.
+   *
+   * @return Constant reference to the user's id.
+   */
+  const size_t& getID() const;
+  
+  /**
+   * @brief Sets the user's id.
+   *
+   * @param id The new id to set.
+   */
+  void setUserID(const size_t id);
+  
+  /**
+   * @brief Retrieves the user's name.
+   *
+   * @return Constant reference to the user's name string.
+   */
+  const std::string& getUsername() const;
+  
+  /**
+   * @brief Sets the user's name.
+   *
+   * @param name The new name to set.
+   */
+  void setUsername(const std::string name);
   
   /**
    * @brief Sets the user's password.
@@ -160,11 +193,18 @@ public:
   bool verifyPassword(const std::string& passwordToCheck) const;
   
   /**
-   * @brief Retrieves the user's name.
+   * @brief Retrieves the user's permissions.
    *
-   * @return Constant reference to the user's name string.
+   * @return Constant reference to the user's permissions.
    */
-  const std::string& getUsername() const;
+  const std::vector<PageAccess>& getUserPermissions() const;
+  
+  /**
+   * @brief Sets the user's permissions.
+   *
+   * @param permissions The new permissions to set.
+   */
+  void setUserPermissions(const std::vector<PageAccess> permissions);
   
   /**
    * @brief Saves the user's data to a binary file.

@@ -105,24 +105,103 @@ void SuppliesCatalog::refreshSuppliesDisplay(
 }
 
 void SuppliesCatalog::addSupply_button_clicked() {
-  // Creates a dialog to manage the creation of a new supply.
-  SupplyFormDialog dialog(this, this->model.getRegisteredSupplies()
-      , Supply());
-  
-  // Executes the dialog and checks if were accepted.
-  if (dialog.exec() == QDialog::Accepted) {
-    // Obtain the supply created in the dialog.
-    const Supply supply = dialog.getNewSupply();
-    // Try to add the supply into the register of supplies.
-    if (this->model.addSupply(supply)) {
-      // Update the supplies display.
-      this->refreshDisplay(this->itemsPerPage);
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Creates a dialog to manage the creation of a new supply.
+    SupplyFormDialog dialog(this, this->model.getRegisteredSupplies()
+        , Supply());
+    
+    // Executes the dialog and checks if were accepted.
+    if (dialog.exec() == QDialog::Accepted) {
+      // Obtain the supply created in the dialog.
+      const Supply supply = dialog.getNewSupply();
+      // Try to add the supply into the register of supplies.
+      if (this->model.addSupply(supply)) {
+        // Update the supplies display.
+        this->refreshDisplay(this->itemsPerPage);
+      } else {
+        QMessageBox::information(this, "Informacion inválida"
+            , "No se añadió el suministro.");  
+      }
     } else {
-      QMessageBox::information(this, "Informacion inválida"
-          , "No se añadió el suministro.");  
+      qDebug() << "Se cancelo la creacion de un producto";
     }
   } else {
-    qDebug() << "Se cancelo la creacion de un producto";
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
+  }
+}
+
+void SuppliesCatalog::on_delete_button_clicked() {
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Catch the pointer to the button object that sended the signal.
+    QPushButton *button = qobject_cast<QPushButton *>(sender());
+    // If there's a pointer, then.
+    if (button) {
+      // Obtain the index of the display button.
+      const size_t buttonIndex = button->property("index").toUInt();
+      qDebug() << "Button clicked, index:" << buttonIndex;
+      // Gets the supplies vector for the actual page.
+      const auto suppliesForPage = this->model.getSuppliesForPage(
+          this->currentPageIndex, this->itemsPerPage);
+      // Checks that that the button index is lower than the supplies for this
+      // page to avoid an empty row.
+      if (buttonIndex < suppliesForPage.size()) {
+        // Gets the row supply.
+        Supply supply = suppliesForPage[buttonIndex];
+        if (this->model.removeSupply(supply)) {
+          this->refreshDisplay(this->itemsPerPage);
+        } else {
+          QMessageBox::warning(this, "Error"
+              , "No se pudo eliminar el suministro.");
+        }
+      }
+    }
+  } else {
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
+  }
+}
+
+void SuppliesCatalog::on_edit_button_clicked() {
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Catch the pointer to the button object that sended the signal.  
+    QPushButton *button = qobject_cast<QPushButton *>(sender());
+    // Checks if the pointer is valid.
+    if (button) {
+      // Gets the index of the button.
+      const size_t buttonIndex = button->property("index").toUInt();
+      // Gets the supplies vector for the actual page.
+      const auto suppliesForPage = this->model.getSuppliesForPage(
+          this->currentPageIndex, this->itemsPerPage);
+      // Checks that that the button index is lower than the supplies for this
+      // page to avoid an empty row.
+      if (buttonIndex < suppliesForPage.size()) {
+        // Gets the row supply.
+        const Supply oldSupply = suppliesForPage[buttonIndex];
+        qDebug() << "Button clicked, index:" << buttonIndex << " "
+                 << oldSupply.getName();
+        // Creates a dialog to manage the existing supply editing.
+        SupplyFormDialog dialog(this, this->model.getRegisteredSupplies()
+            , oldSupply);
+        
+        if (dialog.exec() == QDialog::Accepted) {
+          const Supply newSupply = dialog.getNewSupply();
+          if (this->model.editSupply(oldSupply, newSupply)) {
+            // Updates the display with the new supply.
+            this->refreshDisplay(this->itemsPerPage);
+            qDebug() << "Se ha modificado una categoria exitosamente";
+          } else {
+            QMessageBox::information(this, "Informacion inválida"
+                , "No se editó el suministro.");
+          }
+        } else {
+          qDebug() << "Se cancelo la edicion de una categoria";
+        }
+      }
+    }
+  } else {
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
   }
 }
 
@@ -151,69 +230,4 @@ void SuppliesCatalog::on_previousPage_button_clicked() {
     this->refreshDisplay(this->itemsPerPage);
   }
   std::cout << "Boton de retroceso: " << this->currentPageIndex << std::endl;
-}
-
-void SuppliesCatalog::on_delete_button_clicked() {
-  // Catch the pointer to the button object that sended the signal.
-  QPushButton *button = qobject_cast<QPushButton *>(sender());
-  // If there's a pointer, then.
-  if (button) {
-    // Obtain the index of the display button.
-    const size_t buttonIndex = button->property("index").toUInt();
-    qDebug() << "Button clicked, index:" << buttonIndex;
-    // Gets the supplies vector for the actual page.
-    const auto suppliesForPage = this->model.getSuppliesForPage(
-        this->currentPageIndex, this->itemsPerPage);
-    // Checks that that the button index is lower than the supplies for this
-    // page to avoid an empty row.
-    if (buttonIndex < suppliesForPage.size()) {
-      // Gets the row supply.
-      Supply supply = suppliesForPage[buttonIndex];
-      if (this->model.removeSupply(supply)) {
-        this->refreshDisplay(this->itemsPerPage);
-      } else {
-        QMessageBox::warning(this, "Error"
-            , "No se pudo eliminar el suministro.");
-      }
-    }
-  }
-}
-
-void SuppliesCatalog::on_edit_button_clicked() {
-  // Catch the pointer to the button object that sended the signal.  
-  QPushButton *button = qobject_cast<QPushButton *>(sender());
-  // Checks if the pointer is valid.
-  if (button) {
-    // Gets the index of the button.
-    const size_t buttonIndex = button->property("index").toUInt();
-    // Gets the supplies vector for the actual page.
-    const auto suppliesForPage = this->model.getSuppliesForPage(
-        this->currentPageIndex, this->itemsPerPage);
-    // Checks that that the button index is lower than the supplies for this
-    // page to avoid an empty row.
-    if (buttonIndex < suppliesForPage.size()) {
-      // Gets the row supply.
-      const Supply oldSupply = suppliesForPage[buttonIndex];
-      qDebug() << "Button clicked, index:" << buttonIndex << " "
-          << oldSupply.getName();
-      // Creates a dialog to manage the existing supply editing.
-      SupplyFormDialog dialog(this
-          , this->model.getRegisteredSupplies()
-          , oldSupply);
-      
-      if (dialog.exec() == QDialog::Accepted) {
-        const Supply newSupply = dialog.getNewSupply();
-        if (this->model.editSupply(oldSupply, newSupply)) {
-          // Updates the display with the new supply.
-          this->refreshDisplay(this->itemsPerPage);
-          qDebug() << "Se ha modificado una categoria exitosamente";
-        } else {
-          QMessageBox::information(this, "Informacion inválida"
-              , "No se editó el suministro.");
-        }
-      } else {
-        qDebug() << "Se cancelo la edicion de una categoria";
-      }
-    }
-  }
 }

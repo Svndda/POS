@@ -60,6 +60,8 @@ private:
    * @brief Prepares and creates system pages such as POS and Inventory.
    */
   void prepareSystemPages();
+  
+  void refreshPageStack(const size_t pageIndex);
   /**
    * @brief Switches the displayed page in the stack widget.
    * @param pageIndex The index of the page to display.

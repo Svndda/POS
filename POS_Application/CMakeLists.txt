@@ -18,14 +18,6 @@ qt_add_executable(POS_Application
   src/model/supply.h src/model/supply.cpp
   src/common/util.cpp src/common/util.h
   
-  src/ui/inventory/inventory.h src/ui/inventory/inventory.cpp
-  src/ui/inventory/inventory.ui
-  
-  src/ui/inventory/productformdialog.h src/ui/inventory/productformdialog.cpp
-  src/ui/inventory/productformdialog.ui
-  src/controller/mainwindow.ui
-  
-  
   src/ui/inventory/categoryformdialog.h src/ui/inventory/categoryformdialog.cpp
   src/ui/inventory/categoryformdialog.ui
   src/ui/inventory/suppliescatalog.h src/ui/inventory/suppliescatalog.cpp
@@ -35,16 +27,32 @@ qt_add_executable(POS_Application
   src/ui/inventory/supplyformdialog.ui
   src/ui/pos/pos.h src/ui/pos/pos.cpp
   src/ui/pos/pos.ui
+  src/model/user.h src/model/user.cpp
   
-  
+  src/ui/inventory/inventory.h src/ui/inventory/inventory.cpp
+  src/ui/inventory/inventory.ui
+  src/ui/inventory/productformdialog.h src/ui/inventory/productformdialog.cpp
+  src/ui/inventory/productformdialog.ui
+  src/controller/mainwindow.ui
   src/ui/pos/productselectionbutton.h src/ui/pos/productselectionbutton.cpp
   src/ui/pos/productselectionbutton.ui
-  src/ui/inventory/categoriescatalog.h src/ui/inventory/categoriescatalog.cpp src/ui/inventory/categoriescatalog.ui
-  src/ui/inventory/productscatalog.h src/ui/inventory/productscatalog.cpp src/ui/inventory/productscatalog.ui
+  src/ui/inventory/categoriescatalog.h src/ui/inventory/categoriescatalog.cpp
+  src/ui/inventory/categoriescatalog.ui
+  src/ui/inventory/productscatalog.h src/ui/inventory/productscatalog.cpp
+  src/ui/inventory/productscatalog.ui
   src/ui/pos/receipt.h src/ui/pos/receipt.cpp src/ui/pos/receipt.ui
-  src/ui/pos/receiptelement.h src/ui/pos/receiptelement.cpp src/ui/pos/receiptelement.ui
-  src/ui/pos/receiptselectionbutton.h src/ui/pos/receiptselectionbutton.cpp src/ui/pos/receiptselectionbutton.ui
-  src/model/user.h src/model/user.cpp
+  src/ui/pos/receiptelement.h src/ui/pos/receiptelement.cpp
+  src/ui/pos/receiptelement.ui
+  src/ui/pos/receiptselectionbutton.h src/ui/pos/receiptselectionbutton.cpp
+  src/ui/pos/receiptselectionbutton.ui
+  src/ui/users/users.h src/ui/users/users.cpp src/ui/users/users.ui
+  src/ui/users/userformdialog.h src/ui/users/userformdialog.cpp
+  src/ui/users/userformdialog.ui
+  src/ui/settings/settings.h src/ui/settings/settings.cpp
+  src/ui/settings/settings.ui
+  src/ui/settings/personalization.h src/ui/settings/personalization.cpp src/ui/settings/personalization.ui
+  src/ui/settings/logout.h src/ui/settings/logout.cpp src/ui/settings/logout.ui
+  src/ui/settings/assistance.h src/ui/settings/assistance.cpp src/ui/settings/assistance.ui
 )
 
 qt_add_translations(
@@ -59,6 +67,10 @@ target_link_libraries(POS_Application
         Qt::PrintSupport
 )
 
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DQT_NO_DEBUG_OUTPUT)
+endif()
+
 # Adds the target directories.
 target_include_directories(POS_Application
     PRIVATE
@@ -67,9 +79,10 @@ target_include_directories(POS_Application
         ${CMAKE_SOURCE_DIR}/src/ui
         ${CMAKE_SOURCE_DIR}/src/ui/inventory
         ${CMAKE_SOURCE_DIR}/src/ui/pos
+        ${CMAKE_SOURCE_DIR}/src/ui/users
+        ${CMAKE_SOURCE_DIR}/src/ui/settings
         ${CMAKE_SOURCE_DIR}/src/model
         ${CMAKE_SOURCE_DIR}/src/common
-        
 )
 
 include(GNUInstallDirs)

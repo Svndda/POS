@@ -25,14 +25,143 @@ class POS_Model {
   POS_Model operator=(const POS_Model) = delete;
 
 private:
-  User currentUser = User(); ///< Currently logged in user.
-  std::vector<User> users;   ///< Registered users loaded from backup.
+  User user = User(); ///< Currently logged in user.
+  std::vector<User> registeredUsers;   ///< Registered users loaded from backup.
   BackupModule& backupModule; ///< Reference to the backup module for data persistence.
   std::map<std::string, std::vector<Product>> categories; ///< Map of product categories to their products.
   std::vector<std::pair<std::string, Product>> products;   ///< Vector of products for interface display.
   std::vector<Supply> supplies; ///< Inventory of supplies.
   size_t closedReceipts = 0;  ///< Counter of closed receipts.
   bool started = false;       ///< Flag indicating if the model has been started.
+  
+public:
+  /**
+   * @brief Checks if the POS model has been started.
+   * @return True if the model is started.
+   */
+  inline bool isStarted() { return this->started; }
+  
+  size_t getPageAccess(const size_t page);
+  
+  /**
+   * @brief Retrieves the currently logged in user.
+   * @return Reference to the current User.
+   */
+  const User& getCurrentUser() { return this->user; } ;
+  
+  /**
+   * @brief Retrieves the registered products categorized.
+   * @return Reference to the map of registered products.
+   */
+  std::map<std::string, std::vector<Product>>& getRegisteredProductsMap() {
+    return this->categories;
+  }
+  
+  /**
+   * @brief Retrieves the products vector for UI display.
+   * @return Reference to the vector of registered products.
+   */
+  std::vector<std::pair<std::string, Product>>& getRegisteredProductsVector() {
+    return this->products;
+  }
+  
+  /**
+   * @brief Retrieves the list of registered category names.
+   * @return Vector of category names.
+   */
+  std::vector<std::string> getRegisteredCategories();
+  
+  /**
+   * @brief Retrieves the registered supplies.
+   * @return Reference to the vector of supplies.
+   */
+  std::vector<Supply>& getRegisteredSupplies() { return this->supplies; }
+  
+  /**
+   * @brief Retrieves the registered users.
+   * @return Reference to the vector of users.
+   */
+  std::vector<User>& getRegisteredUsers() { return this->registeredUsers; }
+  
+  /**
+   * @brief Retrieves the total number of registered products.
+   * @return Number of products.
+   */
+  size_t getNumberOfProducts() { return this->products.size(); }
+  
+  /**
+   * @brief Retrieves the total number of registered categories.
+   * @return Number of categories.
+   */
+  size_t getNumberOfCategories() { return this->categories.size(); }
+  
+  /**
+   * @brief Retrieves the total number of registered supplies.
+   * @return Number of supplies.
+   */
+  size_t getNumberOfSupplies() { return this->supplies.size(); }
+  
+  /**
+   * @brief Retrieves the total number of registered users.
+   * @return Number of users.
+   */
+  size_t getNumberOfUsers() { return this->registeredUsers.size(); }
+  
+  /**
+   * @brief Retrieves the size (number of products) of a specific category.
+   *
+   * @param category The category name.
+   * @return Number of products in the category, or std::numeric_limits<size_t>::max() if not found.
+   */
+  size_t getSizeOfCategory(std::string category);
+  
+  /**
+   * @brief Retrieves products for a given page.
+   *
+   * Paginates the products vector based on the specified page index and items per page.
+   *
+   * @param pageIndex The page index.
+   * @param itemsPerPage Number of products per page.
+   * @return Vector of products for the specified page.
+   */
+  std::vector<std::pair<std::string, Product>> getProductsForPage(
+      const size_t pageIndex, const size_t itemsPerPage);
+  
+  /**
+   * @brief Retrieves product categories for a given page.
+   *
+   * Paginates the category names based on the specified page index and items per page.
+   *
+   * @param pageIndex The page index.
+   * @param itemsPerPage Number of items per page.
+   * @return Vector of category names for the page.
+   */
+  std::vector<std::string> getCategoriesForPage(
+      const size_t pageIndex, const size_t itemsPerPage);
+  
+  /**
+   * @brief Retrieves supplies for a given page.
+   *
+   * Paginates the supplies vector based on the specified page index and items per page.
+   *
+   * @param pageIndex The page index.
+   * @param itemsPerPage Number of supplies per page.
+   * @return Vector of supplies for the specified page.
+   */
+  std::vector<Supply> getSuppliesForPage(
+      const size_t pageIndex, const size_t itemsPerPage);
+  
+  /**
+   * @brief Retrieves users for a given page.
+   *
+   * Paginates the users vector based on the specified page index and items per page.
+   *
+   * @param pageIndex The page index.
+   * @param itemsPerPage Number of users per page.
+   * @return Vector of users for the specified page.
+   */
+  std::vector<User> getUsersForPage(
+      const size_t pageIndex, const size_t itemsPerPage);
   
 public:
   /**
@@ -109,6 +238,16 @@ public:
   bool addSupply(const Supply newSupply);
   
   /**
+   * @brief Adds a new user to the pos system.
+   *
+   * Inserts a new user into the pos system, if it does not already exist.
+   *
+   * @param newUser The User to add.
+   * @return True if the user was added successfully.
+   */
+  bool addUser(const User newUser);
+  
+  /**
    * @brief Removes a product from a specified category.
    *
    * Erases the given product from its category.
@@ -138,6 +277,16 @@ public:
    * @return True if the supply was removed successfully.
    */
   bool removeSupply(const Supply& supply);
+  
+  /**
+   * @brief Removes a user from the pos system.
+   *
+   * Erases the specified user from the pos system.
+   *
+   * @param user The User to remove.
+   * @return True if the user was removed successfully.
+   */
+  bool removeUser(const User& user);
   
   /**
    * @brief Edits an existing product.
@@ -177,6 +326,17 @@ public:
   bool editSupply(const Supply& oldSupply, const Supply& newSupply);
   
   /**
+   * @brief Edits an existing user information in the pos system.
+   *
+   * Updates an existing user with new information.
+   *
+   * @param oldUser The original user.
+   * @param newUser The new user data.
+   * @return True if the user was edited successfully.
+   */
+  bool editUser(const User& oldUser, const User& newUser);
+  
+  /**
    * @brief Formats product ingredients for display.
    *
    * Converts a list of supplies (ingredients) into a formatted QString for UI display.
@@ -185,6 +345,16 @@ public:
    * @return QString containing the formatted ingredients.
    */
   QString formatProductIngredients(const std::vector<Supply>& ingredients);
+  
+  /**
+   * @brief Formats user's permissions to be displayed as QString.
+   *
+   * Converts a list of user's permissions into a formatted QString for UI display.
+   *
+   * @param user Constant user object containing the information of the user's permissions.
+   * @return QString containing the formatted user's permissions.
+   */
+  QString formatUserPermissions(const User user);
   
 private:
   /**
@@ -197,13 +367,6 @@ private:
   POS_Model(BackupModule& module);
   
   /**
-   * @brief Loads product and supply data from backups.
-   *
-   * Reads products and supplies data from the backup module and stores them in memory.
-   */
-  void loadProductsBackups();
-  
-  /**
    * @brief Checks if a user is registered.
    *
    * Searches through the registered users to see if the provided user exists.
@@ -212,6 +375,13 @@ private:
    * @return True if the user is found; otherwise, false.
    */
   bool isUserRegistered(const User& user);
+  
+  /**
+   * @brief Loads product and supply data from backups.
+   *
+   * Reads products and supplies data from the backup module and stores them in memory.
+   */
+  void loadProductsBackups();
   
   /**
    * @brief Populates the products vector from category registers.
@@ -250,118 +420,6 @@ private:
    */
   bool eraseProduct(const std::string productCategory, const Product& product,
       std::map<std::string, std::vector<Product>>& categoriesRegister);
-  
-  /**
-   * @brief Updates the products vector for a specific category.
-   *
-   * Refreshes the products vector for a given category after modifications.
-   *
-   * @param products Vector to update.
-   * @param category The category name.
-   */
-  void updateProductsCategory(
-      std::vector<std::pair<std::string, Product>>& products
-      , const std::string& category);
-  
-public:
-  /**
-   * @brief Checks if the POS model has been started.
-   * @return True if the model is started.
-   */
-  inline bool isStarted() { return this->started; }
-  
-  /**
-   * @brief Retrieves the currently logged in user.
-   * @return Reference to the current User.
-   */
-  const User& getCurrentUser();
-  
-  /**
-   * @brief Retrieves the registered products categorized.
-   * @return Reference to the map of registered products.
-   */
-  std::map<std::string, std::vector<Product>>& getRegisteredProductsMap() { return this->categories; }
-  
-  /**
-   * @brief Retrieves the products vector for UI display.
-   * @return Reference to the vector of registered products.
-   */
-  std::vector<std::pair<std::string, Product>>& getRegisteredProductsVector() { return this->products; }
-  
-  /**
-   * @brief Retrieves the list of registered category names.
-   * @return Vector of category names.
-   */
-  std::vector<std::string> getRegisteredCategories();
-  
-  /**
-   * @brief Retrieves the registered supplies.
-   * @return Reference to the vector of supplies.
-   */
-  std::vector<Supply>& getRegisteredSupplies() { return this->supplies; }
-  
-  /**
-   * @brief Retrieves the total number of registered products.
-   * @return Number of products.
-   */
-  size_t getNumberOfProducts() { return this->products.size(); }
-  
-  /**
-   * @brief Retrieves the total number of registered categories.
-   * @return Number of categories.
-   */
-  size_t getNumberOfCategories() { return this->categories.size(); }
-  
-  /**
-   * @brief Retrieves the total number of registered supplies.
-   * @return Number of supplies.
-   */
-  size_t getNumberOfSupplies() { return this->supplies.size(); }
-  
-  /**
-   * @brief Retrieves product categories for a given page.
-   *
-   * Paginates the category names based on the specified page index and items per page.
-   *
-   * @param pageIndex The page index.
-   * @param itemsPerPage Number of items per page.
-   * @return Vector of category names for the page.
-   */
-  std::vector<std::string> getCategoriesForPage(
-      const size_t pageIndex, const size_t itemsPerPage);
-  
-  /**
-   * @brief Retrieves the size (number of products) of a specific category.
-   *
-   * @param category The category name.
-   * @return Number of products in the category, or std::numeric_limits<size_t>::max() if not found.
-   */
-  size_t getSizeOfCategory(std::string category);
-  
-  /**
-   * @brief Retrieves products for a given page.
-   *
-   * Paginates the products vector based on the specified page index and items per page.
-   *
-   * @param pageIndex The page index.
-   * @param itemsPerPage Number of products per page.
-   * @return Vector of products for the specified page.
-   */
-  std::vector<std::pair<std::string, Product>> getProductsForPage(
-      const size_t pageIndex, const size_t itemsPerPage);
-  
-  /**
-   * @brief Retrieves supplies for a given page.
-   *
-   * Paginates the supplies vector based on the specified page index and items per page.
-   *
-   * @param pageIndex The page index.
-   * @param itemsPerPage Number of supplies per page.
-   * @return Vector of supplies for the specified page.
-   */
-  std::vector<Supply> getSuppliesForPage(
-      const size_t pageIndex, const size_t itemsPerPage);
-  
 };
 
 #endif // APPMODEL_H

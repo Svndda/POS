@@ -12,11 +12,11 @@ class Inventory;
 }
 
 /**
- * @class Products
+ * @class Inventory
  * @brief Handles the user interface and logic for managing products in the POS system.
  * 
- * This class extends the Inventory interface to display, add, edit, and delete 
- * products using a paginated UI. It uses a model (`POS_Model`) to interact with 
+ * This class extends the Inventory interface to display the different registered catalogs in the system
+ * using a paginated UI. It uses a model (`POS_Model`) to interact with 
  * the underlying data.
  */
 class Inventory : public QWidget {
@@ -29,7 +29,7 @@ private:
 
 public:
   /**
-   * @brief Constructor for the Products class.
+   * @brief Constructor for the Inventory class.
    * 
    * @param parent The parent QWidget (default is nullptr).
    * @param model Reference to the singleton POS_Model instance.
@@ -38,13 +38,13 @@ public:
       , POS_Model& model = POS_Model::getInstance());
   
   /**
-   * @brief Destructor for the Products class.
+   * @brief Destructor for the Inventory class.
    */
   ~Inventory();
   
 protected:
   /**
-   * @brief Refreshes the display with the products of the current page.
+   * @brief Refreshes the display with the elements of the current page.
    * 
    * @param pageItems Number of items to display per page.
    */
@@ -81,7 +81,6 @@ private slots:
    * @brief Slot for handling the "SuppliesCatalog" button click event.
    */
   void on_suppliesCatalog_button_clicked();
-  
 };
 
 #endif // INVENTORY_H

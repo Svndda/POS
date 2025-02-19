@@ -27,12 +27,10 @@ Inventory::Inventory(QWidget *parent, POS_Model& appModel)
   this->catalogStack->addWidget(products);
   this->catalogStack->addWidget(categories);
   this->catalogStack->addWidget(supplies);
-
-  this->catalogStack->setCurrentIndex(0);
+  
+  this->switchCatalog(0);
   this->ui->mainLayout->addWidget(this->catalogStack, 0, 1);
   
-  // // Updates for the first time the diaply to show the first index page.
-  // this->refreshDisplay(this->itemsPerPage);
   this->setupConnections();
 }
 
@@ -43,13 +41,13 @@ Inventory::~Inventory() {
 void Inventory::setupConnections() {
   // Connects the function that handles the products catalog button.
   this->connect(this->ui->productsCatalog_button, &QPushButton::clicked
-                , this, &Inventory::on_productsCatalog_button_clicked);
+      , this, &Inventory::on_productsCatalog_button_clicked);
   // Connects the function that handles the categories catalog button.
   this->connect(this->ui->categoriesCatalog_button, &QPushButton::clicked
-                , this, &Inventory::on_categoriesCatalog_button_clicked);
+      , this, &Inventory::on_categoriesCatalog_button_clicked);
   // Connects the function that handles the supplies catalog button.
   this->connect(this->ui->suppliesCatalog_button, &QPushButton::clicked
-                , this, &Inventory::on_suppliesCatalog_button_clicked);
+      , this, &Inventory::on_suppliesCatalog_button_clicked);
 }
 
 void Inventory::refreshDisplay(const size_t pageItems) {

@@ -6,6 +6,8 @@
 #include "ui_mainwindow.h"
 #include "loginpage.h"
 #include "inventory.h"
+#include "users.h"
+#include "settings/settings.h"
 #include "pos.h"
 
 AppController::AppController(QWidget *parent)
@@ -35,17 +37,21 @@ AppController::~AppController() {
   this->model.shutdown();
 }
 
-void AppController::userAccepted(const User user) {
-  // Start, tell the model to prepare his information.  
-  if (this->model.start(user)) {
-    // Creates 
-    this->prepareSystemPages();
-    // Enables the page buttons.
-    this->enableButtons();    
-    qDebug() << "credenciales aceptadas";
-  } else {
-    qDebug() << "Las credenciales de usuario no coinciden.";
-  }
+void AppController::setupConnections() {
+  // Connects all the pages systen pages buttons to thei slot functions.
+  this->connect(this->ui->pos_button, &QPushButton::clicked
+                , this, &AppController::on_pos_button_clicked);
+  this->connect(this->ui->inventory_button, &QPushButton::clicked
+                , this, &AppController::on_inventory_button_clicked);
+  this->connect(this->ui->sells_button, &QPushButton::clicked
+                , this, &AppController::on_sells_button_clicked);
+  this->connect(this->ui->users_button, &QPushButton::clicked
+                , this, &AppController::on_users_button_clicked);
+  this->connect(this->ui->settings_button, &QPushButton::clicked
+                , this, &AppController::on_settings_button_clicked);
+  
+  // Disables the pages buttons.
+  this->disableButtons();
 }
 
 void AppController::enableButtons() {
@@ -70,30 +76,33 @@ void AppController::prepareSystemPages() {
   // Creates the different program pages.
   Pos* posPage = new Pos(this, this->model);
   Inventory* inventoryPage = new Inventory(this, this->model);
+  Users* usersPage = new Users(this, this->model);
+  Settings* settingsPage = new Settings(this, this->model);
   
   // Adds the program pages to the stack of pages.
   this->pageStack->addWidget(posPage);
   this->pageStack->addWidget(inventoryPage);
+  this->pageStack->addWidget(usersPage);
+  this->pageStack->addWidget(settingsPage);
   
   // Sets the stack page to the pos.
-  this->pageStack->setCurrentIndex(1);
+  this->refreshPageStack(1);
 }
 
-void AppController::setupConnections() {
-  // Connects all the pages systen pages buttons to thei slot functions.
-  this->connect(this->ui->pos_button, &QPushButton::clicked
-              , this, &AppController::on_pos_button_clicked);
-  this->connect(this->ui->inventory_button, &QPushButton::clicked
-              , this, &AppController::on_inventory_button_clicked);
-  this->connect(this->ui->sells_button, &QPushButton::clicked
-              , this, &AppController::on_sells_button_clicked);
-  this->connect(this->ui->users_button, &QPushButton::clicked
-              , this, &AppController::on_users_button_clicked);
-  this->connect(this->ui->settings_button, &QPushButton::clicked
-              , this, &AppController::on_settings_button_clicked);
-  
-  // Disables the pages buttons.
-  this->disableButtons();
+void AppController::refreshPageStack(const size_t stackIndex) {
+  // Checks if the model is started.
+  if (this->model.isStarted()) {
+    qDebug() << "boton de pos seleccionado";
+    // Obtains the current user permissions.
+    const auto userPermissions
+        = this->model.getCurrentUser().getUserPermissions();
+    qDebug() << "permission state: " << userPermissions[stackIndex].access;
+    // Checks if the user has allowed access to the clicked button's page.
+    if (userPermissions[stackIndex].access != User::PageAccess::DENIED) {
+      // Switch the page.      
+      this->switchPages(stackIndex);
+    } 
+  }
 }
 
 void AppController::switchPages(const size_t pageIndex) {
@@ -136,33 +145,11 @@ void AppController::switchPages(const size_t pageIndex) {
 }
 
 void AppController::on_pos_button_clicked() {
-  // Checks if the model is started.
-  if (this->model.isStarted()) {
-    qDebug() << "boton de pos seleccionado";
-    // Obtains the current user permissions.
-    const auto userPermissions = this->model.getCurrentUser().permissions;
-    qDebug() << "permission state: " << userPermissions[1].access;
-    // Checks if the user has allowed access to the clicked button's page.
-    if (userPermissions[1].access == User::PageAccess::ALLOWED) {
-      // Switch the page.
-      this->switchPages(1);
-    } 
-  }
+  this->refreshPageStack(1);
 }
 
 void AppController::on_inventory_button_clicked() {
-  // Checks if the model is started.
-  if (this->model.isStarted()) {
-    qDebug() << "boton de pos seleccionado";
-    // Obtains the current user permissions.
-    const auto userPermissions = this->model.getCurrentUser().permissions;
-    qDebug() << "permission state: " << userPermissions[2].access;
-    // Checks if the user has allowed access to the clicked button's page.
-    if (userPermissions[2].access == User::PageAccess::ALLOWED) {
-      // Switch the page.      
-      this->switchPages(2);
-    } 
-  }
+  this->refreshPageStack(2);
 }
 
 void AppController::on_sells_button_clicked() {
@@ -170,9 +157,22 @@ void AppController::on_sells_button_clicked() {
 }
 
 void AppController::on_users_button_clicked() {
-  
+  this->refreshPageStack(3);
 }
 
 void AppController::on_settings_button_clicked() {
-  
+  this->refreshPageStack(4);
+}
+
+void AppController::userAccepted(const User user) {
+  // Start, tell the model to prepare his information.  
+  if (this->model.start(user)) {
+    // Creates 
+    this->prepareSystemPages();
+    // Enables the page buttons.
+    this->enableButtons();    
+    qDebug() << "credenciales aceptadas";
+  } else {
+    qDebug() << "Las credenciales de usuario no coinciden.";
+  }
 }

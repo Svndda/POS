@@ -46,9 +46,9 @@ public:
    * @param categories A vector of existing category names.
    * @param category The initial category name to prepopulate the input field.
    */
-  explicit CategoryFormDialog(QWidget* parent,
-                              std::vector<std::string> categories,
-                              std::string category);
+  explicit CategoryFormDialog(QWidget* parent
+      , std::vector<std::string> categories
+      , std::string category);
   
   /**
    * @brief Destructor to clean up allocated resources.

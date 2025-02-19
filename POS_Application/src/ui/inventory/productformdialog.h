@@ -26,12 +26,12 @@ private:
   /**
    * @brief Pointer to the UI components of the dialog.
    */
-  Ui::ProductFormDialog *ui;
+  Ui::ProductFormDialog* ui;
   
   /**
    * @brief Reference to the map of registered products grouped by category.
    */
-  std::map<std::string, std::vector<Product>>& registeredProducts;
+  const std::map<std::string, std::vector<Product>>& registeredProducts;
   
   /**
    * @brief Product object containing the information entered or edited by the user.

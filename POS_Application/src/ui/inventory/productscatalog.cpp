@@ -26,22 +26,16 @@ ProductsCatalog::~ProductsCatalog() {
 
 void ProductsCatalog::setupConnections() {
   // Connect the slot function to the next page button.
-  this->connect(this->ui->nextPage_button
-          , &QPushButton::clicked
-          , this
-          , &ProductsCatalog::on_nextPage_button_clicked);
+  this->connect(this->ui->nextPage_button, &QPushButton::clicked
+      , this, &ProductsCatalog::on_nextPage_button_clicked);
   
   // Connect the slot function to the previous page button.
-  this->connect(this->ui->previousPage_button
-          , &QPushButton::clicked
-          , this
-          , &ProductsCatalog::on_previousPage_button_clicked);
+  this->connect(this->ui->previousPage_button, &QPushButton::clicked
+      , this, &ProductsCatalog::on_previousPage_button_clicked);
   
   // Connect the slot function to the add product button.
-  this->connect(this->ui->addProduct_button
-          , &QPushButton::clicked
-          , this
-          , &ProductsCatalog::addProduct_button_clicked);
+  this->connect(this->ui->addProduct_button, &QPushButton::clicked
+      , this, &ProductsCatalog::addProduct_button_clicked);
   
   // Temporal variables to hold the different delete and edit buttons for each
   // product's row.
@@ -53,18 +47,15 @@ void ProductsCatalog::setupConnections() {
     editButtonName = QString("editProduct_button_%1").arg(index);
     deleteButtonName = QString("deleteProduct_button_%1").arg(index);
     // Find the pointer to the product's delete and edit buttons.
-    QPushButton* deleteButton = this->findChild<QPushButton *>(deleteButtonName);
+    QPushButton* deleteButton
+        = this->findChild<QPushButton *>(deleteButtonName);
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connect the delete button with the slot function.
-    this->connect(deleteButton
-        , &QPushButton::clicked
-        , this
-        , &ProductsCatalog::on_delete_button_clicked);
+    this->connect(deleteButton, &QPushButton::clicked
+        , this, &ProductsCatalog::on_delete_button_clicked);
     // Connect the edit button with the slot function.
-    this->connect(editButton
-        , &QPushButton::clicked
-        , this
-        , &ProductsCatalog::on_edit_button_clicked);
+    this->connect(editButton, &QPushButton::clicked
+        , this, &ProductsCatalog::on_edit_button_clicked);
   }
 }
 
@@ -135,26 +126,73 @@ void ProductsCatalog::refreshProductDisplay(
 }
 
 void ProductsCatalog::addProduct_button_clicked() {
-  // Creates a dialog to manage the product creation.
-  ProductFormDialog dialog(this, this->model.getRegisteredProductsMap()
-                           , Product(), QString());
-  // Executes the dialog and check if were accepted.
-  if (dialog.exec() == QDialog::Accepted) {
-    qDebug() << "Se acepto el dialogo y se agrego un nuevo producto";
-    // Obtain the product created in the dialog.
-    const Product product = dialog.getProduct();
-    // Obtain the category of the product.
-    const std::string category = dialog.getProductCategory().toStdString();
-    // Try to add the new product into the registered ones.
-    if (this->model.addProduct(category, product)) {
-      // Refresh the display with the updated data.
-      this->refreshDisplay(this->itemsPerPage);
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Creates a dialog to manage the product creation.
+    ProductFormDialog dialog(this, this->model.getRegisteredProductsMap()
+        , Product(), QString());
+    // Executes the dialog and check if were accepted.
+    if (dialog.exec() == QDialog::Accepted) {
+      qDebug() << "Se acepto el dialogo y se agrego un nuevo producto";
+      // Obtain the product created in the dialog.
+      const Product product = dialog.getProduct();
+      // Obtain the category of the product.
+      const std::string category = dialog.getProductCategory().toStdString();
+      // Try to add the new product into the registered ones.
+      if (this->model.addProduct(category, product)) {
+        // Refresh the display with the updated data.
+        this->refreshDisplay(this->itemsPerPage);
+      } else {
+        QMessageBox::information(this, "Informacion inválida"
+            , "No se añadió el producto.");
+      }
     } else {
-      QMessageBox::information(this, "Informacion inválida"
-                               , "No se añadió el producto.");
+      qDebug() << "Se cancelo la creacion de un producto";
     }
   } else {
-    qDebug() << "Se cancelo la creacion de un producto";
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
+  }
+}
+
+void ProductsCatalog::on_delete_button_clicked() {
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Catch the pointer to the button object that sended the signal.
+    QPushButton* button = qobject_cast<QPushButton *>(sender());
+    // If there's a pointer, then.
+    if (button) {
+      // Obtain the index of the display button.
+      const size_t buttonIndex = button->property("index").toUInt();
+      qDebug() << "Button clicked, index:" << buttonIndex;
+      if (buttonIndex < this->model.getProductsForPage(
+          this->currentPageIndex, this->itemsPerPage).size()) {
+        // Delete the registered product.
+        this->deleteRegisteredProduct(buttonIndex);
+      }
+    }
+  } else {
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
+  }
+}
+
+void ProductsCatalog::on_edit_button_clicked() {
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Catch the pointer to the button object that sended the signal.
+    QPushButton* button = qobject_cast<QPushButton *>(sender());
+    // If there's a pointer, then.
+    if (button) {
+      // Obtain the index of the display button.    
+      const size_t buttonIndex = button->property("index").toUInt();
+      qDebug() << "Button clicked, index:" << buttonIndex;
+      if (buttonIndex < this->model.getProductsForPage(
+          this->currentPageIndex, this->itemsPerPage).size()) {
+        // Edit the product.
+        this->editProductInformation(buttonIndex);
+      }
+    } 
+  } else {
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
   }
 }
 
@@ -185,105 +223,44 @@ void ProductsCatalog::on_previousPage_button_clicked() {
   std::cout << "Boton de retroceso: " << this->currentPageIndex << std::endl;
 }
 
-void ProductsCatalog::on_delete_button_clicked() {
-  // Catch the pointer to the button object that sended the signal.
-  QPushButton* button = qobject_cast<QPushButton *>(sender());
-  // If there's a pointer, then.
-  if (button) {
-    // Obtain the index of the display button.
-    const size_t buttonIndex = button->property("index").toUInt();
-    qDebug() << "Button clicked, index:" << buttonIndex;
-    // Delete the registered product.
-    this->deleteRegisteredProduct(buttonIndex);
-  }
-}
-
-void ProductsCatalog::on_edit_button_clicked() {
-  // Catch the pointer to the button object that sended the signal.
-  QPushButton* button = qobject_cast<QPushButton *>(sender());
-  // If there's a pointer, then.
-  if (button) {
-    // Obtain the index of the display button.    
-    const size_t buttonIndex = button->property("index").toUInt();
-    qDebug() << "Button clicked, index:" << buttonIndex;
-    // Edit the product.
-    this->editProductInformation(buttonIndex);
-  }
-}
-
 void ProductsCatalog::deleteRegisteredProduct(size_t index) {
-  // Temporal variables to store the name of the labels containing products name
-  // category.
-  QString labelName;
-  QString labelCategory;
-  
-  // Obtain the name of the labels by adding their row indexes.
-  labelName = QString("productName_label_%1").arg(index);
-  labelCategory = QString("productCategory_label_%1").arg(index);
-  
-  // Find the label of the product's name.
-  QLabel* label = this->findChild<QLabel*>(labelName);
-  // Obtains the product's name.
-  const QString productName = label->text();
-  
-  // Find the label of the product's category.
-  label = this->findChild<QLabel*>(labelCategory);
-  // Obtain the product's category name.
-  const QString productCategory = label->text();
-  
-  // Find a reference to the product to delete.
-  Product& productToDelete = this->model.findProduct(productName.toStdString());
-  // Try to delete the product from the registers.
-  if (this->model.removeProduct(productCategory.toStdString()
-                                , productToDelete)) {
-    // Refresh the products display.
-    this->refreshDisplay(this->itemsPerPage);
-  } else {
-    QMessageBox::warning(this, "Error"
-                         , "No se pudo eliminar el producto.");
+  auto productsForPage = this->model.getProductsForPage(
+      this->currentPageIndex, this->itemsPerPage);
+  if (index < productsForPage.size()) {
+    // Find a reference to the product to delete.
+    std::pair<std::string, Product> element = productsForPage[index];
+    // Try to delete the product from the registers.
+    if (this->model.removeProduct(element.first, element.second)) {
+      // Refresh the products display.
+      this->refreshDisplay(this->itemsPerPage);
+    } else {
+      QMessageBox::warning(this, "Error"
+          , "No se pudo eliminar el producto.");
+    }
   }
 }
 
 void ProductsCatalog::editProductInformation(size_t index) {
-  // Temporal variables to store the name of the labels containing products name
-  // category.
-  QString labelName;
-  QString labelCategory;
-  
-  // Obtain the name of the labels by adding their row indexes.
-  labelName = QString("productName_label_%1").arg(index);
-  labelCategory = QString("productCategory_label_%1").arg(index);
-  
-  // Find the label of the product's name.
-  QLabel* label = this->findChild<QLabel*>(labelName);
-  // Obtains the product's name.
-  const QString productName = label->text();
-  
-  // Find the label of the product's category.
-  label = this->findChild<QLabel*>(labelCategory);
-  // Obtain the product's category name.
-  const QString productCategory = label->text();
-  
-  // Find a reference to the product to edit.  
-  Product& productToEdit =
-      this->model.findProduct(productName.toStdString());
-  
-  // Checks that the product to edit aren't a blank one.
-  if (!(productToEdit == Product())) {
-    // Open the dialog for product editing.
-    ProductFormDialog dialog(
-        this,
-        this->model.getRegisteredProductsMap(),
-        Product(productToEdit),
-        QString(productCategory));
-    // Executes the dialog and checks if was accepted.
-    if (dialog.exec() == QDialog::Accepted) {
-      if (!(productToEdit == dialog.getProduct())) {
-        // Remove the current product using references.
-        this->model.editProduct(productCategory.toStdString(), productToEdit
-            , dialog.getProductCategory().toStdString(), dialog.getProduct());
-        // Updates the products display.
-        this->refreshDisplay(this->itemsPerPage);
+  auto productsForPage = this->model.getProductsForPage(
+      this->currentPageIndex, this->itemsPerPage);
+  if (index < productsForPage.size()) {
+    // Find a reference to the product to delete.
+    std::pair<std::string, Product> element = productsForPage[index];
+    // Try to delete the product from the registers.
+    // Checks that the product to edit aren't a blank one.
+    if (!(element.second == Product())) {
+      // Open the dialog for product editing.
+      ProductFormDialog dialog(this, this->model.getRegisteredProductsMap(),
+          Product(element.second), QString(element.first.data()));
+      // Executes the dialog and checks if was accepted.
+      if (dialog.exec() == QDialog::Accepted) {
+        if (!(element.second == dialog.getProduct())) {
+          // Remove the current product using references.
+          this->model.editProduct(element.first, element.second
+              , dialog.getProductCategory().toStdString(), dialog.getProduct());
+          // Updates the products display.
+          this->refreshDisplay(this->itemsPerPage);
+        }
       }
     }
   }

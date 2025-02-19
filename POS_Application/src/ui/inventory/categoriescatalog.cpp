@@ -38,18 +38,18 @@ void CategoriesCatalog::setupConnections() {
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connects the buttons with their functions.
     this->connect(deleteButton , &QPushButton::clicked
-                  , this, &CategoriesCatalog::on_delete_button_clicked);
+        , this, &CategoriesCatalog::on_delete_button_clicked);
     this->connect(editButton , &QPushButton::clicked
-                  , this, &CategoriesCatalog::on_edit_button_clicked);
+        , this, &CategoriesCatalog::on_edit_button_clicked);
   }
   // Connects the funtions that handles the next and previous page of registered
   // categories.
   this->connect(this->ui->nextPage_button, &QPushButton::clicked
-                , this, &CategoriesCatalog::on_nextPage_button_clicked);
+      , this, &CategoriesCatalog::on_nextPage_button_clicked);
   this->connect(this->ui->previousPage_button, &QPushButton::clicked
-                , this, &CategoriesCatalog::on_previousPage_button_clicked);
+      , this, &CategoriesCatalog::on_previousPage_button_clicked);
   this->connect(this->ui->addCategory_button, &QPushButton::clicked
-                , this, &CategoriesCatalog::addCategory_button_clicked);
+      , this, &CategoriesCatalog::addCategory_button_clicked);
 }
 
 void CategoriesCatalog::refreshDisplay(const size_t pageItems) {
@@ -99,88 +99,103 @@ void CategoriesCatalog::refreshCategoriesDisplay(
 }
 
 void CategoriesCatalog::addCategory_button_clicked() {
-  // Creates a dialog to manage the category creation.
-  CategoryFormDialog dialog(this, this->model.getRegisteredCategories()
-                            , std::string());
-  
-  // Execute the dialog with empty information.
-  if (dialog.exec() == QDialog::Accepted) {
-    // Obtain the created category by the user on the dialog.    
-    const std::string category = dialog.getNewCategory();
-    // Try to add the created category to the registers.
-    if (this->model.addCategory(category)) {
-      // Refresh the categories display.
-      this->refreshDisplay(this->itemsPerPage);
-      qDebug() << "Se acepto el dialogo y se agrego una nueva categoría";
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    // Creates a dialog to manage the category creation.
+    CategoryFormDialog dialog(this, this->model.getRegisteredCategories()
+        , std::string());
+    
+    // Execute the dialog with empty information.
+    if (dialog.exec() == QDialog::Accepted) {
+      // Obtain the created category by the user on the dialog.    
+      const std::string category = dialog.getNewCategory();
+      // Try to add the created category to the registers.
+      if (this->model.addCategory(category)) {
+        // Refresh the categories display.
+        this->refreshDisplay(this->itemsPerPage);
+        qDebug() << "Se acepto el dialogo y se agrego una nueva categoría";
+      } else {
+        QMessageBox::information(this, "Informacion inválida"
+            , "No se añadió la categoría.");
+      }
     } else {
-      QMessageBox::information(this, "Informacion inválida"
-          , "No se añadió la categoría.");
+      qDebug() << "Se cancelo la creacion de una categoria";
     }
   } else {
-    qDebug() << "Se cancelo la creacion de una categoria";
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
   }
 }
 
 void CategoriesCatalog::on_delete_button_clicked() {
-  QPushButton *button = qobject_cast<QPushButton *>(sender());
-  if (button) {
-    // Search for the property index in the button to see their index.
-    const size_t buttonIndex = button->property("index").toUInt();
-    qDebug() << "Button clicked, index:" << buttonIndex;
-    // Gets the categories vector for the actual page.
-    const auto categoriesForPage = this->model.getCategoriesForPage(
-        this->currentPageIndex, this->itemsPerPage);
-    // Checks that that the button index is lower than the categories for this
-    // page to avoid an empty row.
-    if (buttonIndex < categoriesForPage.size()) {
-      // Gets the row category.
-      const std::string category = categoriesForPage[buttonIndex];
-      // Try to remove the category from the registered ones.
-      if (this->model.removeCategory(category)) {
-        // Refresh the categories display with the updated data.
-        this->refreshDisplay(this->itemsPerPage);
-      } else {
-        QMessageBox::warning(this, "Error de registros"
-            , "No se añadió la categoría.");
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    QPushButton *button = qobject_cast<QPushButton *>(sender());
+    if (button) {
+      // Search for the property index in the button to see their index.
+      const size_t buttonIndex = button->property("index").toUInt();
+      qDebug() << "Button clicked, index:" << buttonIndex;
+      // Gets the categories vector for the actual page.
+      const auto categoriesForPage = this->model.getCategoriesForPage(
+          this->currentPageIndex, this->itemsPerPage);
+      // Checks that that the button index is lower than the categories for this
+      // page to avoid an empty row.
+      if (buttonIndex < categoriesForPage.size()) {
+        // Gets the row category.
+        const std::string category = categoriesForPage[buttonIndex];
+        // Try to remove the category from the registered ones.
+        if (this->model.removeCategory(category)) {
+          // Refresh the categories display with the updated data.
+          this->refreshDisplay(this->itemsPerPage);
+        } else {
+          QMessageBox::warning(this, "Error de registros"
+              , "No se añadió la categoría.");
+        }
       }
     }
+  } else {
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
   }
 }
 
 void CategoriesCatalog::on_edit_button_clicked() {
-  QPushButton *button = qobject_cast<QPushButton *>(sender());
-  // Checks if the pointer is valid.
-  if (button) {
-    // Search for the property index in the button to see their index.
-    size_t buttonIndex = button->property("index").toUInt();
-    // Gets the categories vector for the actual page.
-    const auto categoriesForPage = this->model.getCategoriesForPage(
-        this->currentPageIndex, this->itemsPerPage);
-    // Checks that that the button index is lower than the categories for this
-    // page to avoid an empty row.
-    if (buttonIndex < categoriesForPage.size()) {
-      // Gets the row category.
-      const std::string oldCategory = categoriesForPage[buttonIndex];
-      qDebug() << "Button clicked, index:" << buttonIndex << " " << oldCategory;
-      // Creates a dialog to manage the existing category editing.
-      CategoryFormDialog dialog(this, this->model.getRegisteredCategories()
-                                , oldCategory);
-      // Executes the dialog to manage the category creation.
-      if (dialog.exec() == QDialog::Accepted) {
-        qDebug() << "Se ha modificado una categoria exitosamente";
-        const std::string newCategory = dialog.getNewCategory();
-        // Try to update the category name to the name given by the user.
-        if (this->model.editCategory(oldCategory, newCategory)) {
-          // Updates the display with the new category.
-          this->refreshDisplay(this->itemsPerPage);
+  if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
+    QPushButton *button = qobject_cast<QPushButton *>(sender());
+    // Checks if the pointer is valid.
+    if (button) {
+      // Search for the property index in the button to see their index.
+      size_t buttonIndex = button->property("index").toUInt();
+      // Gets the categories vector for the actual page.
+      const auto categoriesForPage = this->model.getCategoriesForPage(
+          this->currentPageIndex, this->itemsPerPage);
+      // Checks that that the button index is lower than the categories for this
+      // page to avoid an empty row.
+      if (buttonIndex < categoriesForPage.size()) {
+        // Gets the row category.
+        const std::string oldCategory = categoriesForPage[buttonIndex];
+        qDebug() << "Button clicked, index:" << buttonIndex << " " << oldCategory;
+        // Creates a dialog to manage the existing category editing.
+        CategoryFormDialog dialog(this, this->model.getRegisteredCategories()
+                                  , oldCategory);
+        // Executes the dialog to manage the category creation.
+        if (dialog.exec() == QDialog::Accepted) {
+          qDebug() << "Se ha modificado una categoria exitosamente";
+          const std::string newCategory = dialog.getNewCategory();
+          // Try to update the category name to the name given by the user.
+          if (this->model.editCategory(oldCategory, newCategory)) {
+            // Updates the display with the new category.
+            this->refreshDisplay(this->itemsPerPage);
+          } else {
+            QMessageBox::information(this, "Informacion inválida"
+                                     , "No se añadió la categoría.");
+          }
         } else {
-          QMessageBox::information(this, "Informacion inválida"
-              , "No se añadió la categoría.");
-        }
-      } else {
-        qDebug() << "Se cancelo la edicion de una categoria";
-      } 
+          qDebug() << "Se cancelo la edicion de una categoria";
+        } 
+      }
     }
+  } else {
+    QMessageBox::information(this, "Acceso restrido."
+        , "El usuario no posee los permisos de edición.");
   }
 }
 
