@@ -91,9 +91,14 @@ QString ReceiptElement::content() {
   QString totalPrice(QString::number(
       this->quantity * this->product.getPrice()));
   // String to containg the receipt element information in html format.
-  QString formatedContent("<div class='item'>" + productName + "</div>\n");
-  formatedContent = formatedContent + "<div class='item'>" + productQuantity
-      + "x " + productPrice + " ₡" + totalPrice + "</div>\n";
+  QString formatedContent = "<table style='width: 100%; font-size: 12px;'>"
+      "<tr>"
+      "<td style='text-align: left;'>" + productName + "</td>"
+      "<td style='text-align: right;'>" + productQuantity +
+      " x " + productPrice + " ₡" + totalPrice + "</td>"
+      "</tr>"
+      "</table>\n";
+
   // Returns the formated receipt element information.
   return formatedContent;
 }

@@ -23,6 +23,7 @@ class Receipt : public QWidget {
 private:
   Ui::Receipt* ui = nullptr;   ///< Pointer to the UI elements for the receipt.
   const size_t ID = 0;         ///< Unique identifier for the receipt.
+  std::vector<Product> products;
   double totalPrice = 0;       ///< Accumulated total price of the receipt.
   
 public:
@@ -63,6 +64,7 @@ public:
    */
   QString htmlContent();
   
+  const double getReceiptPrice() const  {return this->totalPrice;}
 protected:
   /**
    * @brief Sets up the receipt display.

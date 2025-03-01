@@ -33,6 +33,7 @@ void Receipt::setupReceiptDisplay() {
 }
 
 void Receipt::addProduct(const Product &product) {
+  this->products.emplace_back(product);
   // Creates a new ui object to store and display the new product information
   // on screen.
   ReceiptElement* productOnReceipt = new ReceiptElement(this, product);
@@ -47,6 +48,7 @@ void Receipt::addProduct(const Product &product) {
   // Update the total receipt price, adding the price of the new product
   //  product.
   this->totalPrice += product.getPrice();
+  qDebug() << "anadiendo el precio del producto: " << this->totalPrice;
   this->ui->totalReceiptPrice_label->setText(QString::number(this->totalPrice));
   // Insert the object into the receipt ui.
   this->ui->receipt_WidgetContents->layout()->addWidget(productOnReceipt);
@@ -71,61 +73,77 @@ void Receipt::reduceReceiptPrice(const Product &product) {
 }
 
 QString Receipt::htmlContent() {
-  // String to store the recipt content in html format.
   QString htmlContent;
-  // String containing the business's name.
+  
+  // Header Info Variables
   QString businessName = "Macana's Place";
-  // String containing the receipt's id.
   QString receiptID = QString::number(this->ID);
-  // String containing the user that created the receipt.
   QString user = "Aaron Sanchez";
-  // String that containg the order's number of the cage.
   QString orderNumber = QString::number(0);
+  QString formattedDateTime = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm:ss");
   
-  // Obtains the current formated date.
-  QDateTime currentDateTime = QDateTime::currentDateTime();
-  QString formattedDateTime = currentDateTime.toString("dd/MM/yyyy hh:mm:ss");
+  // Header + Styles
+  htmlContent = R"(
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Restaurant Bill - Macana's Place</title>
+      <style>
+        body { font-family: Arial, sans-serif; width: 100mm; margin: 0 auto;
+        padding: 5mm; background-color: #f9f9f9; border: 1px solid #ddd; }
+        .header { text-align: center; font-weight: bold; font-size: 40px;
+        margin-bottom: 10px; }
+        .section, .line { font-size: 30px; }
+        .line { display: flex; justify-content: space-between; }
+        .dashed { border-top: 10px dashed #000; margin: 5px 10; }
+        .total { font-weight: bold; font-size: 16px; margin-top: 5px; }
+      </style>
+    </head>
+    <body>
+  )";
   
-  // Format the receipt header information.
-  QString receiptInfo = "";
-  receiptInfo += "<div class='header'>" + businessName + "</div>\n"
-      + "<div class='info'>N° Recibo: " + receiptID + "</div>\n"
-      + "<div class='info'>" + formattedDateTime + "</div>\n"
-      + "<div class='info'>Usuario: " + user + "</div>\n"
-      + "<div class='info'>Orden: " + orderNumber + "</div>\n"
-      + "<div class='line'></div>\n";
+  // Header Content
+  htmlContent.append(QString(R"(
+    <div class='header'>%1</div>
+    <div class='section'>N° Recibo: %2</div>
+    <div class='section'>Fecha: %3</div>
+    <div class='section'>Usuario: %4</div>
+    <div class='section'>Orden: %5</div>
+    <div class='dashed'></div>
+  )").arg(businessName, receiptID, formattedDateTime, user, orderNumber));
   
-  // String to store the products information of the receipt content.
-  QString receiptContent = "\n<table>\n";
+  // Products Table
+  htmlContent.append("<table style='width:100%; font-size:30px;'>");
   
-  // Obtains the receipt elements layout.
   QLayout* receiptLayout = this->ui->receipt_WidgetContents->layout();
-  // Iterates through the layout's elements.
-  for (size_t index = 0;  index < receiptLayout->count(); ++index) {
-    // Obtains the indexed layout element.
-    QLayoutItem* productSpace = receiptLayout->itemAt(index);
-    // Checks if the layout element is a widget.
-    if (productSpace->widget()) {
-      // Obtains the widget pointer and cast it into a receipt element.
-      QWidget* widget = productSpace->widget();
-      ReceiptElement* element = qobject_cast<ReceiptElement*>(widget);
-      // Obtains the receipt element content in html format.
-      receiptContent += element->content();
+  if (receiptLayout) {
+    for (int i = 0; i < receiptLayout->count(); ++i) {
+      QWidget* widget = receiptLayout->itemAt(i)->widget();
+      if (widget) {
+        ReceiptElement* element = qobject_cast<ReceiptElement*>(widget);
+        if (element) {
+          htmlContent.append(element->content()); // Assume element->content() returns proper HTML row <tr>...</tr>
+        }
+      }
     }
   }
   
-  // String to store the total receipt price value.
-  QString totalReceiptPrice(QString::number(this->totalPrice));
-  // Adds up the total receipt price informatio into the receipt content string.
-  receiptContent += "<div class='total'> TOTAL:\t\t₡"
-      + totalReceiptPrice + "\n"
-      + "<div class='line'></div>\n";
+  htmlContent.append("</table>"
+      "<hr style=border: 1px solid black; width: 100%; margin: 5px 0;>");
   
-  // Adds up the two parts of the receipt content.
-  htmlContent = receiptInfo + receiptContent;
+  // Total Section
+  QString totalReceiptPrice = QString::number(this->totalPrice, 'f', 2);
+  htmlContent.append(QString(R"(
+    <div class='total line'>
+      <span>Total:</span>
+      <span>₡%1</span>
+    </div>
+    <div class='dashed'></div>
+  )").arg(totalReceiptPrice));
   
-
-  std::cout << htmlContent.toStdString();
-  // Returns the receipt content in a html formatted string.
+  // Footer Closure
+  htmlContent.append("</body></html>");
+  
   return htmlContent;
 }

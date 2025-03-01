@@ -53,6 +53,9 @@ qt_add_executable(POS_Application
   src/ui/settings/personalization.h src/ui/settings/personalization.cpp src/ui/settings/personalization.ui
   src/ui/settings/logout.h src/ui/settings/logout.cpp src/ui/settings/logout.ui
   src/ui/settings/assistance.h src/ui/settings/assistance.cpp src/ui/settings/assistance.ui
+  src/ui/pos/processreceiptdialog.h src/ui/pos/processreceiptdialog.cpp src/ui/pos/processreceiptdialog.ui
+  src/ui/pos/billingpage.h src/ui/pos/billingpage.cpp src/ui/pos/billingpage.ui
+  src/ui/pos/cashierpage.h src/ui/pos/cashierpage.cpp src/ui/pos/cashierpage.ui
 )
 
 qt_add_translations(

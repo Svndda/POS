@@ -33,13 +33,17 @@ bool POS_Model::start(const User& user) {
 }
 
 void POS_Model::shutdown() {
-  // Cheks if the model is stated.
+  // Cheks if the model is started.
   if (this->isStarted()) {
     // Writes out the registers of the products information.
     this->backupModule.updateProductsBackup(this->categories);
     this->backupModule.updateSuppliesBackup(this->supplies);
-    // Clears the vector memory.
+    // Clears the model memory.
     this->categories.clear();
+    this->products.clear();
+    this->supplies.clear();
+    this->registeredUsers.clear();
+    this->user = User();
     // Sets the model state flag to false.
     this->started = false; 
   }

@@ -31,8 +31,7 @@ class Pos : public QWidget {
 private:
   Ui::Pos* ui = nullptr;         ///< Pointer to the UI elements of the POS interface.
   POS_Model& model;              ///< Reference to the POS_Model singleton.
-  QStackedWidget* receipStack = nullptr; ///< Stack widget to manage the receipts.
-  size_t openedReceipts = 1;     ///< Counter for opened receipts.
+  QStackedWidget* pagesStack = nullptr; ///< Stack widget to manage the receipts.
   
 public:  
   /**
@@ -52,15 +51,6 @@ public:
    */
   ~Pos();
   
-public:  
-  /**
-   * @brief Adds a product to the current receipt.
-   *
-   * Adds the specified product to the currently active receipt widget.
-   *
-   * @param product The Product to add to the receipt.
-   */
-  void addProductToReceipt(const Product& product);
 private:
   /**
    * @brief Creates and prepare the necesary initial state of some ui elements.
@@ -70,46 +60,10 @@ private:
    */
   void setupDisplay();
   
-  /**
-   * @brief Creates product selection buttons.
-   *
-   * Dynamically generates buttons for product selection based on the number of products.
-   *
-   * @param numberOfProducts The total number of product buttons to create.
-   */
-  void createSelectProductButtons(size_t numberOfProducts);
-  
 private slots:
-  /**
-   * @brief Slot invoked when the "Create Receipt" button is clicked.
-   *
-   * Creates a new receipt selection button if there is no active receipt pending.
-   */
-  void on_createReceipt_button_clicked();
+  void on_billing_button_clicked();
+  void on_cashier_button_clicked();
   
-  /**
-   * @brief Slot invoked when the "Cancel Receipt" button is clicked.
-   *
-   * Cancels the current receipt by removing it from the receipt stack and updating the UI.
-   */
-  void on_cancelReceipt_button_clicked();
-  
-  /**
-   * @brief Slot invoked when the "Pay Receipt" button is clicked.
-   *
-   * Initiates the print preview process for the current receipt, and upon successful printing,
-   * removes the receipt from the stack.
-   */
-  void on_payReceipt_button_clicked();
-  
-  /**
-   * @brief Slot for handling print preview.
-   *
-   * Renders the current receipt's content to the provided printer.
-   *
-   * @param printer Pointer to the QPrinter object used for printing.
-   */
-  void printPreview(QPrinter* printer);
 };
 
 #endif // POS_H

@@ -25,7 +25,7 @@ class POS_Model {
   POS_Model operator=(const POS_Model) = delete;
 
 private:
-  User user = User(); ///< Currently logged in user.
+  User user = User(); ///< Currently logged user.
   std::vector<User> registeredUsers;   ///< Registered users loaded from backup.
   BackupModule& backupModule; ///< Reference to the backup module for data persistence.
   std::map<std::string, std::vector<Product>> categories; ///< Map of product categories to their products.
