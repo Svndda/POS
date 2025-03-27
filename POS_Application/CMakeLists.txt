@@ -8,59 +8,110 @@ qt_standard_project_setup()
 qt_add_executable(POS_Application
   WIN32 MACOSX_BUNDLE
   src/main.cpp
-  src/controller/appcontroller.cpp src/controller/appcontroller.h
-  
-  src/ui/loginpage.h src/ui/loginpage.cpp src/ui/loginpage.ui
   
   src/model/backupmodule.h src/model/backupmodule.cpp
   src/model/posmodel.h src/model/posmodel.cpp
   src/model/product.h src/model/product.cpp
   src/model/supply.h src/model/supply.cpp
-  src/common/util.cpp src/common/util.h
-  
-  src/ui/inventory/categoryformdialog.h src/ui/inventory/categoryformdialog.cpp
-  src/ui/inventory/categoryformdialog.ui
-  src/ui/inventory/suppliescatalog.h src/ui/inventory/suppliescatalog.cpp
-  src/ui/inventory/suppliescatalog.ui
-  src/ui/inventory/catalog.h
-  src/ui/inventory/supplyformdialog.h src/ui/inventory/supplyformdialog.cpp
-  src/ui/inventory/supplyformdialog.ui
-  src/ui/pos/pos.h src/ui/pos/pos.cpp
-  src/ui/pos/pos.ui
+  src/model/receipt.h src/model/receipt.cpp
   src/model/user.h src/model/user.cpp
   
-  src/ui/inventory/inventory.h src/ui/inventory/inventory.cpp
-  src/ui/inventory/inventory.ui
-  src/ui/inventory/productformdialog.h src/ui/inventory/productformdialog.cpp
-  src/ui/inventory/productformdialog.ui
+  src/common/util.cpp src/common/util.h
+  
+  src/controller/appcontroller.cpp
+  src/controller/appcontroller.h
   src/controller/mainwindow.ui
-  src/ui/pos/productselectionbutton.h src/ui/pos/productselectionbutton.cpp
-  src/ui/pos/productselectionbutton.ui
-  src/ui/inventory/categoriescatalog.h src/ui/inventory/categoriescatalog.cpp
-  src/ui/inventory/categoriescatalog.ui
-  src/ui/inventory/productscatalog.h src/ui/inventory/productscatalog.cpp
-  src/ui/inventory/productscatalog.ui
-  src/ui/pos/order.h src/ui/pos/order.cpp src/ui/pos/order.ui
-  src/ui/pos/orderelement.h src/ui/pos/orderelement.cpp
-  src/ui/pos/orderelement.ui
-  src/ui/pos/orderselectionbutton.h src/ui/pos/orderselectionbutton.cpp
-  src/ui/pos/orderselectionbutton.ui
-  src/ui/users/users.h src/ui/users/users.cpp src/ui/users/users.ui
-  src/ui/users/userformdialog.h src/ui/users/userformdialog.cpp
-  src/ui/users/userformdialog.ui
-  src/ui/settings/settings.h src/ui/settings/settings.cpp
+  
+  src/ui/loginpage.h
+  src/ui/loginpage.cpp
+  src/ui/loginpage.ui
+  
+  src/ui/pos/pos.h src/ui/pos/pos.cpp
+  src/ui/pos/pos.ui
+  
+  src/ui/pos/billing/billingpage.h
+  src/ui/pos/billing/billingpage.cpp
+  src/ui/pos/billing/billingpage.ui
+  src/ui/pos/billing/orderselectionbutton.h
+  src/ui/pos/billing/orderselectionbutton.cpp
+  src/ui/pos/billing/orderselectionbutton.ui
+  src/ui/pos/billing/productselectionbutton.h
+  src/ui/pos/billing/productselectionbutton.cpp
+  src/ui/pos/billing/productselectionbutton.ui
+  src/ui/pos/billing/order/order.h
+  src/ui/pos/billing/order/order.cpp
+  src/ui/pos/billing/order/order.ui
+  src/ui/pos/billing/order/orderelement.h
+  src/ui/pos/billing/order/orderelement.cpp
+  src/ui/pos/billing/order/orderelement.ui
+  src/ui/pos/billing/dialogs/processorderdialog.h
+  src/ui/pos/billing/dialogs/processorderdialog.cpp
+  src/ui/pos/billing/dialogs/processorderdialog.ui
+  
+  src/ui/pos/cashier/cashierpage.h
+  src/ui/pos/cashier/cashierpage.cpp
+  src/ui/pos/cashier/cashierpage.ui
+  src/ui/pos/cashier/expenselabel.h
+  src/ui/pos/cashier/expenselabel.cpp
+  src/ui/pos/cashier/expenselabel.ui
+  src/ui/pos/cashier/incomelabel.h
+  src/ui/pos/cashier/incomelabel.cpp
+  src/ui/pos/cashier/incomelabel.ui
+  src/ui/pos/cashier/dialogs/expensedialog.h
+  src/ui/pos/cashier/dialogs/expensedialog.cpp
+  src/ui/pos/cashier/dialogs/expensedialog.ui
+  src/ui/pos/cashier/dialogs/cashierdialog.h
+  src/ui/pos/cashier/dialogs/cashierdialog.cpp
+  src/ui/pos/cashier/dialogs/cashierdialog.ui
+  
+  src/ui/inventory/inventory.h
+  src/ui/inventory/inventory.cpp
+  src/ui/inventory/inventory.ui
+  src/ui/inventory/catalog.h
+  
+  src/ui/inventory/products/productscatalog.h
+  src/ui/inventory/products/productscatalog.cpp
+  src/ui/inventory/products/productscatalog.ui
+  src/ui/inventory/products/dialogs/productformdialog.h
+  src/ui/inventory/products/dialogs/productformdialog.cpp
+  src/ui/inventory/products/dialogs/productformdialog.ui
+  
+  src/ui/inventory/categories/categoriescatalog.h
+  src/ui/inventory/categories/categoriescatalog.cpp
+  src/ui/inventory/categories/categoriescatalog.ui
+  src/ui/inventory/categories/dialogs/categoryformdialog.h
+  src/ui/inventory/categories/dialogs/categoryformdialog.cpp
+  src/ui/inventory/categories/dialogs/categoryformdialog.ui
+  
+  src/ui/inventory/supplies/supplyformdialog.h
+  src/ui/inventory/supplies/supplyformdialog.cpp
+  src/ui/inventory/supplies/supplyformdialog.ui
+  src/ui/inventory/supplies/dialogs/suppliescatalog.h
+  src/ui/inventory/supplies/dialogs/suppliescatalog.cpp
+  src/ui/inventory/supplies/dialogs/suppliescatalog.ui
+
+  src/ui/users/users.h
+  src/ui/users/users.cpp
+  src/ui/users/users.ui
+  src/ui/users/dialogs/userformdialog.h
+  src/ui/users/dialogs/userformdialog.cpp
+  src/ui/users/dialogs/userformdialog.ui
+  
+  src/ui/settings/settings.h
+  src/ui/settings/settings.cpp
   src/ui/settings/settings.ui
-  src/ui/settings/personalization.h src/ui/settings/personalization.cpp src/ui/settings/personalization.ui
-  src/ui/settings/logout.h src/ui/settings/logout.cpp src/ui/settings/logout.ui
-  src/ui/settings/assistance.h src/ui/settings/assistance.cpp src/ui/settings/assistance.ui
-  src/ui/pos/processorderdialog.h src/ui/pos/processorderdialog.cpp src/ui/pos/processorderdialog.ui
-  src/ui/pos/billingpage.h src/ui/pos/billingpage.cpp src/ui/pos/billingpage.ui
-  src/ui/pos/cashierpage.h src/ui/pos/cashierpage.cpp src/ui/pos/cashierpage.ui
-  src/ui/pos/receipt.h src/ui/pos/receipt.cpp
-  src/ui/pos/expensedialog.h src/ui/pos/expensedialog.cpp src/ui/pos/expensedialog.ui
-  src/ui/pos/cashierdialog.h src/ui/pos/cashierdialog.cpp src/ui/pos/cashierdialog.ui
-  src/ui/pos/expenselabel.h src/ui/pos/expenselabel.cpp src/ui/pos/expenselabel.ui
-  src/ui/pos/incomelabel.h src/ui/pos/incomelabel.cpp src/ui/pos/incomelabel.ui 
+  
+  src/ui/settings/personalization.h
+  src/ui/settings/personalization.cpp
+  src/ui/settings/personalization.ui
+  
+  src/ui/settings/logout.h
+  src/ui/settings/logout.cpp
+  src/ui/settings/logout.ui
+  
+  src/ui/settings/assistance.h
+  src/ui/settings/assistance.cpp
+  src/ui/settings/assistance.ui
 )
 
 qt_add_translations(
@@ -83,13 +134,25 @@ endif()
 target_include_directories(POS_Application
     PRIVATE
         ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/model
         ${CMAKE_SOURCE_DIR}/src/controller
         ${CMAKE_SOURCE_DIR}/src/ui
+        ${CMAKE_SOURCE_DIR}/src/ui/pos/
+        ${CMAKE_SOURCE_DIR}/src/ui/pos/billing
+        ${CMAKE_SOURCE_DIR}/src/ui/pos/billing/order
+        ${CMAKE_SOURCE_DIR}/src/ui/pos/billing/dialogs
+        ${CMAKE_SOURCE_DIR}/src/ui/pos/cashier
+        ${CMAKE_SOURCE_DIR}/src/ui/pos/cashier/dialogs
         ${CMAKE_SOURCE_DIR}/src/ui/inventory
-        ${CMAKE_SOURCE_DIR}/src/ui/pos
+        ${CMAKE_SOURCE_DIR}/src/ui/inventory/products
+        ${CMAKE_SOURCE_DIR}/src/ui/inventory/products/dialogs
+        ${CMAKE_SOURCE_DIR}/src/ui/inventory/categories
+        ${CMAKE_SOURCE_DIR}/src/ui/inventory/categories/dialogs
+        ${CMAKE_SOURCE_DIR}/src/ui/inventory/supplies
+        ${CMAKE_SOURCE_DIR}/src/ui/inventory/supplies/dialogs
         ${CMAKE_SOURCE_DIR}/src/ui/users
+        ${CMAKE_SOURCE_DIR}/src/ui/users/dialogs
         ${CMAKE_SOURCE_DIR}/src/ui/settings
-        ${CMAKE_SOURCE_DIR}/src/model
         ${CMAKE_SOURCE_DIR}/src/common
 )
 

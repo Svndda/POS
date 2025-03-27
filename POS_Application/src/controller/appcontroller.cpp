@@ -7,7 +7,7 @@
 #include "loginpage.h"
 #include "inventory.h"
 #include "users.h"
-#include "settings/settings.h"
+#include "settings.h"
 #include "pos.h"
 
 AppController::AppController(QWidget *parent)
