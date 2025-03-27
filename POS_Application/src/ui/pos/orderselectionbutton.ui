@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ReceiptSelectionButton</class>
- <widget class="QWidget" name="ReceiptSelectionButton">
+ <class>OrderSelectionButton</class>
+ <widget class="QWidget" name="OrderSelectionButton">
   <property name="geometry">
    <rect>
     <x>0</x>

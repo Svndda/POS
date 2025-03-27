@@ -3,9 +3,11 @@
 #define BACKUPMODULE_H
 
 #include <map>
+#include <qapplication.h>
 #include <string>
 
 #include "product.h"
+#include "receipt.h"
 #include "user.h"
 
 /**
@@ -20,12 +22,18 @@
  */
 class BackupModule {
 private:
-  const std::string PRODUCTS_BACKUP_FILE = "C:\\Users\\aaron\\Dev\\Repositories" \
-      "\\POS\\POS_Application\\backup\\products\\Products.txt";
-  const std::string SUPPLIES_BACKUP_FILE = "C:\\Users\\aaron\\Dev\\Repositories" \
-      "\\POS\\POS_Application\\backup\\inventory\\primeMaterial.txt";
-const std::string USERS_BACKUP_FILE = "C:\\Users\\aaron\\Dev\\Repositories" \
-      "\\POS\\POS_Application\\backup\\users\\users_data.bin";
+  const std::string PRODUCTS_BACKUP_FILE
+      = QApplication::applicationDirPath().toStdString()
+        + "\\backup\\products\\Products.txt";
+  const std::string SUPPLIES_BACKUP_FILE
+      = QApplication::applicationDirPath().toStdString()
+        + "\\backup\\inventory\\primeMaterial.txt";
+  const std::string USERS_BACKUP_FILE
+      = QApplication::applicationDirPath().toStdString()
+        + "\\backup\\users\\users_data.bin";
+  const std::string RECEIPTS_BACKUP_FILE
+      = QApplication::applicationDirPath().toStdString()
+        + "\\backup\\receipts\\receipts_data.bin";
 public:
   /**
    * @brief Gets the singleton instance of the BackupModule.
@@ -71,6 +79,8 @@ public:
    */
   std::vector<User> getUsersBackup();
   
+  std::vector<Receipt> getReceiptsBackup();
+  
   /**
    * @brief Updates the products backup.
    *
@@ -103,6 +113,10 @@ public:
    * @throws std::runtime_error If the backup file cannot be opened for writing.
    */
   void updateUsersBackup(const std::vector<User>& users);
+  
+  void updateReceiptsBackup(const size_t newReceiptsQuantity
+      , const std::vector<Receipt>& receipts);
+  
 private:
   /**
    * @brief Private constructor to enforce the singleton pattern.
@@ -144,6 +158,8 @@ private:
    */
   void readUsersBackup(std::vector<User>& registeredUsers);
   
+  void readReceiptsBackup(std::vector<Receipt>& registeredReceipts);
+  
   /**
    * @brief Writes product data to the backup file.
    *
@@ -177,6 +193,9 @@ private:
    * @throws std::runtime_error If the file cannot be opened for writing.
    */
   void writeUsersBackup(const std::vector<User>& users);
+  
+  void writeReceiptsBackup(const int lastReceiptID
+      , const std::vector<Receipt>& receipts);
   
   // Copy and assignment constructors are disabled.
   BackupModule(const BackupModule&) = delete;

@@ -25,6 +25,7 @@ void ProductSelectionButton::refreshDisplay() {
   QString price = QString::number(this->product.getPrice());
   this->ui->price_label->setText(price);
   this->ui->price_label->adjustSize();
+  this->update();
 }
 
 void ProductSelectionButton::paintEvent(QPaintEvent* event) {
@@ -41,6 +42,7 @@ void ProductSelectionButton::paintEvent(QPaintEvent* event) {
     painter.drawPixmap(rect(), pixmap); // Escalar al tamaño del widget
   }
   QWidget::paintEvent(event);
+  this->update();
 }
 
 void ProductSelectionButton::on_button_clicked() {

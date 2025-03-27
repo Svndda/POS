@@ -20,7 +20,10 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(218, 213, 207);</string>
+   <string notr="true">QWidget {
+	color: black;
+	background-color: rgb(237, 233, 230);
+}</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <property name="leftMargin">
@@ -194,87 +197,6 @@ QPushButton:checked {
         </item>
        </layout>
       </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_14">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QWidget" name="expenses_widget" native="true">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>10</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>10</width>
-           <height>80</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="expenses_button">
-         <property name="font">
-          <font>
-           <family>Segoe UI Variable</family>
-           <pointsize>15</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LayoutDirection::LeftToRight</enum>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
-  background: transparent;
-  border: none;
- color: rgb(0, 0, 0);
-  text-align: center;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
-QPushButton:hover {
-  background-color: transparent;     /* Fondo al pasar el mouse */
-  color: rgb(255, 255, 255);             /* Color del texto al pasar el mouse */
-}
-
-QPushButton:pressed {
-  background-color: transparent;     /* Fondo al presionar */
-  color: rgb(0, 153, 73);
-          /* Color del texto al presionar */
-}
-
-QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
-  color: #7f8c8d;                /* Color del texto deshabilitado */
-}
-
-QPushButton:checked {
-  background-color: transparent;     /* Fondo cuando está checkable y activado */
-  color: rgb(0, 153, 73);
-}
-</string>
-         </property>
-         <property name="text">
-          <string>Gastos</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_15">

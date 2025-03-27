@@ -19,11 +19,11 @@ class Pos;
 
 /**
  * @class Pos
- * @brief Manages the POS interface for creating, canceling, and paying receipts.
+ * @brief Manages the POS interface for creating, canceling, and paying orders.
  *
  * The Pos class is responsible for handling the interactions within the POS interface,
- * including product selection, receipt management, and printing previews. It interacts with
- * the POS_Model to update the current receipt and manage the products added to a receipt.
+ * including product selection, order management, and printing previews. It interacts with
+ * the POS_Model to update the current order and manage the products added to a order.
  */
 class Pos : public QWidget {
   Q_OBJECT
@@ -31,13 +31,13 @@ class Pos : public QWidget {
 private:
   Ui::Pos* ui = nullptr;         ///< Pointer to the UI elements of the POS interface.
   POS_Model& model;              ///< Reference to the POS_Model singleton.
-  QStackedWidget* pagesStack = nullptr; ///< Stack widget to manage the receipts.
+  QStackedWidget* pagesStack = nullptr; ///< Stack widget to manage the orders.
   
 public:  
   /**
    * @brief Constructs a Pos object.
    *
-   * Initializes the POS interface, sets up the UI, creates the receipt stack and
+   * Initializes the POS interface, sets up the UI, creates the order stack and
    * the product selection buttons.
    *
    * @param parent Pointer to the parent widget.
@@ -59,6 +59,8 @@ private:
    *
    */
   void setupDisplay();
+  
+  void switchPage(const size_t index);
   
 private slots:
   void on_billing_button_clicked();

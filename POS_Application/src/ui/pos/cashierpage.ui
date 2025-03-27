@@ -210,17 +210,17 @@ QPushButton:checked {
           <property name="font">
            <font>
             <family>Segoe UI Variable</family>
-            <pointsize>11</pointsize>
-            <bold>false</bold>
+            <pointsize>14</pointsize>
+            <bold>true</bold>
            </font>
           </property>
           <property name="text">
-           <string>Caja abierta por: Aaron Sanchez a las 7:00 am.</string>
+           <string>No hay ninguna caja abierta.</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="openCashier_button_2">
+         <widget class="QPushButton" name="addExpense_button">
           <property name="minimumSize">
            <size>
             <width>200</width>
@@ -277,16 +277,19 @@ QPushButton:checked {
       </item>
       <item>
        <widget class="QScrollArea" name="scrollArea">
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+        </property>
         <property name="widgetResizable">
          <bool>true</bool>
         </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
+        <widget class="QWidget" name="cashierReceipts_content">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>0</y>
            <width>605</width>
-           <height>419</height>
+           <height>413</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -302,12 +305,12 @@ QPushButton:checked {
        <widget class="QLabel" name="totalAmount_label">
         <property name="font">
          <font>
-          <pointsize>11</pointsize>
+          <pointsize>14</pointsize>
           <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string>Monto total: </string>
+         <string>Monto total de la caja: 00.00</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>

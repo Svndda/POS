@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Receipt</class>
- <widget class="QWidget" name="Receipt">
+ <class>Order</class>
+ <widget class="QWidget" name="Order">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -189,7 +189,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QScrollArea" name="receiptScrollArea">
+    <widget class="QScrollArea" name="ordertScrollArea">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -223,7 +223,7 @@
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
-     <widget class="QWidget" name="receipt_WidgetContents">
+     <widget class="QWidget" name="order_WidgetContents">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -295,7 +295,7 @@ color: black;</string>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="totalReceiptPrice_label">
+       <widget class="QLabel" name="totalOrderPrice_label">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>

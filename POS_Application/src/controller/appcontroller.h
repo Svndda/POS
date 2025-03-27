@@ -99,5 +99,7 @@ private slots:
    * @param user The authenticated user.
    */
   void userAccepted(const User user);
+  
+  void resetApplicationState();
 };
 #endif // APPCONTROLLER_H

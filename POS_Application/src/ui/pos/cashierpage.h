@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "expenselabel.h"
+#include "incomelabel.h"
 #include "posmodel.h"
 
 namespace Ui {
@@ -15,12 +17,27 @@ class CashierPage : public QWidget {
 private:
   Ui::CashierPage *ui;
   POS_Model& model;       ///< Reference to the POS_Model singleton.
+  QVector<ExpenseLabel*> expenses;
+  QVector<IncomeLabel*> incomes;
   
 public:
   explicit CashierPage(QWidget *parent = nullptr
       , POS_Model &appModel = POS_Model::getInstance());
   
   ~CashierPage();
+private:
+  double obtainTotalAmount();
+  void reloadCashierElements();
+  
+private slots:  
+  void on_openCashier_button_clicked();
+  void on_closeCashier_button_clicked();
+  void on_addExpense_button_clicked();
+  void handleCreatedExpense(const QString expenseName
+      , const double expensePrice);
+  
+public slots:
+  void addProcessedReceipt();
 };
 
 #endif // CASHIERPAGE_H

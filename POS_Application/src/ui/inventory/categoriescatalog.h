@@ -67,22 +67,22 @@ protected slots:
   /**
    * @brief Handles the "Next Page" button click event.
    */
-  virtual void on_nextPage_button_clicked() override;
+  virtual void nextPage_button_clicked() override;
   
   /**
    * @brief Handles the "Previous Page" button click event.
    */
-  virtual void on_previousPage_button_clicked() override;
+  virtual void previousPage_button_clicked() override;
   
   /**
    * @brief Handles the "Delete" button click event for a category.
    */
-  virtual void on_delete_button_clicked() override;
+  virtual void delete_button_clicked() override;
   
   /**
    * @brief Handles the "Edit" button click event for a category.
    */
-  virtual void on_edit_button_clicked() override;
+  virtual void edit_button_clicked() override;
   
 };
 

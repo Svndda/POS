@@ -196,7 +196,7 @@
        <number>20</number>
       </property>
       <item>
-       <widget class="QPushButton" name="acceptCategory_button">
+       <widget class="QPushButton" name="acceptLogout_button">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -249,7 +249,7 @@ QPushButton:checked {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="cancelCategory_button">
+       <widget class="QPushButton" name="cancelLogout_button">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
           <horstretch>0</horstretch>

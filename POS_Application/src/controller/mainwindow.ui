@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1150</width>
-    <height>850</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,16 +18,23 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1150</width>
-    <height>850</height>
+    <width>1024</width>
+    <height>768</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Svnpos</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(218, 213, 207);
-color:black;</string>
+   <string notr="true">	color: black;
+	background-color: rgb(237, 233, 230);
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="mainLayout">

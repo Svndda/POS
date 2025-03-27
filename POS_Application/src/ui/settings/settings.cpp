@@ -37,6 +37,9 @@ void Settings::prepareDisplay() {
   Assistance* assistancePage = new Assistance(this, this->model);
   Logout* logoutPage = new Logout(this, this->model);
   
+  this->connect(logoutPage, &Logout::acceptLogout_button_clicked
+      , this, &Settings::logouUser);
+  
   this->settingsStack->addWidget(personalizationPage);
   this->settingsStack->addWidget(assistancePage);
   this->settingsStack->addWidget(logoutPage);
@@ -56,6 +59,10 @@ void Settings::on_assistance_button_clicked() {
 
 void Settings::on_logout_button_clicked() {
   this->switchSettings(2);  
+}
+
+void Settings::logouUser() {
+  emit this->logoutCurrentUser();
 }
 
 void Settings::switchSettings(const size_t index) {

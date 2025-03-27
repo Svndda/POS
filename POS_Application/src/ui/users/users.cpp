@@ -75,23 +75,23 @@ void Users::setupConnections() {
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connects the buttons with their functions.
     this->connect(deleteButton , &QPushButton::clicked
-        , this, &Users::on_delete_button_clicked);
+        , this, &Users::delete_button_clicked);
     this->connect(editButton , &QPushButton::clicked
-        , this, &Users::on_edit_button_clicked);
+        , this, &Users::edit_button_clicked);
   }
   // Connects the funtions that handles the next and previous page of registered
   // categories.
   this->connect(this->ui->nextPage_button, &QPushButton::clicked
-      , this, &Users::on_nextPage_button_clicked);
+      , this, &Users::nextPage_button_clicked);
   this->connect(this->ui->previousPage_button, &QPushButton::clicked
-      , this, &Users::on_previousPage_button_clicked);
+      , this, &Users::previousPage_button_clicked);
   this->connect(this->ui->addCategory_button, &QPushButton::clicked
       , this, &Users::addUser_button_clicked);
 }
 
 
 void Users::addUser_button_clicked() {
-  if (/*this->model.getPageAccess(2) == User::PageAccess::EDITABLE*/1) {
+  if (this->model.getPageAccess(4) == User::PageAccess::EDITABLE) {
     // Creates a dialog to manage the category creation.
     UserFormDialog dialog(this, this->model.getRegisteredUsers()
         , User());
@@ -112,17 +112,16 @@ void Users::saveRequestedUser(const User user) {
   }
 }
 
-void Users::on_nextPage_button_clicked() {
+void Users::nextPage_button_clicked() {
   
 }
 
-
-void Users::on_previousPage_button_clicked() {
+void Users::previousPage_button_clicked() {
   
 }
 
-void Users::on_delete_button_clicked() {
-  if (/*this->model.getPageAccess(2) == User::PageAccess::EDITABLE*/1) {
+void Users::delete_button_clicked() {
+  if (this->model.getPageAccess(4) == User::PageAccess::EDITABLE) {
     QPushButton *button = qobject_cast<QPushButton *>(sender());
     if (button) {
       // Search for the property index in the button to see their index.
@@ -151,8 +150,8 @@ void Users::on_delete_button_clicked() {
   }
 }
 
-void Users::on_edit_button_clicked() {
-  if (/*this->model.getPageAccess(2) == User::PageAccess::EDITABLE*/1) {
+void Users::edit_button_clicked() {
+  if (this->model.getPageAccess(4) == User::PageAccess::EDITABLE) {
     QPushButton *button = qobject_cast<QPushButton *>(sender());
     // Checks if the pointer is valid.
     if (button) {

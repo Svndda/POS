@@ -3,9 +3,13 @@
 #include <limits>
 
 #include <QDebug>
+#include <QPrinter>
+#include <QPrinterInfo>
+#include <QPrintDialog>
 
 #include "posmodel.h"
 #include "backupmodule.h"
+#include "order.h"
 
 POS_Model::POS_Model(BackupModule& module)
     : backupModule(module) {
@@ -19,11 +23,12 @@ POS_Model& POS_Model::getInstance() {
 
 bool POS_Model::start(const User& user) {
   // Obtains the registrered users information.
-  this->registeredUsers = this->backupModule.getUsersBackup();  
+  this->registeredUsers = this->backupModule.getUsersBackup();
+  qDebug() << "usuarios registrados: " << this->registeredUsers.size();
   // Checks if the given user is registered.
   if (this->isUserRegistered(user)) {
     // Loads the products information.
-    this->loadProductsBackups();
+    this->loadSystemBackups();
     qDebug() << "Model encendido.";
     // Change model state flag to true.
     this->started = true;
@@ -38,21 +43,41 @@ void POS_Model::shutdown() {
     // Writes out the registers of the products information.
     this->backupModule.updateProductsBackup(this->categories);
     this->backupModule.updateSuppliesBackup(this->supplies);
+    this->closeCashier();
+    this->backupModule.updateReceiptsBackup(this->currentReceiptID
+        , this->registeredReceipts);
     // Clears the model memory.
     this->categories.clear();
     this->products.clear();
     this->supplies.clear();
     this->registeredUsers.clear();
+    this->ongoingReceipts.clear();
     this->user = User();
     // Sets the model state flag to false.
-    this->started = false; 
+    this->started = false;
   }
+}
+
+void POS_Model::openCashier() {
+  this->ongoingReceipts.clear();
+  this->cashierOpened = true;
+}
+
+void POS_Model::closeCashier() {
+  for (const auto& receipt : this->ongoingReceipts) {
+    this->registeredReceipts.emplace_back(receipt);
+  }
+  if (!this->ongoingReceipts.empty()) {
+    this->backupModule.updateReceiptsBackup(this->registeredReceipts.size()
+        ,this->registeredReceipts);
+    this->ongoingReceipts.clear();
+  }
+  this->cashierOpened = false;
 }
 
 size_t POS_Model::getPageAccess(const size_t page) {
   const std::vector<User::PageAccess> permissions
       = this->user.getUserPermissions();
-  
   return permissions[page].access;
 }
 
@@ -122,7 +147,6 @@ std::vector<std::string> POS_Model::getCategoriesForPage(const size_t pageIndex
       break;
     }
   }
-  
   return registeredCategories;
 }
 
@@ -182,6 +206,43 @@ Product& POS_Model::findProduct(const std::string& productName) {
   throw std::runtime_error("Product not found: " + productName);  
 }
 
+bool POS_Model::generateReceipt(const Order& order) {
+  Receipt newReceipt("Macana's Place"
+      , ++this->currentReceiptID, this->user.getUsername().data(), order
+  );
+  this->ongoingReceipts.emplace_back(newReceipt);
+  this->printReceipts();
+  
+  std::vector<std::pair<Product, size_t>> orderElements
+      = order.getOrderProducts();
+  
+  for (const auto& element : orderElements) {
+    const size_t quantity = element.second;
+    const std::vector<Supply> productSupplies = element.first.getIngredients();
+    for (const auto& supply : productSupplies) {
+      const std::string supplyName = supply.getName();
+      auto it = std::find_if(this->supplies.begin(), this->supplies.end(),
+          [supplyName](const Supply& registeredSupply) {
+          return registeredSupply.getName() == supplyName;
+      });
+      
+      if (it != this->supplies.end()) {
+        const size_t registerIndex = std::distance(this->supplies.begin(), it);
+        for (size_t i = 0; i < quantity; ++i) {
+          if (this->supplies[registerIndex].getQuantity() > 0) {
+            this->supplies[registerIndex] - supply;
+          }
+        }
+      } else {
+        qDebug() << "Suministro no registrado.";
+      }
+    }
+  }
+  qDebug() << "Recibo anadido correctamente, recibo numero: "
+      << this->ongoingReceipts.size();
+  return true;
+}
+
 bool POS_Model::addProduct(const std::string& category
     , const Product& product) {
   // Checks that the given product and category isn't empty.
@@ -190,7 +251,7 @@ bool POS_Model::addProduct(const std::string& category
     if (this->emplaceProduct(category, product, this->categories)) {
       qDebug() << "Producto anadido correctamente";
       // Updates the files containing teh products information backup.
-      backupModule.updateProductsBackup(this->categories);
+      this->backupModule.updateProductsBackup(this->categories);
       return true;
     } 
   }
@@ -505,12 +566,14 @@ bool POS_Model::isUserRegistered(const User& user) {
   return false;
 }
 
-void POS_Model::loadProductsBackups() {
+void POS_Model::loadSystemBackups() {
   // Reads and store the backup to the program memory to use them in the
   // program execution.
   this->categories = this->backupModule.getProductsBackup();
   this->obtainProducts(this->products, this->categories);
   this->supplies = this->backupModule.getSuppliesBackup();
+  this->registeredReceipts = this->backupModule.getReceiptsBackup();
+  this->currentReceiptID = this->registeredReceipts.size();
 }
 
 void POS_Model::obtainProducts(

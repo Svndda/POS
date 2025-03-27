@@ -86,7 +86,7 @@ public:
   
   
   inline const QPixmap& getImage() const {return this->image;}
-  
+    
   // Class Setters.
 public:
   /**

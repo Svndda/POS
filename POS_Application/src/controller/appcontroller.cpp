@@ -30,12 +30,23 @@ AppController::AppController(QWidget *parent)
       , this, &AppController::userAccepted);
   // Connects all the ui elements to their slot functions.
   this->setupConnections();
+  
+  // Mostrar en pantalla completa
+  this->showMaximized();
 }
 
 AppController::~AppController() {
-  delete ui;
+  // Primero, eliminamos el pageStack y su contenido
+  // qDeleteAll(this->pageStack.);  // Elimina todos los widgets de pageStack
+  
+  delete this->pageStack;  // Después eliminamos el pageStack en sí mismo
+  
+  delete this->ui;  // Elimina el UI de la ventana principal
+  
+  // Apaga el modelo POS de manera segura
   this->model.shutdown();
 }
+
 
 void AppController::setupConnections() {
   // Connects all the pages systen pages buttons to thei slot functions.
@@ -49,7 +60,6 @@ void AppController::setupConnections() {
                 , this, &AppController::on_users_button_clicked);
   this->connect(this->ui->settings_button, &QPushButton::clicked
                 , this, &AppController::on_settings_button_clicked);
-  
   // Disables the pages buttons.
   this->disableButtons();
 }
@@ -84,6 +94,9 @@ void AppController::prepareSystemPages() {
   this->pageStack->addWidget(inventoryPage);
   this->pageStack->addWidget(usersPage);
   this->pageStack->addWidget(settingsPage);
+  
+  this->connect(settingsPage, &Settings::logoutCurrentUser
+      , this, &AppController::resetApplicationState);
   
   // Sets the stack page to the pos.
   this->refreshPageStack(1);
@@ -170,9 +183,14 @@ void AppController::userAccepted(const User user) {
     // Creates 
     this->prepareSystemPages();
     // Enables the page buttons.
-    this->enableButtons();    
+    this->enableButtons();
     qDebug() << "credenciales aceptadas";
   } else {
     qDebug() << "Las credenciales de usuario no coinciden.";
   }
+}
+
+void AppController::resetApplicationState() {
+  this->model.shutdown();
+  this->pageStack->setCurrentIndex(0);
 }

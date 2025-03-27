@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ReceiptElement</class>
- <widget class="QWidget" name="ReceiptElement">
+ <class>OrderElement</class>
+ <widget class="QWidget" name="OrderElement">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -68,13 +68,13 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>170</width>
+       <width>160</width>
        <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>170</width>
+       <width>160</width>
        <height>16777215</height>
       </size>
      </property>

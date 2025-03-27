@@ -3,6 +3,7 @@
 #define POSMODEL_H
 
 #include <QString>
+#include <QPrinter>
 #include <vector>
 #include <map>
 #include <string>
@@ -10,6 +11,7 @@
 #include "user.h"
 #include "backupmodule.h"
 #include "product.h"
+#include "receipt.h"
 
 /**
  * @class POS_Model
@@ -31,7 +33,10 @@ private:
   std::map<std::string, std::vector<Product>> categories; ///< Map of product categories to their products.
   std::vector<std::pair<std::string, Product>> products;   ///< Vector of products for interface display.
   std::vector<Supply> supplies; ///< Inventory of supplies.
-  size_t closedReceipts = 0;  ///< Counter of closed receipts.
+  std::vector<Receipt> ongoingReceipts;
+  std::vector<Receipt> registeredReceipts;
+  size_t currentReceiptID;
+  bool cashierOpened = false;
   bool started = false;       ///< Flag indicating if the model has been started.
   
 public:
@@ -41,13 +46,21 @@ public:
    */
   inline bool isStarted() { return this->started; }
   
+  /**
+   * @brief Checks if a cashier has been opened.
+   * @return True if the cashier is opened.
+   */
+  inline bool isCashierOpened() { return this->cashierOpened;};
+  
   size_t getPageAccess(const size_t page);
   
   /**
    * @brief Retrieves the currently logged in user.
    * @return Reference to the current User.
    */
-  const User& getCurrentUser() { return this->user; } ;
+  const User& getCurrentUser() { return this->user;};
+  
+  const size_t getNextReceiptID() {return this->currentReceiptID + 1;};
   
   /**
    * @brief Retrieves the registered products categorized.
@@ -163,12 +176,22 @@ public:
   std::vector<User> getUsersForPage(
       const size_t pageIndex, const size_t itemsPerPage);
   
+  const std::vector<Receipt>& getOngoingReceipts() const {
+    return this->ongoingReceipts;
+  }
+  
 public:
   /**
    * @brief Retrieves the singleton instance of POS_Model.
    * @return Reference to the single instance of POS_Model.
    */
   static POS_Model& getInstance();
+  
+  void printReceipts() {
+    for (const auto& receipt : ongoingReceipts) {
+      qDebug() << "Receipt : " << receipt;
+    }
+  }
   
   /**
    * @brief Starts the POS model.
@@ -188,6 +211,11 @@ public:
    */
   void shutdown();
   
+  void openCashier();
+  
+  void closeCashier();
+  
+  
   /**
    * @brief Finds a product by its name.
    *
@@ -198,13 +226,6 @@ public:
    * @throws std::runtime_error if the product is not found.
    */
   Product& findProduct(const std::string& productName);
-  
-  /**
-   * @brief Increments the closed receipts counter.
-   *
-   * Call this method each time a transaction is completed successfully.
-   */
-  void increaseClosedReceiptCount() { ++this->closedReceipts; }
   
   /**
    * @brief Adds a product to a specified category.
@@ -236,6 +257,8 @@ public:
    * @return True if the supply was added successfully.
    */
   bool addSupply(const Supply newSupply);
+  
+  bool generateReceipt(const Order& order);
   
   /**
    * @brief Adds a new user to the pos system.
@@ -381,7 +404,7 @@ private:
    *
    * Reads products and supplies data from the backup module and stores them in memory.
    */
-  void loadProductsBackups();
+  void loadSystemBackups();
   
   /**
    * @brief Populates the products vector from category registers.

@@ -123,7 +123,7 @@
           <number>0</number>
          </property>
          <item row="0" column="1">
-          <widget class="QPushButton" name="createReceipt_button">
+          <widget class="QPushButton" name="createOrder_button">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -200,7 +200,7 @@ QPushButton:checked {
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QScrollArea" name="OpenedReceiptScrollArea">
+          <widget class="QScrollArea" name="OpenedOrdersScrollArea">
            <property name="minimumSize">
             <size>
              <width>0</width>
@@ -228,7 +228,7 @@ QPushButton:checked {
            <property name="alignment">
             <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
-           <widget class="QWidget" name="openedReceiptsArea">
+           <widget class="QWidget" name="openedOrdersArea">
             <property name="geometry">
              <rect>
               <x>0</x>
@@ -465,7 +465,7 @@ QComboBox::drop-down {
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="cancelReceipt_button">
+       <widget class="QPushButton" name="cancelOrder_button">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -525,7 +525,7 @@ QPushButton:checked {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="payReceipt_button">
+       <widget class="QPushButton" name="payOrder_button">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>

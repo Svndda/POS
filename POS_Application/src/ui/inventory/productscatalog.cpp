@@ -27,11 +27,11 @@ ProductsCatalog::~ProductsCatalog() {
 void ProductsCatalog::setupConnections() {
   // Connect the slot function to the next page button.
   this->connect(this->ui->nextPage_button, &QPushButton::clicked
-      , this, &ProductsCatalog::on_nextPage_button_clicked);
+      , this, &ProductsCatalog::nextPage_button_clicked);
   
   // Connect the slot function to the previous page button.
   this->connect(this->ui->previousPage_button, &QPushButton::clicked
-      , this, &ProductsCatalog::on_previousPage_button_clicked);
+      , this, &ProductsCatalog::previousPage_button_clicked);
   
   // Connect the slot function to the add product button.
   this->connect(this->ui->addProduct_button, &QPushButton::clicked
@@ -52,10 +52,10 @@ void ProductsCatalog::setupConnections() {
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connect the delete button with the slot function.
     this->connect(deleteButton, &QPushButton::clicked
-        , this, &ProductsCatalog::on_delete_button_clicked);
+        , this, &ProductsCatalog::delete_button_clicked);
     // Connect the edit button with the slot function.
     this->connect(editButton, &QPushButton::clicked
-        , this, &ProductsCatalog::on_edit_button_clicked);
+        , this, &ProductsCatalog::edit_button_clicked);
   }
 }
 
@@ -154,7 +154,7 @@ void ProductsCatalog::addProduct_button_clicked() {
   }
 }
 
-void ProductsCatalog::on_delete_button_clicked() {
+void ProductsCatalog::delete_button_clicked() {
   if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
     // Catch the pointer to the button object that sended the signal.
     QPushButton* button = qobject_cast<QPushButton *>(sender());
@@ -175,7 +175,7 @@ void ProductsCatalog::on_delete_button_clicked() {
   }
 }
 
-void ProductsCatalog::on_edit_button_clicked() {
+void ProductsCatalog::edit_button_clicked() {
   if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
     // Catch the pointer to the button object that sended the signal.
     QPushButton* button = qobject_cast<QPushButton *>(sender());
@@ -196,7 +196,7 @@ void ProductsCatalog::on_edit_button_clicked() {
   }
 }
 
-void ProductsCatalog::on_nextPage_button_clicked() {
+void ProductsCatalog::nextPage_button_clicked() {
   // Calculates the products page start and end indexes for the next page.
   const size_t productPageIt = (this->currentPageIndex + 1) * 9;
   const size_t productPageIt2 = productPageIt + 9;
@@ -211,7 +211,7 @@ void ProductsCatalog::on_nextPage_button_clicked() {
   qDebug() << "Boton de avance: " << this->currentPageIndex;
 }
 
-void ProductsCatalog::on_previousPage_button_clicked() {
+void ProductsCatalog::previousPage_button_clicked() {
   // Checks that the actual page is not the first one.
   if (this->currentPageIndex > 0) {
     // Decrements the page index.

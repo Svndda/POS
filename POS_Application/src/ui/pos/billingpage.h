@@ -13,11 +13,11 @@ class BillingPage;
 
 /**
  * @class BillingPage
- * @brief Manages the BillingPage interface for creating, canceling, and paying receipts.
+ * @brief Manages the BillingPage interface for creating, canceling, and paying orders.
  *
  * The BillingPage class is responsible for handling the interactions within the BillingPage interface,
- * including product selection, receipt management, and printing previews. It interacts with
- * the POS_Model to update the current receipt and manage the products added to a receipt.
+ * including product selection, order management, and printing previews. It interacts with
+ * the POS_Model to update the current order and manage the products added to a order.
  */
 class BillingPage : public QWidget {
   Q_OBJECT
@@ -25,14 +25,14 @@ class BillingPage : public QWidget {
 private:
   Ui::BillingPage *ui = nullptr;            ///< Pointer to the UI elements of the POS interface.
   POS_Model& model;                         ///< Reference to the POS_Model singleton.
-  QStackedWidget* receipStack = nullptr;    ///< Stack widget to manage the receipts.
-  size_t openedReceipts = 1;                ///< Counter for opened receipts.
+  QStackedWidget* ordersStack = nullptr;    ///< Stack widget to manage the orders.
+  size_t openedOrders = 0;                ///< Counter for opened orders.
   
 public:
   /**
    * @brief Constructs a BillingPage object.
    *
-   * Initializes the BillingPage interface, sets up the UI, creates the receipt stack and
+   * Initializes the BillingPage interface, sets up the UI, creates the order stack and
    * the product selection buttons.
    *
    * @param parent Pointer to the parent widget.
@@ -48,13 +48,13 @@ public:
   
 public:  
   /**
-   * @brief Adds a product to the current receipt.
+   * @brief Adds a product to the current order.
    *
-   * Adds the specified product to the currently active receipt widget.
+   * Adds the specified product to the currently active order widget.
    *
-   * @param product The Product to add to the receipt.
+   * @param product The Product to add to the order.
    */
-  void addProductToReceipt(const Product& product);
+  void addProductToOrder(const Product& product);
 private:
   /**
    * @brief Creates and prepare the necesary initial state of some ui elements.
@@ -74,35 +74,40 @@ private:
   void createSelectProductButtons(size_t numberOfProducts);
 private slots:
   /**
-   * @brief Slot invoked when the "Create Receipt" button is clicked.
+   * @brief Slot invoked when the "Create Order" button is clicked.
    *
-   * Creates a new receipt selection button if there is no active receipt pending.
+   * Creates a new order selection button if there is no active order pending.
    */
-  void on_createReceipt_button_clicked();
+  void on_createOrder_button_clicked();
   
   /**
-   * @brief Slot invoked when the "Cancel Receipt" button is clicked.
+   * @brief Slot invoked when the "Cancel Order" button is clicked.
    *
-   * Cancels the current receipt by removing it from the receipt stack and updating the UI.
+   * Cancels the current order by removing it from the order stack and updating the UI.
    */
-  void on_cancelReceipt_button_clicked();
+  void on_cancelOrder_button_clicked();
   
   /**
-   * @brief Slot invoked when the "Pay Receipt" button is clicked.
+   * @brief Slot invoked when the "Pay Order" button is clicked.
    *
-   * Initiates the print preview process for the current receipt, and upon successful printing,
-   * removes the receipt from the stack.
+   * Initiates the print preview process for the current order, and upon successful printing,
+   * removes the order from the stack.
    */
-  void on_payReceipt_button_clicked();
+  void on_payOrder_button_clicked();
   
   /**
    * @brief Slot for handling print preview.
    *
-   * Renders the current receipt's content to the provided printer.
+   * Renders the current order's content to the provided printer.
    *
    * @param printer Pointer to the QPrinter object used for printing.
    */
-  void printPreview(QPrinter* printer);
+  void printReceipt(const Order& order);
+  
+  void paintReceipt(QPrinter& printer, const Order& order);
+  
+signals:
+  void orderProcessed();
 };
 
 #endif // BILLINGPAGE_H

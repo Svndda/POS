@@ -38,16 +38,16 @@ void CategoriesCatalog::setupConnections() {
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connects the buttons with their functions.
     this->connect(deleteButton , &QPushButton::clicked
-        , this, &CategoriesCatalog::on_delete_button_clicked);
+        , this, &CategoriesCatalog::delete_button_clicked);
     this->connect(editButton , &QPushButton::clicked
-        , this, &CategoriesCatalog::on_edit_button_clicked);
+        , this, &CategoriesCatalog::edit_button_clicked);
   }
   // Connects the funtions that handles the next and previous page of registered
   // categories.
   this->connect(this->ui->nextPage_button, &QPushButton::clicked
-      , this, &CategoriesCatalog::on_nextPage_button_clicked);
+      , this, &CategoriesCatalog::nextPage_button_clicked);
   this->connect(this->ui->previousPage_button, &QPushButton::clicked
-      , this, &CategoriesCatalog::on_previousPage_button_clicked);
+      , this, &CategoriesCatalog::previousPage_button_clicked);
   this->connect(this->ui->addCategory_button, &QPushButton::clicked
       , this, &CategoriesCatalog::addCategory_button_clicked);
 }
@@ -126,7 +126,7 @@ void CategoriesCatalog::addCategory_button_clicked() {
   }
 }
 
-void CategoriesCatalog::on_delete_button_clicked() {
+void CategoriesCatalog::delete_button_clicked() {
   if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
     QPushButton *button = qobject_cast<QPushButton *>(sender());
     if (button) {
@@ -157,7 +157,7 @@ void CategoriesCatalog::on_delete_button_clicked() {
   }
 }
 
-void CategoriesCatalog::on_edit_button_clicked() {
+void CategoriesCatalog::edit_button_clicked() {
   if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
     QPushButton *button = qobject_cast<QPushButton *>(sender());
     // Checks if the pointer is valid.
@@ -199,7 +199,7 @@ void CategoriesCatalog::on_edit_button_clicked() {
   }
 }
 
-void CategoriesCatalog::on_nextPage_button_clicked() {
+void CategoriesCatalog::nextPage_button_clicked() {
   // Calculates the category page start and end indexes for the next page.
   const size_t categoryPageIt = (this->currentPageIndex + 1) * 9;
   const size_t categoryPageIt2 = categoryPageIt + 9;
@@ -215,7 +215,7 @@ void CategoriesCatalog::on_nextPage_button_clicked() {
   qDebug() << "Boton de avance: " << this->currentPageIndex;
 }
 
-void CategoriesCatalog::on_previousPage_button_clicked() {
+void CategoriesCatalog::previousPage_button_clicked() {
   // Checks that the actual page is not the first one.
   if (this->currentPageIndex > 0) {
     // Decrements the page index.

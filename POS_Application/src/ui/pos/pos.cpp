@@ -19,7 +19,7 @@ Pos::~Pos() {
 }
 
 void Pos::setupDisplay() {
-  // Creates the widget stack to store the current receipts.
+  // Creates the widget stack to store the current orders.
   this->pagesStack = new QStackedWidget();
   
   BillingPage* billingPage = new BillingPage(this, this->model);
@@ -27,7 +27,7 @@ void Pos::setupDisplay() {
   
   this->pagesStack->addWidget(billingPage);
   this->pagesStack->addWidget(cashierPage);
-  this->pagesStack->setCurrentIndex(0);
+  this->switchPage(1);
   
   this->ui->pagesContentLayout->addWidget(this->pagesStack);
   
@@ -37,43 +37,45 @@ void Pos::setupDisplay() {
   this->connect(this->ui->cashier_button, &QPushButton::clicked
       , this, &Pos::on_cashier_button_clicked);
   
-  // // Creates the product selection buttons on the scroll view, with six elements
-  // // per row.
-  // this->createSelectProductButtons(5);
-  // // Sets the receipts layout container alignment to the top.
-  // this->ui->billingLayout->setAlignment(Qt::AlignTop);
-  
-  // // Creates a new receipt.
-  // Receipt* receipt = new Receipt(this, 0);
-  // // Adds the new receipt to the layout.
-  // this->ui->billingLayout->addWidget(this->receipStack);
-  // // Adds the nre receipt to the stak.
-  // this->receipStack->addWidget(receipt);
-  
-  // // Creates a layout to store the receipt selection buttons of the pos.
-  // QHBoxLayout* layout = new QHBoxLayout();
-  // // Sets the layout aligment to the left.
-  // layout->setAlignment(Qt::AlignLeft);
-  // // Sets the layout content margins to zero.
-  // layout->setContentsMargins(0, 0, 0, 0);
-  // // Sets the layout elements spacing to one.
-  // layout->setSpacing(1);
-  // this->ui->openedReceiptsArea->setLayout(layout);
-  
-  // // Creates and adds up a receipt selection button into the layout.
-  // ReceiptSelectionButton* receiptSelectionButton
-  //     = new ReceiptSelectionButton(this, this->openedReceipts);
-  // layout->addWidget(receiptSelectionButton);
+  this->connect(billingPage, &BillingPage::orderProcessed
+      , cashierPage, &CashierPage::addProcessedReceipt);
 }
 
 void Pos::on_billing_button_clicked() {
   if (this->pagesStack->currentIndex() != 0) {
-    this->pagesStack->setCurrentIndex(0);
+    this->switchPage(0);
   }
 }
 
 void Pos::on_cashier_button_clicked() {
   if (this->pagesStack->currentIndex() != 1) {
-    this->pagesStack->setCurrentIndex(1);
+    this->switchPage(1);
+  }
+}
+
+void Pos::switchPage(const size_t index) {
+  // Set the current catalog page
+  this->pagesStack->setCurrentIndex(index);
+  
+  // Create lists for buttons and corresponding widgets.
+  QVector<QPushButton*> buttons = {
+      this->ui->billing_button,
+      this->ui->cashier_button,
+  };
+  
+  QVector<QWidget*> widgets = {
+      this->ui->billing_widget,
+      this->ui->cashier_widget,
+  };
+  
+  // Iterate over the buttons and widgets to update their states
+  for (int i = 0; i < buttons.size(); ++i) {
+    const bool isSelected = (i == index);
+    buttons[i]->setChecked(isSelected);
+    // Use a conditional to set the style sheet: green for selected, transparent otherwise.
+    widgets[i]->setStyleSheet(
+        QString("QWidget { background-color: %1; }")
+            .arg(isSelected ? "rgb(0, 153, 73)" : "transparent")
+    );
   }
 }

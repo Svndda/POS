@@ -1,6 +1,8 @@
 Almuerzos:
 Casado de Pollo -
 Arroz ; 1	Pollo ; 1	Picadillo ; 1	Ensalada ; 1	Frijoles ; 1	3500	CasadodePollo.png
+Casado de Res -
+Arroz ; 1	Steak ; 1	Picadillo ; 1	Ensalada ; 1	3500	CasadodeRes.png
 
 Batidos:
 Batido de Banano(leche) -
@@ -13,10 +15,14 @@ Bebidas Frías:
 Bebidas Naturales:
 Tamarindo -
 Tamarindo ; 1	800	Tamarindo.png
+Cas -
+Cas ; 1	800	Cas.png
 
 Comida Rápida:
 Papas fritas -
 Papas ; 2	1200	Papasfritas.png
+Salchipapas -
+PapasFritas ; 1	Salchichas ; 3	2300	Salchipapas.png
 
 Desayunos:
 

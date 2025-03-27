@@ -46,6 +46,11 @@ private:
   void on_assistance_button_clicked();
   
   void on_logout_button_clicked();
+  
+  void logouUser();
+  
+signals:
+  void logoutCurrentUser();
 };
 
 #endif // SETTINGS_H

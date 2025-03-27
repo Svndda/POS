@@ -66,22 +66,22 @@ protected slots:
   /**
    * @brief Slot triggered when the "Next Page" button is clicked.
    */
-  virtual void on_nextPage_button_clicked() override;
+  virtual void nextPage_button_clicked() override;
   
   /**
    * @brief Slot triggered when the "Previous Page" button is clicked.
    */
-  virtual void on_previousPage_button_clicked() override;
+  virtual void previousPage_button_clicked() override;
   
   /**
    * @brief Slot triggered when the "Delete Supply" button is clicked.
    */
-  virtual void on_delete_button_clicked() override;
+  virtual void delete_button_clicked() override;
   
   /**
    * @brief Slot triggered when the "Edit Supply" button is clicked.
    */
-  virtual void on_edit_button_clicked() override;
+  virtual void edit_button_clicked() override;
 };
 
 #endif // SUPPLIESCATALOG_H

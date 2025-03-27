@@ -65,28 +65,28 @@ protected slots:
    *
    * Must be implemented by derived classes.
    */
-  virtual void on_nextPage_button_clicked() = 0;
+  virtual void nextPage_button_clicked() = 0;
   
   /**
    * @brief Slot for handling the "Previous Page" button click event.
    *
    * Must be implemented by derived classes.
    */
-  virtual void on_previousPage_button_clicked() = 0;
+  virtual void previousPage_button_clicked() = 0;
   
   /**
    * @brief Slot for handling the "Delete" button click event.
    *
    * Must be implemented by derived classes.
    */
-  virtual void on_delete_button_clicked() = 0;
+  virtual void delete_button_clicked() = 0;
   
   /**
    * @brief Slot for handling the "Edit" button click event.
    *
    * Must be implemented by derived classes.
    */
-  virtual void on_edit_button_clicked() = 0;
+  virtual void edit_button_clicked() = 0;
 };
 
 #endif // CATALOG_H

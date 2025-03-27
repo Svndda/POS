@@ -2,95 +2,77 @@
 #define RECEIPT_H
 
 #include <QWidget>
+#include <QString>
 
 #include "product.h"
+#include "order.h"
 
-namespace Ui {
-class Receipt;
-}
-
-/**
- * @class Receipt
- * @brief Widget that represents a receipt in the POS system.
- *
- * The Receipt class manages the display and update of a receipt,
- * including adding products, calculating the total price, and generating
- * an HTML representation of the receipt for printing purposes.
- */
-class Receipt : public QWidget {
-  Q_OBJECT
+class Receipt {
   
 private:
-  Ui::Receipt* ui = nullptr;   ///< Pointer to the UI elements for the receipt.
-  const size_t ID = 0;         ///< Unique identifier for the receipt.
-  std::vector<Product> products;
-  double totalPrice = 0;       ///< Accumulated total price of the receipt.
+  QString businessName; ///< Nombre del negocio
+  size_t ID;            ///< Identificador único del recibo
+  QString dateTime;     ///< Fecha y hora
+  QString user;         ///< Usuario
+  std::vector<std::pair<Product, size_t>> products; ///< Productos en el recibo (producto, cantidad)
+  QString paymentMethod; ///< Método de pago
+  double receivedAmount; ///< Cantidad recibida
+  double price;          ///< Precio total
+
+public:  
+  explicit Receipt(const QString myBusinessName = QString()
+      , const size_t myID = 0
+      , const QString myDateTime = QString()
+      , const QString myUser = QString()
+      , const std::vector<std::pair<Product, size_t>> myProducts
+      = std::vector<std::pair<Product, size_t>>()
+      , const QString myPaymentMethod = QString()
+      , const double myReceivedAmount = 0
+      , const double myPrice = 0);
   
-public:
-  /**
-   * @brief Constructs a Receipt widget.
-   *
-   * Initializes the receipt UI, sets the receipt ID and prepares the display.
-   *
-   * @param parent Pointer to the parent widget.
-   * @param myID Unique identifier for the receipt (default is 0).
-   */
-  explicit Receipt(QWidget *parent = nullptr, const size_t myID = 0);
+  Receipt(const Receipt& other);
   
-  /**
-   * @brief Destroys the Receipt widget.
-   */
+  Receipt(const QString bussinessName
+      , const size_t id
+      , const QString username
+      , const Order& order);
+  
   ~Receipt();
   
+  Receipt& operator=(const Receipt&) = default;
+  
+  friend std::ifstream& operator>>(std::ifstream& in, Receipt& receipt);
+  friend std::ofstream& operator<<(std::ifstream& in, Receipt& receipt);
 public:
-  /**
-   * @brief Adds a product to the receipt.
-   *
-   * Creates a ReceiptElement for the given product, adds it to the receipt UI,
-   * updates the total price, and connects signals to update the price when the
-   * quantity changes.
-   *
-   * @param product The Product to add.
-   */
-  void addProduct(const Product& product);
+  // Getters públicos para cada atributo (necesarios para el operador de flujo)
+  QString getBusinessName() const { return businessName; }
+  size_t getID() const { return ID; }
+  QString getDateTime() const { return dateTime; }
+  QString getUser() const { return user; }
+  std::vector<std::pair<Product, size_t>> getProducts() const { return products; }
+  QString getPaymentMethod() const { return paymentMethod; }
+  double getReceivedAmount() const { return receivedAmount; }
+  double getPrice() const { return price; }
   
-  /**
-   * @brief Generates the HTML content of the receipt.
-   *
-   * Assembles the receipt header, the list of products (obtained from each
-   * ReceiptElement in the layout), and the total price into an HTML-formatted string.
-   *
-   * @return A QString containing the HTML representation of the receipt.
-   */
-  QString htmlContent();
-  
-  const double getReceiptPrice() const  {return this->totalPrice;}
-protected:
-  /**
-   * @brief Sets up the receipt display.
-   *
-   * Creates and configures the layout that will contain the receipt elements.
-   */
-  void setupReceiptDisplay();
+  QString formatProductList();
   
 private:
-  /**
-   * @brief Increases the receipt total price.
-   *
-   * Adds the price of the given product to the total price and updates the UI.
-   *
-   * @param product The Product whose price is to be added.
-   */
-  void increaseReceiptPrice(const Product &product);
+  // Setters privados
+  void setBusinessName(const QString& name) { businessName = name; }
+  void setID(size_t id) { ID = id; }
+  void setDateTime(const QString& date) { dateTime = date; }
+  void setUser(const QString& userName) { user = userName; }
+  void setProducts(const std::vector<std::pair<Product, size_t>>& productList) { products = productList; }
+  void setPaymentMethod(const QString& method) { paymentMethod = method; }
+  void setReceivedAmount(double amount) { receivedAmount = amount; }
+  void setPrice(double totalPrice) { price = totalPrice; }
   
-  /**
-   * @brief Reduces the receipt total price.
-   *
-   * Subtracts the price of the given product from the total price and updates the UI.
-   *
-   * @param product The Product whose price is to be subtracted.
-   */
-  void reduceReceiptPrice(const Product &product);
 };
+
+// Declaraciones externas para los operadores de flujo
+QDataStream& operator<<(QDataStream& out, const Receipt& receipt);
+std::ifstream& operator>>(std::ifstream& in, Receipt& receipt);
+std::ofstream& operator<<(std::ofstream& out, const Receipt& receipt);
+QDebug operator<<(QDebug dbg, const Receipt& receipt);
 
 #endif // RECEIPT_H

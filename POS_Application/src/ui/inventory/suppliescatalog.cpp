@@ -46,16 +46,16 @@ void SuppliesCatalog::setupConnections() {
     QPushButton* editButton = this->findChild<QPushButton *>(editButtonName);
     // Connects the buttons with their functions.
     this->connect(deleteButton , &QPushButton::clicked
-        , this, &SuppliesCatalog::on_delete_button_clicked);
+        , this, &SuppliesCatalog::delete_button_clicked);
     this->connect(editButton , &QPushButton::clicked
-        , this, &SuppliesCatalog::on_edit_button_clicked);
+        , this, &SuppliesCatalog::edit_button_clicked);
   }
   // Connects the funtions that handles the next and previous page of registered
   // categories.
   this->connect(this->ui->nextPage_button, &QPushButton::clicked
-      , this, &SuppliesCatalog::on_nextPage_button_clicked);
+      , this, &SuppliesCatalog::nextPage_button_clicked);
   this->connect(this->ui->previousPage_button, &QPushButton::clicked
-      , this, &SuppliesCatalog::on_previousPage_button_clicked);
+      , this, &SuppliesCatalog::previousPage_button_clicked);
   // Connects the function that handles the add category button.
   this->connect(this->ui->addSupply_button, &QPushButton::clicked
       , this, &SuppliesCatalog::addSupply_button_clicked);
@@ -131,7 +131,7 @@ void SuppliesCatalog::addSupply_button_clicked() {
   }
 }
 
-void SuppliesCatalog::on_delete_button_clicked() {
+void SuppliesCatalog::delete_button_clicked() {
   if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
     // Catch the pointer to the button object that sended the signal.
     QPushButton *button = qobject_cast<QPushButton *>(sender());
@@ -162,7 +162,7 @@ void SuppliesCatalog::on_delete_button_clicked() {
   }
 }
 
-void SuppliesCatalog::on_edit_button_clicked() {
+void SuppliesCatalog::edit_button_clicked() {
   if (this->model.getPageAccess(2) == User::PageAccess::EDITABLE) {
     // Catch the pointer to the button object that sended the signal.  
     QPushButton *button = qobject_cast<QPushButton *>(sender());
@@ -205,7 +205,7 @@ void SuppliesCatalog::on_edit_button_clicked() {
   }
 }
 
-void SuppliesCatalog::on_nextPage_button_clicked() {
+void SuppliesCatalog::nextPage_button_clicked() {
   // Calculates the supplies page start and end indexes for the next page.
   const size_t suppliesPageIt = (this->currentPageIndex + 1) * 9;
   const size_t suppliesPageIt2 = suppliesPageIt + 9;
@@ -220,7 +220,7 @@ void SuppliesCatalog::on_nextPage_button_clicked() {
   qDebug() << "Boton de avance: " << this->currentPageIndex;
 }
 
-void SuppliesCatalog::on_previousPage_button_clicked() {
+void SuppliesCatalog::previousPage_button_clicked() {
   // Checks that the actual page is not the first one.
   if (this->currentPageIndex > 0) {
     // Decrements the page index.

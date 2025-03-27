@@ -40,11 +40,11 @@ qt_add_executable(POS_Application
   src/ui/inventory/categoriescatalog.ui
   src/ui/inventory/productscatalog.h src/ui/inventory/productscatalog.cpp
   src/ui/inventory/productscatalog.ui
-  src/ui/pos/receipt.h src/ui/pos/receipt.cpp src/ui/pos/receipt.ui
-  src/ui/pos/receiptelement.h src/ui/pos/receiptelement.cpp
-  src/ui/pos/receiptelement.ui
-  src/ui/pos/receiptselectionbutton.h src/ui/pos/receiptselectionbutton.cpp
-  src/ui/pos/receiptselectionbutton.ui
+  src/ui/pos/order.h src/ui/pos/order.cpp src/ui/pos/order.ui
+  src/ui/pos/orderelement.h src/ui/pos/orderelement.cpp
+  src/ui/pos/orderelement.ui
+  src/ui/pos/orderselectionbutton.h src/ui/pos/orderselectionbutton.cpp
+  src/ui/pos/orderselectionbutton.ui
   src/ui/users/users.h src/ui/users/users.cpp src/ui/users/users.ui
   src/ui/users/userformdialog.h src/ui/users/userformdialog.cpp
   src/ui/users/userformdialog.ui
@@ -53,9 +53,14 @@ qt_add_executable(POS_Application
   src/ui/settings/personalization.h src/ui/settings/personalization.cpp src/ui/settings/personalization.ui
   src/ui/settings/logout.h src/ui/settings/logout.cpp src/ui/settings/logout.ui
   src/ui/settings/assistance.h src/ui/settings/assistance.cpp src/ui/settings/assistance.ui
-  src/ui/pos/processreceiptdialog.h src/ui/pos/processreceiptdialog.cpp src/ui/pos/processreceiptdialog.ui
+  src/ui/pos/processorderdialog.h src/ui/pos/processorderdialog.cpp src/ui/pos/processorderdialog.ui
   src/ui/pos/billingpage.h src/ui/pos/billingpage.cpp src/ui/pos/billingpage.ui
   src/ui/pos/cashierpage.h src/ui/pos/cashierpage.cpp src/ui/pos/cashierpage.ui
+  src/ui/pos/receipt.h src/ui/pos/receipt.cpp
+  src/ui/pos/expensedialog.h src/ui/pos/expensedialog.cpp src/ui/pos/expensedialog.ui
+  src/ui/pos/cashierdialog.h src/ui/pos/cashierdialog.cpp src/ui/pos/cashierdialog.ui
+  src/ui/pos/expenselabel.h src/ui/pos/expenselabel.cpp src/ui/pos/expenselabel.ui
+  src/ui/pos/incomelabel.h src/ui/pos/incomelabel.cpp src/ui/pos/incomelabel.ui 
 )
 
 qt_add_translations(
@@ -65,7 +70,7 @@ qt_add_translations(
 
 target_link_libraries(POS_Application
     PRIVATE
-        Qt::Core
+        Qt6::Core
         Qt::Widgets
         Qt::PrintSupport
 )
