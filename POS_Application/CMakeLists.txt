@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.19)
 project(POS_Application LANGUAGES CXX)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets LinguistTools PrintSupport)
+find_package(Qt6 6.5 REQUIRED COMPONENTS
+  Core Widgets
+  LinguistTools
+  PrintSupport
+)
 
 qt_standard_project_setup()
 
@@ -134,6 +138,7 @@ endif()
 target_include_directories(POS_Application
     PRIVATE
         ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}/src/common        
         ${CMAKE_SOURCE_DIR}/src/model
         ${CMAKE_SOURCE_DIR}/src/controller
         ${CMAKE_SOURCE_DIR}/src/ui
@@ -153,7 +158,6 @@ target_include_directories(POS_Application
         ${CMAKE_SOURCE_DIR}/src/ui/users
         ${CMAKE_SOURCE_DIR}/src/ui/users/dialogs
         ${CMAKE_SOURCE_DIR}/src/ui/settings
-        ${CMAKE_SOURCE_DIR}/src/common
 )
 
 include(GNUInstallDirs)
