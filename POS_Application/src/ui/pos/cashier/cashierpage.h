@@ -5,7 +5,7 @@
 
 #include "expenselabel.h"
 #include "incomelabel.h"
-#include "posmodel.h"
+#include "model.h"
 
 namespace Ui {
 class CashierPage;
@@ -16,13 +16,13 @@ class CashierPage : public QWidget {
   
 private:
   Ui::CashierPage *ui;
-  POS_Model& model;       ///< Reference to the POS_Model singleton.
+  Model& model;       ///< Reference to the POS_Model singleton.
   QVector<ExpenseLabel*> expenses;
   QVector<IncomeLabel*> incomes;
   
 public:
   explicit CashierPage(QWidget *parent = nullptr
-      , POS_Model &appModel = POS_Model::getInstance());
+      , Model &appModel = Model::getInstance());
   
   ~CashierPage();
 private:

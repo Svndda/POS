@@ -1,7 +1,7 @@
 #include "personalization.h"
 #include "ui_personalization.h"
 
-Personalization::Personalization(QWidget *parent, POS_Model& appmodel)
+Personalization::Personalization(QWidget *parent, Model& appmodel)
     : QWidget(parent)
     , ui(new Ui::Personalization)
     , model(appmodel) {

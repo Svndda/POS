@@ -52,7 +52,7 @@ public:
    */
   void addProduct(const Product& product);
     
-  const std::vector<std::pair<Product, size_t>> getOrderProducts() const;
+  const std::vector<std::pair<Product, size_t>> getProducts() const;
   
   void setPaymentMethod(const QString orderPaymentMethod) {
     this->paymentMethod = orderPaymentMethod;
@@ -62,7 +62,7 @@ public:
     this->receivedMoney = orderReceivedMoney;
   }
   
-  const double getOrderPrice() const {return this->totalPrice;}
+  const double getPrice() const {return this->totalPrice;}
   
   const QString getPaymentMethod() const {return this->paymentMethod;} 
   

@@ -9,6 +9,7 @@
 
 #include "expenselabel.h"
 #include "incomelabel.h"
+#include "util.h"
 
 CashierDialog::CashierDialog(QWidget *parent
     , const QVector<IncomeLabel*>& cashierIncomes
@@ -76,107 +77,58 @@ CashierDialog::~CashierDialog() {
 }
 
 void CashierDialog::printCashierClosing() {
-  QList<QPrinterInfo> printers = QPrinterInfo::availablePrinters();
-  
-  QPrinter printer;
-  QString macanasPosPrinter = "POS-80C";
-  for (const QPrinterInfo& printerIt : printers) {
-    if (printerIt.printerName() == macanasPosPrinter) {
-      qDebug() << "✅ La impresora" << macanasPosPrinter << "está disponible.";
-      printer.setPrinterName(macanasPosPrinter);
-    }
-  }
-  
-  qDebug() << "nombre de la impresora: " << printer.printerName();
-  if (printer.printerName() != macanasPosPrinter) {
-    QPrintDialog printDialog(&printer, this);
-    if (printDialog.exec() != QDialog::Accepted) {
-      qDebug() << "Impresión cancelada por el usuario.";
-      return;
-    }
-  }
-  
-  // Verificar que la impresora seleccionada es válida
-  if (!printer.isValid()) {
-    QMessageBox::critical(this, "Error"
-        , "No se encontró una impresora válida.");
-    return;
-  }
-  
-  // Si el usuario seleccionó una impresora PDF, pedirle un archivo de salida
-  if (printer.printerName().contains("PDF", Qt::CaseInsensitive)) {
-    QString filePath = QFileDialog::getSaveFileName(this
-        , "Guardar Recibo como PDF", "", "Archivos PDF (*.pdf)");
-    if (filePath.isEmpty()) {
-      qDebug() << "El usuario canceló la selección del archivo.";
-      return;
-    }
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(filePath);
-  } else {
-    printer.setOutputFormat(QPrinter::NativeFormat);
-  }
-  
-  qDebug() << "Printer Output File: " << printer.outputFileName();
-  qDebug() << "Printer Resolution: " << printer.resolution();
-  qDebug() << "Printer Format: " << (printer.outputFormat() == QPrinter::PdfFormat ? "PDF" : "Otro");
-  
-  printer.setResolution(84);
-  printer.setPageSize(QPageSize(QSizeF(48, 60), QPageSize::Millimeter));
-  printer.setPageMargins(QMarginsF(0, 0, 0, 0), QPageLayout::Millimeter);
-  printer.setFullPage(true);
-  
-  QPainter painter(&printer);
+  auto printer = Util::systemPrinter(this, "POS-80C");
+
+  QPainter painter(printer.get());
   if (!painter.isActive()) {
     qDebug() << "Error: No se pudo iniciar el pintor.";
     return;
   }
   
-  int printableWidth = printer.pageRect(QPrinter::DevicePixel).width();
+  int printableWidth = printer->pageRect(QPrinter::DevicePixel).width();
   int margin = 5;
   int contentWidth = printableWidth - (2 * margin);
   
   QFont fontNormal("Courier", 10);
   QFont fontBold("Courier", 10, QFont::Bold);
-  
   painter.setFont(fontNormal);
+  
   QFontMetrics metrics(fontNormal);
-  int lineHeight = metrics.height();
-  
-  auto printWrappedLine = [&](const QString& text, int& y, bool bold = false) {
-    painter.setFont(bold ? fontBold : fontNormal);
-    QStringList wrappedLines;
-    QString currentLine;
-    
-    for (const QChar& c : text) {
-      currentLine += c;
-      if (metrics.horizontalAdvance(currentLine) > contentWidth) {
-        wrappedLines.append(currentLine);
-        currentLine.clear();
-      }
-    }
-    
-    if (!currentLine.isEmpty()) {
-      wrappedLines.append(currentLine);
-    }
-    
-    for (const QString& line : wrappedLines) {
-      painter.drawText(margin, y, line);
-      y += lineHeight;
-    }
-  };
-  
+  int lineHeight = metrics.height();  
   int y = 20;
-  printWrappedLine("Cierre de caja", y, true);
-  y += 10;
-  printWrappedLine(
-      QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"), y);
-  printWrappedLine("===================", y);
   
-  printWrappedLine(this->ui->cash_label->text(), y);
-  printWrappedLine(this->ui->sinpe_label->text(), y);
-  printWrappedLine(this->ui->card_label->text(), y);
-  printWrappedLine("===================", y);
+  // Prints out the cashier information.
+  Util::printWrappedLine(
+      painter, "Cierre de caja", y, true
+      , metrics, margin, contentWidth, lineHeight
+  );
+  Util::printWrappedLine(
+      painter, QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss")
+      , y, true, metrics, margin, contentWidth, lineHeight
+  );
+  Util::printWrappedLine(
+      painter, "===================", y, true
+      , metrics, margin, contentWidth, lineHeight
+  );
+  Util::printWrappedLine(
+      painter, this->ui->cash_label->text(), y, true
+      , metrics, margin, contentWidth, lineHeight
+  );
+  Util::printWrappedLine(
+      painter, this->ui->sinpe_label->text(), y, true
+      , metrics, margin, contentWidth, lineHeight
+  );
+  Util::printWrappedLine(
+      painter, this->ui->card_label->text(), y, true
+      , metrics, margin, contentWidth, lineHeight
+  );
+  Util::printWrappedLine(
+      painter, "===================", y, true
+      , metrics, margin, contentWidth, lineHeight
+  );
   
-  printWrappedLine(this->ui->total_label->text(), y, true);
+  Util::printWrappedLine(
+      painter, this->ui->total_label->text(), y, true
+      , metrics, margin, contentWidth, lineHeight
+  );
 }

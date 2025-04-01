@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QStackedWidget>
 #include <QPushButton>
-#include "posmodel.h"
+#include "model.h"
 
 namespace Ui {
 class Settings;
@@ -16,7 +16,7 @@ class Settings : public QWidget {
 private:
 private:
   Ui::Settings* ui;               ///< Pointer to the UI elements for the Settings class.
-  POS_Model& model;                ///< Reference to the POS model instance.
+  Model& model;                ///< Reference to the POS model instance.
   QStackedWidget* settingsStack;    ///< Pointer to the stack of inventory's catalog pages.
   
 public:
@@ -27,7 +27,7 @@ public:
    * @param model Reference to the singleton POS_Model instance.
    */
   explicit Settings(QWidget *parent = nullptr
-      , POS_Model& model = POS_Model::getInstance());
+      , Model& model = Model::getInstance());
   
   /**
    * @brief Destructor for the Settings class.

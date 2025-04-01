@@ -1,9 +1,11 @@
 // Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
 #include "appcontroller.h"
-#include "posmodel.h"
-
-#include "user.h"
 #include "ui_mainwindow.h"
+
+#include <QMessageBox>
+
+#include "model.h"
+#include "user.h"
 #include "loginpage.h"
 #include "inventory.h"
 #include "users.h"
@@ -14,9 +16,29 @@ AppController::AppController(QWidget *parent)
   : QMainWindow(parent)
   , ui(new Ui::MainWindow)
   , pageStack(new QStackedWidget(this))
-  , model(POS_Model::getInstance()) {
+  , model(Model::getInstance()) {
   // Define the controller ui as the mainWindow.
   ui->setupUi(this);
+  // Connects all the ui elements to their slot functions.
+  this->setupConnections();
+  
+  // For the app to be in full window.
+  this->showMaximized();
+}
+
+AppController::~AppController() {
+  // Deletes the page stack.
+  delete this->pageStack;
+  
+  // Delete the ui.
+  delete this->ui;
+  
+  // Shutdown the model.
+  this->model.shutdown();
+}
+
+
+void AppController::setupConnections() {
   // Adds the pages stack in his corresponding area of the program ui.
   this->ui->mainLayout->addWidget(this->pageStack, 1, 0);
   // Creates the pos loggin page to manage the user's loggin.
@@ -27,28 +49,8 @@ AppController::AppController(QWidget *parent)
   // Connects the login signal to the controller function to try
   //  start the system.
   this->connect(loginPage, &LoginPage::sendCredentials
-      , this, &AppController::userAccepted);
-  // Connects all the ui elements to their slot functions.
-  this->setupConnections();
+                , this, &AppController::userAccepted);
   
-  // Mostrar en pantalla completa
-  this->showMaximized();
-}
-
-AppController::~AppController() {
-  // Primero, eliminamos el pageStack y su contenido
-  // qDeleteAll(this->pageStack.);  // Elimina todos los widgets de pageStack
-  
-  delete this->pageStack;  // Después eliminamos el pageStack en sí mismo
-  
-  delete this->ui;  // Elimina el UI de la ventana principal
-  
-  // Apaga el modelo POS de manera segura
-  this->model.shutdown();
-}
-
-
-void AppController::setupConnections() {
   // Connects all the pages systen pages buttons to thei slot functions.
   this->connect(this->ui->pos_button, &QPushButton::clicked
                 , this, &AppController::on_pos_button_clicked);
@@ -74,7 +76,7 @@ void AppController::enableButtons() {
 }
 
 void AppController::disableButtons() {
-  // Disables all the system pages buttons.  
+  // Disables all the system pages buttons.
   this->ui->pos_button->setDisabled(true);
   this->ui->inventory_button->setDisabled(true);
   this->ui->sells_button->setDisabled(true);
@@ -186,7 +188,8 @@ void AppController::userAccepted(const User user) {
     this->enableButtons();
     qDebug() << "credenciales aceptadas";
   } else {
-    qDebug() << "Las credenciales de usuario no coinciden.";
+    QMessageBox::information(this, "Credenciales erroneas"
+        , "Por favor, verifique los datos ingresados.");
   }
 }
 

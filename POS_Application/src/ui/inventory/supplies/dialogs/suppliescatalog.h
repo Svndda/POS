@@ -28,7 +28,7 @@ public:
    * @param appModel Reference to the POS_Model instance (default is POS_Model::getInstance()).
    */
   explicit SuppliesCatalog(QWidget *parent = nullptr
-      , POS_Model& appModel = POS_Model::getInstance());
+      , Model& appModel = Model::getInstance());
   
   /**
    * @brief Destructor for the SuppliesCatalog  class.

@@ -8,11 +8,11 @@
 #include <QStackedWidget>
 
 #include "productformdialog.h"
-#include "posmodel.h"
+#include "model.h"
 #include "product.h"
 #include "util.h"
 
-ProductsCatalog::ProductsCatalog(QWidget *parent, POS_Model& model)
+ProductsCatalog::ProductsCatalog(QWidget *parent, Model& model)
     : Catalog(parent, model)
     , ui(new Ui::ProductsCatalog) {
   ui->setupUi(this);

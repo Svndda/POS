@@ -4,7 +4,7 @@
 
 #include <QMainWindow>
 #include <QStackedWidget>
-#include "posmodel.h"
+#include "model.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -38,7 +38,7 @@ public:
 private:
   Ui::MainWindow* ui;                      ///< Pointer to the main UI layout.
   QStackedWidget* pageStack;               ///< Stack widget managing application pages.
-  POS_Model& model = POS_Model::getInstance(); ///< Reference to the POS model singleton.
+  Model& model = Model::getInstance(); ///< Reference to the POS model singleton.
   
 private:
   /**
@@ -61,7 +61,17 @@ private:
    */
   void prepareSystemPages();
   
+  /**
+   * @brief Refreshes the page stack based on the given index.
+   * 
+   * This function checks if the application model is started and retrieves 
+   * the current user's permissions. If the user has access to the requested 
+   * page, it switches to the corresponding page.
+   * 
+   * @param stackIndex The index of the page stack to switch to.
+   */
   void refreshPageStack(const size_t pageIndex);
+  
   /**
    * @brief Switches the displayed page in the stack widget.
    * @param pageIndex The index of the page to display.
@@ -94,12 +104,20 @@ private slots:
    */
   void on_settings_button_clicked();
   
+private slots:
   /**
    * @brief Processes the accepted user credentials.
    * @param user The authenticated user.
    */
   void userAccepted(const User user);
   
+  /**
+   * @brief Resets the application state to its initial configuration.
+   * 
+   * This function shuts down the model and resets the page stack to its 
+   * initial state by setting the current index to 0, which corresponds
+   * to the login page.
+   */
   void resetApplicationState();
 };
 #endif // APPCONTROLLER_H

@@ -3,6 +3,7 @@
 #define UTIL_H
 
 #include <QLabel>
+#include <qprinter.h>
 
 /**
  * @class Util
@@ -34,17 +35,38 @@ class Util {
    */
   static void updatePrefixedLabel(QWidget* view, const QString& labelPrefix
       , const size_t labelIt, const QString& value);
-    
+  
   /**
-   * @brief Clones a QLabel.
-   *
-   * Creates a new QLabel that is a clone of the original label by copying its key attributes
-   * such as text, alignment, style, font, pixmap, size policy, and geometry.
-   *
-   * @param original Pointer to the original QLabel to clone.
-   * @return A pointer to the newly created QLabel clone.
+   * @brief Prints a line with word wrapping
+   * @param painter Painter to use
+   * @param text Text to print
+   * @param y Current y position (updated by function)
+   * @param bold Whether to print in bold
+   * @param metrics Font metrics for calculations
+   * @param margin Page margins
+   * @param contentWidth Available content width
+   * @param lineHeight Height of each line
    */
-  static QLabel* cloneLabel(QLabel* original);
+  static void printWrappedLine(QPainter &painter, const QString &text
+      , int &y, const bool bold, const QFontMetrics &metrics, const int margin
+      , const int contentWidth, const int lineHeight);
+  
+  /**
+   * @brief Attempts to configure a printer for receipt printing
+   * @param parent Parent widget for dialogs
+   * @param preferredPrinterName Name of the preferred printer (default "POS-80C")
+   * @return Configured QPrinter object if successful, nullptr otherwise
+   * @note The caller takes ownership of the returned QPrinter object
+   */
+  static std::unique_ptr<QPrinter> systemPrinter(
+      QWidget *parent, const QString &preferredPrinterName);
+private:
+  /**
+  * @brief Gets the printable width of the currently selected printer in millimeters
+  * @param printer Reference to the configured QPrinter object
+  * @return Printable width in millimeters, or default 80mm if cannot be determined
+  */
+  static qreal getPrintableWidth(QPrinter &printer);
 };
 
 #endif // UTIL_H

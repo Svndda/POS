@@ -6,7 +6,7 @@
 #include "ui_loginpage.h"
 
 LoginPage::LoginPage(QWidget *parent,
-  POS_Model& model) :
+  Model& model) :
   QWidget(parent)
     , appModel(model)
     , ui(new Ui::LoginPage) {
@@ -30,6 +30,9 @@ void LoginPage::on_sendCredentials_button_clicked() {
   if (!(email.isEmpty() && password.isEmpty())) {
     User user(0, email.toStdString());
     user.setPassword(password.toStdString());
+    this->ui->email_lineEdit->clear();
+    this->ui->password_lineEdit->clear();
+    
     emit this->sendCredentials(user);
   } else {
     QMessageBox::warning(this, "Error"

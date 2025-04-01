@@ -14,7 +14,7 @@ qt_add_executable(POS_Application
   src/main.cpp
   
   src/model/backupmodule.h src/model/backupmodule.cpp
-  src/model/posmodel.h src/model/posmodel.cpp
+  src/model/model.h src/model/model.cpp
   src/model/product.h src/model/product.cpp
   src/model/supply.h src/model/supply.cpp
   src/model/receipt.h src/model/receipt.cpp

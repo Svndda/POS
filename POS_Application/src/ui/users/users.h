@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "posmodel.h"
+#include "model.h"
 #include "catalog.h"
 
 namespace Ui {
@@ -15,11 +15,11 @@ class Users : public Catalog {
   
 private:
   Ui::Users* ui;
-  POS_Model& model = POS_Model::getInstance();
+  Model& model = Model::getInstance();
 
 public:
   explicit Users(QWidget* parent = nullptr
-      , POS_Model& appModel = POS_Model::getInstance());
+      , Model& appModel = Model::getInstance());
   ~Users();
   
 protected:

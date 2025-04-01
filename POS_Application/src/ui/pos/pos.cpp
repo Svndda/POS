@@ -6,7 +6,7 @@
 #include "billingpage.h"
 #include "cashierpage.h"
 
-Pos::Pos(QWidget *parent, POS_Model& appModel)
+Pos::Pos(QWidget *parent, Model& appModel)
     : QWidget(parent)
     , ui(new Ui::Pos)
     , model(appModel) {

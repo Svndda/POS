@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "posmodel.h"
+#include "model.h"
 
 namespace Ui {
 class Personalization;
@@ -14,11 +14,11 @@ class Personalization : public QWidget {
   
 private:
   Ui::Personalization *ui;
-  POS_Model& model;
+  Model& model;
   
 public:
   explicit Personalization(QWidget *parent = nullptr
-      , POS_Model& model = POS_Model::getInstance());
+      , Model& model = Model::getInstance());
   ~Personalization();
 
 };

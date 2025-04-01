@@ -8,17 +8,16 @@
 #include "categoriescatalog.h"
 #include "productscatalog.h"
 #include "suppliescatalog.h"
-#include "posmodel.h"
+#include "model.h"
 
-Inventory::Inventory(QWidget *parent, POS_Model& appModel)
+Inventory::Inventory(QWidget *parent, Model& appModel)
     : QWidget(parent)
     , ui(new Ui::Inventory)
     , model(appModel) {
   this->ui->setupUi(this);
   this->catalogStack = new QStackedWidget();
   this->catalogStack->setStyleSheet(
-      "QStackedWidget {"
-      " background-color: white;}");
+      "QStackedWidget {background-color: white;}");
   
   ProductsCatalog* products = new ProductsCatalog(this, this->model);  
   CategoriesCatalog* categories = new CategoriesCatalog(this, this->model);
@@ -86,7 +85,8 @@ void Inventory::switchCatalog(const size_t index) {
   for (int i = 0; i < buttons.size(); ++i) {
     const bool isSelected = (i == index);
     buttons[i]->setChecked(isSelected);
-    // Use a conditional to set the style sheet: green for selected, transparent otherwise.
+    // Use a conditional to set the style sheet: green for selected
+    // , transparent otherwise.
     widgets[i]->setStyleSheet(
         QString("QWidget { background-color: %1; }")
             .arg(isSelected ? "rgb(0, 153, 73)" : "transparent")

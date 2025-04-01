@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "posmodel.h"
+#include "model.h"
 
 namespace Ui {
 class Logout;
@@ -15,11 +15,11 @@ class Logout : public QWidget
   
 private:
   Ui::Logout *ui;
-  POS_Model& model;
+  Model& model;
 
 public:
   explicit Logout(QWidget *parent = nullptr
-      , POS_Model& model = POS_Model::getInstance());
+      , Model& model = Model::getInstance());
   ~Logout();
   
 private slots:

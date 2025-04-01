@@ -5,7 +5,7 @@
 #include "assistance.h"
 #include "logout.h"
 
-Settings::Settings(QWidget *parent, POS_Model& appModel)
+Settings::Settings(QWidget *parent, Model& appModel)
     : QWidget(parent)
     , ui(new Ui::Settings)
     , model(appModel) {

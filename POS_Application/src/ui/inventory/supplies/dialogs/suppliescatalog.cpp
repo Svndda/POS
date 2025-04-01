@@ -6,12 +6,12 @@
 #include <string>
 #include <QMessageBox>
 
-#include "posmodel.h"
+#include "model.h"
 #include "util.h"
 #include "supply.h"
 #include "supplyformdialog.h"
 
-SuppliesCatalog::SuppliesCatalog(QWidget *parent, POS_Model& model)
+SuppliesCatalog::SuppliesCatalog(QWidget *parent, Model& model)
     : Catalog(parent, model)
     , ui(new Ui::SuppliesCatalog) {
   this->ui->setupUi(this);

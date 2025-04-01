@@ -5,7 +5,7 @@
 #include <QStackedWidget>
 #include <QPrinter>
 
-#include "posmodel.h"
+#include "model.h"
 
 namespace Ui {
 /**
@@ -30,7 +30,7 @@ class Pos : public QWidget {
   
 private:
   Ui::Pos* ui = nullptr;         ///< Pointer to the UI elements of the POS interface.
-  POS_Model& model;              ///< Reference to the POS_Model singleton.
+  Model& model;              ///< Reference to the POS_Model singleton.
   QStackedWidget* pagesStack = nullptr; ///< Stack widget to manage the orders.
   
 public:  
@@ -44,7 +44,7 @@ public:
    * @param appModel Reference to the POS_Model instance (defaults to the singleton instance).
    */
   explicit Pos(QWidget *parent = nullptr,
-      POS_Model &appModel = POS_Model::getInstance());
+      Model &appModel = Model::getInstance());
   
   /**
    * @brief Destroys the Pos object and cleans up allocated resources.

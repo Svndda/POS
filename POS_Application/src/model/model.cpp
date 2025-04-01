@@ -7,21 +7,21 @@
 #include <QPrinterInfo>
 #include <QPrintDialog>
 
-#include "posmodel.h"
+#include "model.h"
 #include "backupmodule.h"
 #include "order.h"
 
-POS_Model::POS_Model(BackupModule& module)
+Model::Model(BackupModule& module)
     : backupModule(module) {
 }
 
-POS_Model& POS_Model::getInstance() {
+Model& Model::getInstance() {
   // Creates an static instance of the POS MODEL.
-  static POS_Model instance(BackupModule::getInstance());
+  static Model instance(BackupModule::getInstance());
   return instance;
 }
 
-bool POS_Model::start(const User& user) {
+bool Model::start(const User& user) {
   // Obtains the registrered users information.
   this->registeredUsers = this->backupModule.getUsersBackup();
   qDebug() << "usuarios registrados: " << this->registeredUsers.size();
@@ -37,7 +37,7 @@ bool POS_Model::start(const User& user) {
   return this->started;
 }
 
-void POS_Model::shutdown() {
+void Model::shutdown() {
   // Cheks if the model is started.
   if (this->isStarted()) {
     // Writes out the registers of the products information.
@@ -58,30 +58,29 @@ void POS_Model::shutdown() {
   }
 }
 
-void POS_Model::openCashier() {
+void Model::openCashier() {
   this->ongoingReceipts.clear();
   this->cashierOpened = true;
 }
 
-void POS_Model::closeCashier() {
-  for (const auto& receipt : this->ongoingReceipts) {
-    this->registeredReceipts.emplace_back(receipt);
-  }
+void Model::closeCashier() {
+  // Checks if the cashier has receipts.
   if (!this->ongoingReceipts.empty()) {
+    // Inserts the cashier receipts into the backup ones.
+    for (const auto& receipt : this->ongoingReceipts) {
+      this->registeredReceipts.emplace_back(receipt);
+    }
+    // Updates the backup receipts.
     this->backupModule.updateReceiptsBackup(this->registeredReceipts.size()
         ,this->registeredReceipts);
+    // Clears the cashier receipts.
     this->ongoingReceipts.clear();
   }
+  // Sets the cashier state to false.
   this->cashierOpened = false;
 }
 
-size_t POS_Model::getPageAccess(const size_t page) {
-  const std::vector<User::PageAccess> permissions
-      = this->user.getUserPermissions();
-  return permissions[page].access;
-}
-
-std::vector<std::string> POS_Model::getRegisteredCategories() {
+std::vector<std::string> Model::getRegisteredCategories() {
   // Temporal vector to store the names of the registered categories.
   std::vector<std::string> categories;
   // Iterates through the categories register.
@@ -93,7 +92,7 @@ std::vector<std::string> POS_Model::getRegisteredCategories() {
   return categories;
 }
 
-size_t POS_Model::getSizeOfCategory(std::string category) {
+size_t Model::getSizeOfCategory(std::string category) {
   // Temporal value to retunr in case the categories registers is zero.
   size_t no_value = std::numeric_limits<size_t>::max();
   // Checks that the category register name isn't empaty.
@@ -110,7 +109,7 @@ size_t POS_Model::getSizeOfCategory(std::string category) {
   return no_value;
 }
 
-std::vector<std::pair<std::string, Product>> POS_Model::getProductsForPage(
+std::vector<std::pair<std::string, Product>> Model::getProductsForPage(
     const size_t pageIndex, const size_t itemsPerPage) {
   // Calculate the starting and end index for the products of this page.
   size_t startIdx = pageIndex * itemsPerPage;
@@ -127,7 +126,7 @@ std::vector<std::pair<std::string, Product>> POS_Model::getProductsForPage(
   return pageProducts;
 }
 
-std::vector<std::string> POS_Model::getCategoriesForPage(const size_t pageIndex
+std::vector<std::string> Model::getCategoriesForPage(const size_t pageIndex
     , const size_t itemsPerPage) {
   // Calculate the starting and end index for the products of this page.  
   size_t startIdx = pageIndex * itemsPerPage;  
@@ -150,7 +149,7 @@ std::vector<std::string> POS_Model::getCategoriesForPage(const size_t pageIndex
   return registeredCategories;
 }
 
-std::vector<Supply> POS_Model::getSuppliesForPage(const size_t pageIndex
+std::vector<Supply> Model::getSuppliesForPage(const size_t pageIndex
     , const size_t itemsPerPage) {
   // Calculate the starting and end index for the products of this page.  
   size_t startIdx = pageIndex * itemsPerPage;  
@@ -170,7 +169,7 @@ std::vector<Supply> POS_Model::getSuppliesForPage(const size_t pageIndex
   return pageSupplies;
 }
 
-std::vector<User> POS_Model::getUsersForPage(const size_t pageIndex
+std::vector<User> Model::getUsersForPage(const size_t pageIndex
     , const size_t itemsPerPage) {
   // Calculate the starting and end index for the user of this page.  
   size_t startIdx = pageIndex * itemsPerPage;  
@@ -191,7 +190,7 @@ std::vector<User> POS_Model::getUsersForPage(const size_t pageIndex
   return pageUsers;
 }
 
-Product& POS_Model::findProduct(const std::string& productName) {
+Product& Model::findProduct(const std::string& productName) {
   // Iterates through the categories register.
   for (auto& [category, products] : this->categories) {
     // Iterates through the category's products.
@@ -206,28 +205,38 @@ Product& POS_Model::findProduct(const std::string& productName) {
   throw std::runtime_error("Product not found: " + productName);  
 }
 
-bool POS_Model::generateReceipt(const Order& order) {
+bool Model::generateReceipt(const Order& order) {
+  // Creates a new receipt from the given order.
   Receipt newReceipt("Macana's Place"
       , ++this->currentReceiptID, this->user.getUsername().data(), order
   );
+  // Emplace the receipt into the cashier receipts.
   this->ongoingReceipts.emplace_back(newReceipt);
-  this->printReceipts();
   
-  std::vector<std::pair<Product, size_t>> orderElements
-      = order.getOrderProducts();
+  // Obstains the products information from the order.
+  std::vector<std::pair<Product, size_t>> productsInfo
+      = order.getProducts();
   
-  for (const auto& element : orderElements) {
+  // Tranverse all the products from the order.
+  for (const auto& element : productsInfo) {
+    // Obtains the products quantity.
     const size_t quantity = element.second;
+    // Obtains the product's ingredients.
     const std::vector<Supply> productSupplies = element.first.getIngredients();
+    // Tranverse all the product's ingredients.
     for (const auto& supply : productSupplies) {
+      // Obtains the supply's name.
       const std::string supplyName = supply.getName();
+      // Try to find the supply into the registered supplies.
       auto it = std::find_if(this->supplies.begin(), this->supplies.end(),
           [supplyName](const Supply& registeredSupply) {
           return registeredSupply.getName() == supplyName;
       });
       
+      // Checks if the supply was registered.
       if (it != this->supplies.end()) {
         const size_t registerIndex = std::distance(this->supplies.begin(), it);
+        // Decrements the product's ingredients from the registered supplies.
         for (size_t i = 0; i < quantity; ++i) {
           if (this->supplies[registerIndex].getQuantity() > 0) {
             this->supplies[registerIndex] - supply;
@@ -243,7 +252,7 @@ bool POS_Model::generateReceipt(const Order& order) {
   return true;
 }
 
-bool POS_Model::addProduct(const std::string& category
+bool Model::addProduct(const std::string& category
     , const Product& product) {
   // Checks that the given product and category isn't empty.
   if (!category.empty() && !(product == Product())) {
@@ -258,7 +267,7 @@ bool POS_Model::addProduct(const std::string& category
   return false;
 }
 
-bool POS_Model::addCategory(const std::string newCategory) {
+bool Model::addCategory(const std::string newCategory) {
   // Checks that the given new category isn't empty.
   if (!newCategory.empty()) {
     // Try to emplace the new category into the categories register.
@@ -274,7 +283,7 @@ bool POS_Model::addCategory(const std::string newCategory) {
   return false;
 }
 
-bool POS_Model::addSupply(const Supply newSupply) {
+bool Model::addSupply(const Supply newSupply) {
   // Temporal to adapt to avoid checking the measure, cause the ui always give
   // it.
   const Supply baseSupply("", 0, newSupply.getMeasure());
@@ -300,7 +309,7 @@ bool POS_Model::addSupply(const Supply newSupply) {
   return false;
 }
 
-bool POS_Model::addUser(const User newUser) {
+bool Model::addUser(const User newUser) {
   // Temporal to adapt to avoid checking the measure, cause the ui always give
   // it.
   const User baseUser;
@@ -326,7 +335,7 @@ bool POS_Model::addUser(const User newUser) {
   return false;
 }
 
-bool POS_Model::removeProduct(const std::string& category
+bool Model::removeProduct(const std::string& category
     , const Product& product) {
   // Checks that the given category and product aren't empty.
   if (!category.empty() && !(product == Product())) {
@@ -341,7 +350,7 @@ bool POS_Model::removeProduct(const std::string& category
   return false;
 }
 
-bool POS_Model::removeCategory(const std::string category) {
+bool Model::removeCategory(const std::string category) {
   // Checks that the category isn't empty.
   if (!category.empty()) {
     // Try to erase the category key and related data from the
@@ -358,7 +367,7 @@ bool POS_Model::removeCategory(const std::string category) {
   return false;
 }
 
-bool POS_Model::removeSupply(const Supply &supply) {
+bool Model::removeSupply(const Supply &supply) {
   // Checks that the supply contain or not information.
   if (!supply.empty()) {
     // Try to find the supply in the exitisting supplies in the pos.
@@ -381,7 +390,7 @@ bool POS_Model::removeSupply(const Supply &supply) {
   return false;
 }
 
-bool POS_Model::removeUser(const User& user) {
+bool Model::removeUser(const User& user) {
   // Checks that the user contain or not information.
   if (!(user == User())) {
     // Try to find the user in the exitisting users in the pos.
@@ -405,7 +414,7 @@ bool POS_Model::removeUser(const User& user) {
   return false;
 }
 
-bool POS_Model::editProduct(const std::string& oldCategory
+bool Model::editProduct(const std::string& oldCategory
     , const Product& oldProduct, const std::string& newCategory
     , const Product& newProduct) {
   // Try to erase the old product information from the category registers, then.
@@ -419,7 +428,7 @@ bool POS_Model::editProduct(const std::string& oldCategory
   return false;
 }
 
-bool POS_Model::editCategory(const std::string oldCategory
+bool Model::editCategory(const std::string oldCategory
     , const std::string newCategory) {
   // Checks that the categories names aren't empty.
   if (!oldCategory.empty() && !newCategory.empty()) {
@@ -443,7 +452,7 @@ bool POS_Model::editCategory(const std::string oldCategory
   return false;
 }
 
-bool POS_Model::editSupply(const Supply& oldSupply
+bool Model::editSupply(const Supply& oldSupply
     , const Supply& newSupply) {
   // Checks that the provided supplies aren't equal.
   if (!(oldSupply == newSupply) && !newSupply.empty()) {
@@ -467,7 +476,7 @@ bool POS_Model::editSupply(const Supply& oldSupply
   return false;
 }
 
-bool POS_Model::editUser(const User& oldUser
+bool Model::editUser(const User& oldUser
     , const User& newUser) {
   qDebug() << "Modelo revisando la edicion de usuarios.";
   
@@ -495,7 +504,7 @@ bool POS_Model::editUser(const User& oldUser
   return false;
 }
 
-QString POS_Model::formatProductIngredients(
+QString Model::formatProductIngredients(
     const std::vector<Supply>& ingredients) {
   // Qstring temporal to contain all the product's ingredients information.
   QString formattedProductIngredients = "";
@@ -516,7 +525,7 @@ QString POS_Model::formatProductIngredients(
   return formattedProductIngredients;
 }
 
-QString POS_Model::formatUserPermissions(const User user) {
+QString Model::formatUserPermissions(const User user) {
   QString formattedPermissions = "";
   
   QString pageAccessAllowed("Visualizar. ");
@@ -552,7 +561,7 @@ QString POS_Model::formatUserPermissions(const User user) {
   return formattedPermissions;
 }
 
-bool POS_Model::isUserRegistered(const User& user) {
+bool Model::isUserRegistered(const User& user) {
   // Transverse all the registered users.
   for (size_t i = 0; i < this->registeredUsers.size(); ++i) {
     // Checks if the given user information matches.
@@ -566,7 +575,7 @@ bool POS_Model::isUserRegistered(const User& user) {
   return false;
 }
 
-void POS_Model::loadSystemBackups() {
+void Model::loadSystemBackups() {
   // Reads and store the backup to the program memory to use them in the
   // program execution.
   this->categories = this->backupModule.getProductsBackup();
@@ -576,7 +585,7 @@ void POS_Model::loadSystemBackups() {
   this->currentReceiptID = this->registeredReceipts.size();
 }
 
-void POS_Model::obtainProducts(
+void Model::obtainProducts(
     std::vector<std::pair<std::string, Product>>& existingProducts
     , const std::map<std::string, std::vector<Product>>& categoryRegisters) {
   existingProducts.clear();
@@ -590,7 +599,7 @@ void POS_Model::obtainProducts(
   }
 }
 
-bool POS_Model::emplaceProduct(const std::string productCategory
+bool Model::emplaceProduct(const std::string productCategory
     , const Product& product
     , std::map<std::string, std::vector<Product>>& categoriesRegister) {
   // Transverse all the registered product categories.
@@ -618,7 +627,7 @@ bool POS_Model::emplaceProduct(const std::string productCategory
   return false;
 }
 
-bool POS_Model::eraseProduct(const std::string productCategory
+bool Model::eraseProduct(const std::string productCategory
     , const Product& product
     , std::map<std::string, std::vector<Product>>& categoriesRegister) {
   // Transverse all the registered product categories.

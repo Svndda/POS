@@ -137,6 +137,7 @@ public:
     return *this;
   }
   
+  friend std::istream& operator>>(std::istream& is, Supply& supply);
   friend std::ostream& operator<<(std::ostream& os, const Supply& supply);
 
 // Class Getters.
@@ -182,6 +183,15 @@ public:
    */
   inline void setQuantity(const uint64_t newQuantity) {
     this->quantity = newQuantity;
+  }
+  
+  /**
+   * @brief Sets the measure unit of the supply item.
+   * 
+   * @param newMeasure The new measure unit for the supply item.
+   */
+  inline void setMeasure(const std::string& newMeasure) {
+    this->measureUnit = newMeasure;
   }
 };
 

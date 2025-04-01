@@ -3,7 +3,7 @@
 
 #include <QMessageBox>
 
-Logout::Logout(QWidget *parent, POS_Model& appmodel)
+Logout::Logout(QWidget *parent, Model& appmodel)
     : QWidget(parent)
     , ui(new Ui::Logout)
     , model(appmodel) {

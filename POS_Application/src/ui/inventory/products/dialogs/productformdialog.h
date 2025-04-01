@@ -56,7 +56,7 @@ public:
    * @param productCategory The initial category for the product.
    */
   explicit ProductFormDialog(QWidget *parent
-      , std::map<std::string, std::vector<Product>>& products
+      , const std::map<std::string, std::vector<Product>>& products
       , Product productToCreate
       , QString productCategory);
   

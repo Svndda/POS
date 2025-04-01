@@ -32,8 +32,10 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(218, 213, 207);
-color: black;</string>
+   <string notr="true">QWidget {
+	color: black;
+	background-color: rgb(237, 233, 230);
+}</string>
   </property>
   <layout class="QGridLayout" name="mainLayout">
    <property name="leftMargin">
@@ -128,7 +130,7 @@ color: black;</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {
-  background: transparent;
+  background-color: transparent;
   border: none;
  color: rgb(0, 0, 0);
   text-align: center;
@@ -148,7 +150,7 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  background-color: transparent;     /* Fondo deshabilitado */
   color: #7f8c8d;                /* Color del texto deshabilitado */
 }
 
@@ -210,7 +212,7 @@ QPushButton:checked {
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-  background: transparent;
+  background-color: transparent;
   border: none;
  color: rgb(0, 0, 0);
   text-align: center;
@@ -230,7 +232,7 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  background-color: transparent;     /* Fondo deshabilitado */
   color: #7f8c8d;                /* Color del texto deshabilitado */
 }
 
@@ -288,7 +290,7 @@ QPushButton:checked {
          </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
-  background: transparent;
+  background-color: transparent;
   border: none;
  color: rgb(0, 0, 0);
   text-align: center;
@@ -308,7 +310,7 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-  background-color: rgb(39, 39, 43);     /* Fondo deshabilitado */
+  background-color: transparent;     /* Fondo deshabilitado */
   color: #7f8c8d;                /* Color del texto deshabilitado */
 }
 

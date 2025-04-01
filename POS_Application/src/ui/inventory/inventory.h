@@ -1,11 +1,11 @@
-// Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
+// Copyright [2025] Aaron Carmona Sanchez <aaroncz032@gmail.com>
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
 #include <QWidget>
 #include <QStackedWidget>
 #include <QPushButton>
-#include "posmodel.h"
+#include "model.h"
 
 namespace Ui {
 class Inventory;
@@ -13,10 +13,10 @@ class Inventory;
 
 /**
  * @class Inventory
- * @brief Handles the user interface and logic for managing products in the POS system.
+ * @brief Handles the user interface and logic for managing the inventoy in the POS system.
  * 
  * This class extends the Inventory interface to display the different registered catalogs in the system
- * using a paginated UI. It uses a model (`POS_Model`) to interact with 
+ * using a paginated UI. It uses a pos model (`Model`) to interact with 
  * the underlying data.
  */
 class Inventory : public QWidget {
@@ -24,7 +24,7 @@ class Inventory : public QWidget {
   
 private:
   Ui::Inventory* ui;               ///< Pointer to the UI elements for the Products class.
-  POS_Model& model;                ///< Reference to the POS model instance.
+  Model& model;                ///< Reference to the Model instance.
   QStackedWidget* catalogStack;    ///< Pointer to the stack of inventory's catalog pages.
 
 public:
@@ -32,10 +32,10 @@ public:
    * @brief Constructor for the Inventory class.
    * 
    * @param parent The parent QWidget (default is nullptr).
-   * @param model Reference to the singleton POS_Model instance.
+   * @param model Reference to the singleton Model instance.
    */
   explicit Inventory(QWidget *parent = nullptr
-      , POS_Model& model = POS_Model::getInstance());
+      , Model& model = Model::getInstance());
   
   /**
    * @brief Destructor for the Inventory class.

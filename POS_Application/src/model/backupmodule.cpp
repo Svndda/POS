@@ -47,14 +47,16 @@ std::vector<User> BackupModule::getUsersBackup() {
   std::vector<User> registeredUsers;
   // Obtains and store the users information into the temporal vector.
   this->readUsersBackup(registeredUsers);
-  
   // Returns the users's information.
   return registeredUsers;
 }
 
 std::vector<Receipt> BackupModule::getReceiptsBackup() {
+  // Temporal vector to store the registered receipts.
   std::vector<Receipt> registeredReceipts;
+  // Obtains and store the receipts backup information into the vector.
   this->readReceiptsBackup(registeredReceipts);
+  // Returns the receipts information.
   return registeredReceipts;
 }
 
@@ -65,25 +67,25 @@ void BackupModule::readProductsBackup(
   // Try to open the input file name/file path.
   std::ifstream file(filename);
   if (!file) {
-    // Obtiene la ruta del directorio
+    // Obtain the path to the directory.
     QFileInfo fileInfo(QString::fromStdString(filename));
     QDir dir = fileInfo.absoluteDir();
     
-    // Crea la carpeta si no existe
+    // Create the directory if not exist.
     if (!dir.exists()) {
       if (!dir.mkpath(".")) {
-        throw std::runtime_error("No se pudo crear el directorio para el archivo: " + filename);
+        throw std::runtime_error(
+            "No se pudo crear el directorio para el archivo: " + filename);
       }
     }
     
-    // Intenta crear el archivo
+    // Try to create the file.
     std::ofstream newFile(filename, std::ios::out);
     if (!newFile) {
       throw std::runtime_error("No se pudo crear el archivo: " + filename);
     }
     newFile.close();
     return;
-    // throw std::runtime_error("No se pudo abrir el archivo: " + filename);
   }
   
   // Crear un objeto de tipo std::filesystem::path
@@ -190,7 +192,7 @@ void BackupModule::readSupplyItemsBackup(std::vector<Supply>& supplies) {
       }
     }
     
-    // Intenta crear el archivo
+    // Try to create the file
     std::ofstream newFile(this->SUPPLIES_BACKUP_FILE, std::ios::out);
     if (!newFile) {
       throw std::runtime_error(
@@ -202,19 +204,16 @@ void BackupModule::readSupplyItemsBackup(std::vector<Supply>& supplies) {
   
   // Temporal to store the indexed line of the supply's file.
   std::string line;
-  // Temporals to store the supply's information.
-  std::string name;;
-  uint64_t quantity;
-  std::string measure;
   
   // While there's line to read on the file.
   while(std::getline(file, line)) {
     // Creates a buffer from the actual line.
     std::istringstream stream(line);
-    // Reads the name, quantity and measure of the supply backup.
-    stream >> name >> quantity >> measure;
+    Supply supply;
+    // Reads the information from the file.
+    stream >> supply;
     // Emplace a new supply on the givel vector of supplies.
-    supplies.emplace_back(name, quantity, measure);
+    supplies.emplace_back(supply);
   }
 }
 
@@ -222,11 +221,11 @@ void BackupModule::readUsersBackup(std::vector<User>& registeredUsers) {
   // Opens the users's backup file in binary read mode.
   std::ifstream inFile(this->USERS_BACKUP_FILE, std::ios::binary);
   if (!inFile) {
-    // Obtiene la ruta del directorio
+    // Obtain the path of the users's backup file.
     QFileInfo fileInfo(QString::fromStdString(this->USERS_BACKUP_FILE));
     QDir dir = fileInfo.absoluteDir();
     
-    // Crea la carpeta si no existe
+    // Creates the folder if doesn't exist.
     if (!dir.exists()) {
       if (!dir.mkpath(".")) {
         throw std::runtime_error(
@@ -235,12 +234,14 @@ void BackupModule::readUsersBackup(std::vector<User>& registeredUsers) {
       }
     }
     
-    // Intenta crear el archivo
-    std::ofstream newFile(this->USERS_BACKUP_FILE, std::ios::out | std::ios::binary);
+    // Try to create the file.
+    std::ofstream newFile(this->USERS_BACKUP_FILE
+        , std::ios::out | std::ios::binary);
     if (!newFile) {
       throw std::runtime_error(
           "No se pudo crear el archivo: " + this->USERS_BACKUP_FILE);
     }
+    // Creates the admin app permissions.
     const std::vector<User::PageAccess> adminPermissions {
       User::PageAccess(0, User::PageAccess::EDITABLE)
       , User::PageAccess(1, User::PageAccess::EDITABLE)
@@ -249,14 +250,16 @@ void BackupModule::readUsersBackup(std::vector<User>& registeredUsers) {
       , User::PageAccess(4, User::PageAccess::EDITABLE)
       , User::PageAccess(5, User::PageAccess::EDITABLE)
     };
+    // Creates the admin user as the default user.
     User admin(0, "admin", adminPermissions);
     admin.setPassword("Svndda03");
     
     // Save the users quantity into the file.
     size_t numUsers = 1;
     newFile.write(reinterpret_cast<const char*>(&numUsers), sizeof(numUsers));
-    
+    // Writes out the admin's user information into the created file.
     admin.saveToBinary(newFile);
+    // Close the file.
     newFile.close();
     return;
   }
@@ -281,32 +284,34 @@ void BackupModule::readUsersBackup(std::vector<User>& registeredUsers) {
 
 void BackupModule::readReceiptsBackup(
     std::vector<Receipt>& registeredReceipts) {
-  // Abre el archivo en modo binario
+  // Open the receipt's file in binary mode.
   std::ifstream inFile(this->RECEIPTS_BACKUP_FILE, std::ios::binary);
   if (!inFile) {
-    // Obtiene la ruta del directorio
+    // Obtain the directory path.
     QFileInfo fileInfo(QString::fromStdString(this->RECEIPTS_BACKUP_FILE));
     QDir dir = fileInfo.absoluteDir();
     
-    // Crea la carpeta si no existe
+    // Creates the directory if not exists.
     if (!dir.exists() && !dir.mkpath(".")) {
       throw std::runtime_error(
           "No se pudo crear el directorio para el archivo: "
           + this->RECEIPTS_BACKUP_FILE);
     }
     
-    // Intenta crear el archivo vacío
+    // Try to create the receipts file.
     std::ofstream newFile(this->RECEIPTS_BACKUP_FILE
         , std::ios::out | std::ios::binary);
     if (!newFile) {
       throw std::runtime_error(
           "No se pudo crear el archivo: " + this->RECEIPTS_BACKUP_FILE);
     }
+    // Close the file cause the file has been created, and theres nothing to
+    // read.
     newFile.close();
-    return;  // Archivo recién creado, no hay nada que leer
+    return;
   }
   
-  // Lee la cantidad de recibos almacenados
+  // Read the number of receipts on file.
   size_t receiptsQuantity = 0;
   if (!inFile.read(reinterpret_cast<char*>(&receiptsQuantity)
       , sizeof(receiptsQuantity))) {
@@ -314,13 +319,13 @@ void BackupModule::readReceiptsBackup(
         "Error al leer la cantidad de recibos desde el archivo.");
   }
   
-  // Limpia el vector antes de cargar los datos
+  // Cleans the given vector before hand.
   registeredReceipts.clear();
   
-  // Lee cada recibo del archivo y lo almacena en el vector
+  // Reads each receipt on file and emplace it into the vector.
   for (size_t i = 0; i < receiptsQuantity; ++i) {
     Receipt receipt;
-    if (!(inFile >> receipt)) {  // Verifica si la lectura fue exitosa
+    if (!(inFile >> receipt)) {
       throw std::runtime_error("Error al leer un recibo desde el archivo.");
     }
     registeredReceipts.push_back(receipt);
@@ -470,7 +475,7 @@ void BackupModule::writeSuppliesBackup(
     throw std::runtime_error("No se pudo abrir el archivo para escritura: "
         + this->SUPPLIES_BACKUP_FILE);
   }
-  
+    
   // Writes out the supplies information into the file.
   for (const auto& supply : supplies) {
     file << supply << "\n";

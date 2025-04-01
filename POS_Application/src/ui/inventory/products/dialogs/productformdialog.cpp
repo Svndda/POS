@@ -9,7 +9,7 @@
 #include "ui_productformdialog.h"
 
 ProductFormDialog::ProductFormDialog(QWidget *parent
-    , std::map<std::string, std::vector<Product>>& products
+    , const std::map<std::string, std::vector<Product>>& products
     , Product product
     , QString category)
     : QDialog(parent)

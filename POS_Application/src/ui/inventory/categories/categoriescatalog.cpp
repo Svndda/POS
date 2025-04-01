@@ -7,7 +7,7 @@
 
 #include "util.h"
 
-CategoriesCatalog::CategoriesCatalog(QWidget *parent, POS_Model& model)
+CategoriesCatalog::CategoriesCatalog(QWidget *parent, Model& model)
     : Catalog(parent, model)
     , ui(new Ui::CategoriesCatalog) {
   this->ui->setupUi(this);

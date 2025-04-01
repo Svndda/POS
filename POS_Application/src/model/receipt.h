@@ -7,72 +7,140 @@
 #include "product.h"
 #include "order.h"
 
+/**
+ * @class Receipt
+ * @brief Represents a sales receipt with all relevant transaction information
+ * 
+ * This class encapsulates all data needed for a sales receipt including
+ * business information, sold products, payment method, and totals.
+ */
 class Receipt {
-  
 private:
-  QString businessName; ///< Nombre del negocio
-  size_t ID;            ///< Identificador único del recibo
-  QString dateTime;     ///< Fecha y hora
-  QString user;         ///< Usuario
-  std::vector<std::pair<Product, size_t>> products; ///< Productos en el recibo (producto, cantidad)
-  QString paymentMethod; ///< Método de pago
-  double receivedAmount; ///< Cantidad recibida
-  double price;          ///< Precio total
-
-public:  
-  explicit Receipt(const QString myBusinessName = QString()
-      , const size_t myID = 0
-      , const QString myDateTime = QString()
-      , const QString myUser = QString()
-      , const std::vector<std::pair<Product, size_t>> myProducts
-      = std::vector<std::pair<Product, size_t>>()
-      , const QString myPaymentMethod = QString()
-      , const double myReceivedAmount = 0
-      , const double myPrice = 0);
+  QString businessName;  ///< Name of the business
+  size_t ID;            ///< Unique receipt identifier
+  QString dateTime;     ///< Transaction date and time
+  QString user;         ///< User who processed the sale
+  std::vector<std::pair<Product, size_t>> products;  ///< Sold products with quantities
+  QString paymentMethod;  ///< Payment method used
+  double receivedAmount;  ///< Amount received from customer
+  double price;          ///< Total price of the transaction
   
+public:
+  /**
+     * @brief Primary constructor
+     * @param myBusinessName Name of the business
+     * @param myID Unique receipt identifier
+     * @param myDateTime Transaction date and time
+     * @param myUser User who processed the sale
+     * @param myProducts List of sold products (product + quantity pairs)
+     * @param myPaymentMethod Payment method used
+     * @param myReceivedAmount Amount received from customer
+     * @param myPrice Total price of the transaction
+     */
+  Receipt(const QString myBusinessName = ""
+          , const size_t myID = 0
+          , const QString myDateTime = ""
+          , const QString myUser = ""
+          , const std::vector<std::pair<Product, size_t>> myProducts
+          = std::vector<std::pair<Product, size_t>>()
+          , const QString myPaymentMethod = ""
+          , const double myReceivedAmount = 0,
+          const double myPrice = 0);
+  
+  /**
+   * @brief Copy constructor
+   * @param other Receipt to copy from
+   */
   Receipt(const Receipt& other);
   
-  Receipt(const QString bussinessName
-      , const size_t id
-      , const QString username
-      , const Order& order);
+  /**
+   * @brief Constructor from Order object
+   * @param businessName Name of the business
+   * @param id Unique receipt identifier
+   * @param username User who processed the sale
+   * @param order Order object to create receipt from
+   */
+  Receipt(const QString businessName, const size_t id,
+          const QString username, const Order& order);
   
+  /**
+   * @brief Destructor
+   */
   ~Receipt();
   
-  Receipt& operator=(const Receipt&) = default;
-  
-  friend std::ifstream& operator>>(std::ifstream& in, Receipt& receipt);
-  friend std::ofstream& operator<<(std::ifstream& in, Receipt& receipt);
+  // Getters
 public:
-  // Getters públicos para cada atributo (necesarios para el operador de flujo)
-  QString getBusinessName() const { return businessName; }
-  size_t getID() const { return ID; }
-  QString getDateTime() const { return dateTime; }
-  QString getUser() const { return user; }
-  std::vector<std::pair<Product, size_t>> getProducts() const { return products; }
-  QString getPaymentMethod() const { return paymentMethod; }
-  double getReceivedAmount() const { return receivedAmount; }
-  double getPrice() const { return price; }
+  /**
+   * @brief Retrieves the bussiness name on receipt.
+   * @return Copy of the bussiness name on receipt.
+   */
+  QString getBusinessName() const {
+    return this->businessName;
+  };
   
-  QString formatProductList();
+  /**
+   * @brief Retrieves the receipt's id.
+   * @return Copy of the receipt's id.
+   */
+  size_t getID() const {
+    return this->ID;
+  };
   
-private:
-  // Setters privados
-  void setBusinessName(const QString& name) { businessName = name; }
-  void setID(size_t id) { ID = id; }
-  void setDateTime(const QString& date) { dateTime = date; }
-  void setUser(const QString& userName) { user = userName; }
-  void setProducts(const std::vector<std::pair<Product, size_t>>& productList) { products = productList; }
-  void setPaymentMethod(const QString& method) { paymentMethod = method; }
-  void setReceivedAmount(double amount) { receivedAmount = amount; }
-  void setPrice(double totalPrice) { price = totalPrice; }
+  /**
+   * @brief Retrieves the date time of the receipt.
+   * @return Copy of the date time on format "yyyy-MM-dd HH:mm:ss"
+   */
+  QString getDateTime() const {
+    return this->dateTime;
+  };
   
+  /**
+   * @brief Retrieves the name of the user that closed the receipt.
+   * @return Copy of the user's name on receipt.
+   */
+  QString getUser() const {
+    return this->user;
+  };
+  
+  /**
+   * @brief Retrieves the product list linked to this receipt.
+   * @return Copy of the receipt's product list.
+   */
+  std::vector<std::pair<Product, size_t>> getProducts() const {
+    return this->products;
+  };
+  
+  /**
+   * @brief Retrieves the payment method used in the receipts.
+   * @return Receipt's payment method.
+   */
+  QString getPaymentMethod() const {
+    return this->paymentMethod;
+  };
+  
+  /**
+   * @brief Retrieves the received amount of money for the receipt.
+   * @return Receipt's received money amount.
+   */
+  double getReceivedAmount() const {
+    return this->receivedAmount;
+  };
+  
+  /**
+   * @brief Retrieves the receipt's total price.
+   * @return Receipt's total price.
+   */
+  double getPrice() const {
+    return this->price;
+  };
+  
+public:
+  // Serialization operators
+  friend std::ofstream& operator<<(std::ofstream& out, const Receipt& receipt);
+  friend std::ifstream& operator>>(std::ifstream& in, Receipt& receipt);
+  friend QDataStream& operator<<(QDataStream& out, const Receipt& receipt);
+  friend QDataStream& operator>>(QDataStream& in, Receipt& receipt);
+  friend QDebug operator<<(QDebug dbg, const Receipt& receipt);
 };
-
-// Declaraciones externas para los operadores de flujo
-QDataStream& operator<<(QDataStream& out, const Receipt& receipt);
-std::ifstream& operator>>(std::ifstream& in, Receipt& receipt);
-std::ofstream& operator<<(std::ofstream& out, const Receipt& receipt);
-QDebug operator<<(QDebug dbg, const Receipt& receipt);
 
 #endif // RECEIPT_H

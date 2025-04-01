@@ -22,7 +22,6 @@ public:
   
 private slots:
   void on_accept_button_clicked();
-  // void on_paymentMethod_changed(int index);
   void updateChangeLabel(double value);
 };
 

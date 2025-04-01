@@ -6,7 +6,7 @@
 #include "userformdialog.h"
 #include "util.h"
 
-Users::Users(QWidget *parent, POS_Model& appModel)
+Users::Users(QWidget *parent, Model& appModel)
     : Catalog(parent, appModel)
     , ui(new Ui::Users) {
   ui->setupUi(this);

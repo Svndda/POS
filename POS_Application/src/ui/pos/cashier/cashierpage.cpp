@@ -9,7 +9,7 @@
 #include <QRegularexpression>
 #include <QMessageBox>
 
-CashierPage::CashierPage(QWidget *parent, POS_Model& appmodel)
+CashierPage::CashierPage(QWidget *parent, Model& appmodel)
     : QWidget(parent)
     , ui(new Ui::CashierPage)
     , model(appmodel) {

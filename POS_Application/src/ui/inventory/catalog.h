@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QPushButton>
 
-#include "posmodel.h"
+#include "model.h"
 
 /**
  * @class Catalog
@@ -26,7 +26,7 @@ public:
    * @param items Number of items to display per page (default is 9).
    */
   explicit Catalog(QWidget* parent = nullptr
-      , POS_Model& appModel = POS_Model::getInstance()
+      , Model& appModel = Model::getInstance()
       , const size_t items = 9)
       : QWidget(parent)
       , model(appModel)
@@ -39,7 +39,7 @@ public:
   virtual ~Catalog() {}
   
 protected:
-  POS_Model& model;            ///< Reference to the application model.
+  Model& model;            ///< Reference to the application model.
   size_t currentPageIndex = 0; ///< Index of the currently displayed page.
   size_t itemsPerPage = 9;     ///< Number of items displayed per page.
   

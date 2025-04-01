@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "posmodel.h"
+#include "model.h"
 
 namespace Ui {
 class Assistance;
@@ -15,11 +15,11 @@ class Assistance : public QWidget
   
 private:
   Ui::Assistance *ui;
-  POS_Model& model;
+  Model& model;
   
 public:
   explicit Assistance(QWidget *parent = nullptr
-      , POS_Model& model = POS_Model::getInstance());
+      , Model& model = Model::getInstance());
   ~Assistance();
 };
 

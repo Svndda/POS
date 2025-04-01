@@ -24,7 +24,7 @@ private:
   std::string name = ""; ///< Name of the product.
   std::vector<Supply> ingredients; ///< List of ingredients for the product.
   double price = 0; ///< Price of the product.
-  QPixmap image;
+  QPixmap image; ///< Image of the product.
 
   // Class constructor.
 public:
@@ -38,6 +38,7 @@ public:
    * @param myName The name of the product (default is an empty string).
    * @param myIngredients The list of ingredients for the product (default is an empty vector).
    * @param myPrice The price of the product (default is 0).
+   * @param myImage The pixmap image related to the product.
    */
   Product(uint64_t myID = 0
       , const std::string &myName = ""
@@ -84,7 +85,10 @@ public:
    */
   inline const double getPrice() const {return this->price;}
   
-  
+  /**
+   * @brief Retrieves the product's image.
+   * @return Const reference to the product's pixmap image.
+   */
   inline const QPixmap& getImage() const {return this->image;}
     
   // Class Setters.
@@ -124,6 +128,15 @@ public:
    * @return The output stream with the product details.
    */
   friend std::ostream& operator<<(std::ostream& os, const Product& product);
+  
+  // /**
+  //  * @brief Overloads the input stream operator to deserialize a Product object.
+  //  * 
+  //  * @param is The input stream.
+  //  * @param product The Product object to deserialize.
+  //  * @return The modified input stream.
+  //  */
+  // friend std::istream& operator>>(std::istream& is, Product& product);
   
   /**
    * @brief Overloads the assignment operator to copy the values of another product.

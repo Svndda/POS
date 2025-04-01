@@ -1,6 +1,6 @@
 // Copyright [2025] Aaron Carmona Sanchez <aaron.carmona@ucr.ac.cr>
-#ifndef POSMODEL_H
-#define POSMODEL_H
+#ifndef MODEL_H
+#define MODEL_H
 
 #include <QString>
 #include <QPrinter>
@@ -14,19 +14,20 @@
 #include "receipt.h"
 
 /**
- * @class POS_Model
+ * @class Model
  * @brief Core singleton class managing the POS system.
  *
- * POS_Model is responsible for handling products, categories, supplies and user data.
+ * Model is responsible for handling products, categories, supplies and user data.
  * It interacts with the BackupModule to load and persist data, and provides functions
  * for adding, editing, and removing items in the system.
  */
-class POS_Model {
+class Model {
   // Deleted copy constructor and assignment operator to prevent copying.
-  POS_Model(const POS_Model&) = delete;
-  POS_Model operator=(const POS_Model) = delete;
+  Model(const Model&) = delete;
+  Model operator=(const Model) = delete;
 
 private:
+  QString bussinessName = QString();
   User user = User(); ///< Currently logged user.
   std::vector<User> registeredUsers;   ///< Registered users loaded from backup.
   BackupModule& backupModule; ///< Reference to the backup module for data persistence.
@@ -50,23 +51,42 @@ public:
    * @brief Checks if a cashier has been opened.
    * @return True if the cashier is opened.
    */
-  inline bool isCashierOpened() { return this->cashierOpened;};
+  inline bool isCashierOpened() { return this->cashierOpened; };
   
-  size_t getPageAccess(const size_t page);
+  /**
+   * @brief getPageAccess Checks the user's access to the given page index.
+   * @param page Index of the page that are going to be checked.
+   * @return User's page acccess state.
+   */
+  inline size_t getPageAccess(const size_t page) {
+    // Returns the user's access for the given page index.
+    return this->user.getUserPermissions()[page].access;
+  }
+  
+  /**
+   * @brief Retreives the reference to the bussiness name.
+   * @return Bussiness name registered by the user.
+   */
+  inline const QString& getBussinessName() { return this->bussinessName; }
   
   /**
    * @brief Retrieves the currently logged in user.
    * @return Reference to the current User.
    */
-  const User& getCurrentUser() { return this->user;};
+  inline const User& getCurrentUser() { return this->user; };
   
-  const size_t getNextReceiptID() {return this->currentReceiptID + 1;};
+  /**
+   * @brief Retrieves the next receipt id.
+   * @return Next receipt id value.
+   */
+  inline const size_t getNextReceiptID() { return this->currentReceiptID + 1; };
   
   /**
    * @brief Retrieves the registered products categorized.
    * @return Reference to the map of registered products.
    */
-  std::map<std::string, std::vector<Product>>& getRegisteredProductsMap() {
+  inline const std::map<std::string, std::vector<Product>>&
+  getRegisteredProductsMap() {
     return this->categories;
   }
   
@@ -74,7 +94,8 @@ public:
    * @brief Retrieves the products vector for UI display.
    * @return Reference to the vector of registered products.
    */
-  std::vector<std::pair<std::string, Product>>& getRegisteredProductsVector() {
+  inline const std::vector<std::pair<std::string, Product>>&
+  getRegisteredProductsVector() {
     return this->products;
   }
   
@@ -88,37 +109,41 @@ public:
    * @brief Retrieves the registered supplies.
    * @return Reference to the vector of supplies.
    */
-  std::vector<Supply>& getRegisteredSupplies() { return this->supplies; }
+  inline const std::vector<Supply>& getRegisteredSupplies() {
+    return this->supplies;
+  }
   
   /**
    * @brief Retrieves the registered users.
    * @return Reference to the vector of users.
    */
-  std::vector<User>& getRegisteredUsers() { return this->registeredUsers; }
+  inline const std::vector<User>& getRegisteredUsers() {
+    return this->registeredUsers;
+  }
   
   /**
    * @brief Retrieves the total number of registered products.
    * @return Number of products.
    */
-  size_t getNumberOfProducts() { return this->products.size(); }
+  inline size_t getNumberOfProducts() { return this->products.size(); }
   
   /**
    * @brief Retrieves the total number of registered categories.
    * @return Number of categories.
    */
-  size_t getNumberOfCategories() { return this->categories.size(); }
+  inline size_t getNumberOfCategories() { return this->categories.size(); }
   
   /**
    * @brief Retrieves the total number of registered supplies.
    * @return Number of supplies.
    */
-  size_t getNumberOfSupplies() { return this->supplies.size(); }
+  inline size_t getNumberOfSupplies() { return this->supplies.size(); }
   
   /**
    * @brief Retrieves the total number of registered users.
    * @return Number of users.
    */
-  size_t getNumberOfUsers() { return this->registeredUsers.size(); }
+  inline size_t getNumberOfUsers() { return this->registeredUsers.size(); }
   
   /**
    * @brief Retrieves the size (number of products) of a specific category.
@@ -176,22 +201,20 @@ public:
   std::vector<User> getUsersForPage(
       const size_t pageIndex, const size_t itemsPerPage);
   
+  /**
+   * @brief Retreives the ongoing receipts vector for the currnt cashier.
+   * @return Reference to the ongoin receipts vector.
+   */
   const std::vector<Receipt>& getOngoingReceipts() const {
     return this->ongoingReceipts;
   }
   
 public:
   /**
-   * @brief Retrieves the singleton instance of POS_Model.
-   * @return Reference to the single instance of POS_Model.
+   * @brief Retrieves the singleton instance of Model.
+   * @return Reference to the single instance of Model.
    */
-  static POS_Model& getInstance();
-  
-  void printReceipts() {
-    for (const auto& receipt : ongoingReceipts) {
-      qDebug() << "Receipt : " << receipt;
-    }
-  }
+  static Model& getInstance();
   
   /**
    * @brief Starts the POS model.
@@ -211,8 +234,18 @@ public:
    */
   void shutdown();
   
+  /**
+   * @brief Open a new cashier.
+   * 
+   * Manage and handle the logic to open a pos cashier and prepare the system.
+   */
   void openCashier();
   
+  /**
+   * @brief Close the opened cashier.
+   * 
+   * Saves the cashier related data into the backup files and reset the cashier state.
+   */
   void closeCashier();
   
   
@@ -258,6 +291,11 @@ public:
    */
   bool addSupply(const Supply newSupply);
   
+  /**
+   * @brief Generate a new receipt and registed it from an order.
+   * @param order Order reference from which the receipt is going to be created.
+   * @return True if the receipt was registered successfully.
+   */
   bool generateReceipt(const Order& order);
   
   /**
@@ -381,13 +419,13 @@ public:
   
 private:
   /**
-   * @brief Private constructor for POS_Model.
+   * @brief Private constructor for Model.
    *
    * Initializes the model with a reference to the backup module.
    *
    * @param module Reference to the BackupModule.
    */
-  POS_Model(BackupModule& module);
+  Model(BackupModule& module);
   
   /**
    * @brief Checks if a user is registered.
@@ -445,4 +483,4 @@ private:
       std::map<std::string, std::vector<Product>>& categoriesRegister);
 };
 
-#endif // APPMODEL_H
+#endif // MODEL_H
